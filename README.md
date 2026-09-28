@@ -10,6 +10,7 @@
 | [patent-skills/](patent-skills/) | 专利全流程 | 交底、检索、权利要求、申请文件、OA 答复共 5 个技能 |
 | [novel-skills/](novel-skills/) | 网文创作全流程 | 调研、大纲、设定、卷纲、章节、封面共 9 个技能 |
 | [paper-skills/](paper-skills/) | 学术论文全流程 | 提案、综述、实验、撰写、修改、rebuttal、投稿共 7 个技能 |
+| [nex-skills/](nex-skills/) | 产品研发全生命周期 | 规格、设计、开发、架构、发布、运维、增长、路线图等共 12 个技能 |
 
 后续其他技能家族会以各自目录加入。
 
@@ -65,6 +66,25 @@
 | [paper-rebuttal](paper-skills/paper-rebuttal/) | Rebuttal：逐条映射审稿意见到回应策略（补充实验/礼貌反驳需用户确认）→ 逐点回应信与承诺修改 |
 | [paper-submit](paper-skills/paper-submit/) | 投稿：抓取期刊/会议作者指南 → 会议模板成稿、统一引用、图表整合、cover letter → 投稿前检查 |
 
+## nex-skills：产品研发系技能
+
+覆盖产品从想法到运营的全生命周期，均为多角色子智能体工作流（researcher / planner / executor / reviewer 等），关键决策点设用户审阅关卡。
+
+| 技能 | 用途 |
+|------|------|
+| [nex-specs](nex-skills/nex-specs/) | 产品规格：把想法/功能请求变成评审过的 PRD 式规格（用户故事、验收标准、里程碑） |
+| [nex-design](nex-skills/nex-design/) | 视觉设计：三个方向风格板并行探索 → 用户选向 → 高保真交互原型 |
+| [nex-dev](nex-skills/nex-dev/) | 双向开发：规格+已确认设计 → 可测试验收标准 → 先红后绿的 TDD 实现 |
+| [nex-arch](nex-skills/nex-arch/) | 技术架构：现状勘察 → 架构提案（组件、选型、数据流、数据模型）→ 用户定向 |
+| [nex-reverse](nex-skills/nex-reverse/) | 逆向工程：重建 as-built 架构与数据库设计 → 逐模块行为规格 → 一致性对抗审查 |
+| [nex-release](nex-skills/nex-release/) | 发布：版本号、changelog、绿色构建+测试+E2E → 发布门审查（不部署） |
+| [nex-ops](nex-skills/nex-ops/) | 运维/事故：根因诊断（证据链）→ 用户选定修复 → 最小修复 → 事故报告 |
+| [nex-growth](nex-skills/nex-growth/) | 增长运营：指标基线 → 活动/内容计划 → 文案物料生产 → 事实性对抗审查 |
+| [nex-business-plan](nex-skills/nex-business-plan/) | 商业计划：并行市场调研+数据基线 → 计划综合 → 事实核查 → 终稿 |
+| [nex-roadmap](nex-skills/nex-roadmap/) | 路线图建议：只读项目文档与调研报告，提出优先级排序的 top 5 待建功能 |
+| [nex-docs-tidy](nex-skills/nex-docs-tidy/) | 文档审计：docs/ 树体检（结构合规、陈旧、孤儿/重复）→ 用户定处置 → 执行 |
+| [nex-slide](nex-skills/nex-slide/) | 幻灯片：素材汇集 → 大纲规划 → 固定品牌风格成片 → 质检 |
+
 ## 安装
 
 ```bash
@@ -73,6 +93,7 @@ cp -r agent-skills/ark-skills/ark-* ~/.agents/skills/          # ark 系：用�
 cp -r agent-skills/novel-skills/novel-* ~/.agents/skills/      # 小说系：用户级
 cp -r agent-skills/patent-skills/patent-* <项目>/.zcode/skills/ # 专利系：项目级（也可装到 ~/.agents/skills/）
 cp -r agent-skills/paper-skills/paper-* <项目>/.zcode/skills/  # 论文系：项目级（也可装到 ~/.agents/skills/）
+cp -r agent-skills/nex-skills/nex-* ~/.agents/skills/           # nex 系：用户级
 ```
 
 ## 密钥配置
@@ -126,6 +147,19 @@ agent-skills/
 │   ├── paper-revise/       # 模拟评审与修改
 │   ├── paper-rebuttal/     # 审稿意见回应
 │   └── paper-submit/       # 投稿准备
+├── nex-skills/
+│   ├── nex-specs/          # 产品规格
+│   ├── nex-design/         # 视觉设计
+│   ├── nex-dev/            # 双向开发
+│   ├── nex-arch/           # 技术架构
+│   ├── nex-reverse/        # 逆向工程
+│   ├── nex-release/        # 发布
+│   ├── nex-ops/            # 运维/事故
+│   ├── nex-growth/         # 增长运营
+│   ├── nex-business-plan/  # 商业计划
+│   ├── nex-roadmap/        # 路线图建议
+│   ├── nex-docs-tidy/      # 文档审计
+│   └── nex-slide/          # 幻灯片
 └── novel-skills/
     ├── novel-research/     # 题材调研
     ├── novel-outline/      # 三幕式总大纲
