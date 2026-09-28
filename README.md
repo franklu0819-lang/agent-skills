@@ -8,6 +8,7 @@
 |------|------|------|
 | [ark-skills/](ark-skills/) | 火山引擎方舟（Ark）/ 豆包系 | 语音、音频、图片、视频生成共 5 个技能 |
 | [patent-skills/](patent-skills/) | 专利全流程 | 交底、检索、权利要求、申请文件、OA 答复共 5 个技能 |
+| [novel-skills/](novel-skills/) | 网文创作全流程 | 调研、大纲、设定、卷纲、章节、封面共 9 个技能 |
 
 后续其他技能家族会以各自目录加入。
 
@@ -33,11 +34,28 @@
 | [patent-draft](patent-skills/patent-draft/) | 申请文件撰写：围绕已批权利要求组装说明书、摘要、附图说明（CN/US/PCT） |
 | [patent-oa](patent-skills/patent-oa/) | 审查意见答复：逐条映射审查意见到答复策略（争辩/修改/删除/分案），起草意见陈述书 |
 
+## novel-skills：小说系技能
+
+网文创作全流程技能链，按调研 → 大纲 → 设定三件套 → 卷纲 → 黄金三章 → 逐章正文 → 封面的顺序衔接。正文类技能带硬门槛：≥2000 纯汉字、每章爽点、章末钩子、朱雀 AIGC 检测双线达标（疑似 AI 片段字数占比 <40%）。
+
+| 技能 | 用途 |
+|------|------|
+| [novel-research](novel-skills/novel-research/) | 题材调研：市场热度、读者画像、3-5 部竞品拆解、差异化方向 |
+| [novel-outline](novel-skills/novel-outline/) | 三幕式总大纲：一句话故事、三幕九节点骨架、分卷框架、爽点节奏 |
+| [novel-worldview](novel-skills/novel-worldview/) | 世界观设定：修炼/力量体系、地图动线、势力组织、资源经济 |
+| [novel-characters](novel-skills/novel-characters/) | 人物设定：主角档案、感情线、反派梯队、关系网、出场登记 |
+| [novel-style](novel-skills/novel-style/) | 风格指南：叙事视角、文风基调、对白规则、钩子风格与禁用清单 |
+| [novel-volume](novel-skills/novel-volume/) | 卷纲：卷内三幕切分、章级事件/爽点/钩子排布表、伏笔埋收登记 |
+| [novel-opening](novel-skills/novel-opening/) | 黄金三章精写：开局策略设计 + 三章蓝图，留存生死线专用流程 |
+| [novel-chapter](novel-skills/novel-chapter/) | 章节编写：按卷纲逐章撰写，字数/爽点/钩子/AIGC 检测四重验证 |
+| [novel-cover](novel-skills/novel-cover/) | 封面生成：Seedream 竖版 3:4 封面 + 排字，双门质检（客观 + 主观） |
+
 ## 安装
 
 ```bash
 git clone https://github.com/franklu0819-lang/agent-skills.git
 cp -r agent-skills/ark-skills/ark-* ~/.agents/skills/          # ark 系：用户级
+cp -r agent-skills/novel-skills/novel-* ~/.agents/skills/      # 小说系：用户级
 cp -r agent-skills/patent-skills/patent-* <项目>/.zcode/skills/ # 专利系：项目级（也可装到 ~/.agents/skills/）
 ```
 
@@ -78,10 +96,22 @@ agent-skills/
 │   └── ark-video-gen/    # 视频生成
 │       ├── SKILL.md
 │       └── scripts/ark_video.sh
-└── patent-skills/
-    ├── patent-disclosure/  # 技术交底书
-    ├── patent-priorart/    # 现有技术检索
-    ├── patent-claims/      # 权利要求撰写
-    ├── patent-draft/       # 申请文件撰写
-    └── patent-oa/          # 审查意见答复
+├── patent-skills/
+│   ├── patent-disclosure/  # 技术交底书
+│   ├── patent-priorart/    # 现有技术检索
+│   ├── patent-claims/      # 权利要求撰写
+│   ├── patent-draft/       # 申请文件撰写
+│   └── patent-oa/          # 审查意见答复
+└── novel-skills/
+    ├── novel-research/     # 题材调研
+    ├── novel-outline/      # 三幕式总大纲
+    ├── novel-worldview/    # 世界观设定
+    ├── novel-characters/   # 人物设定
+    ├── novel-style/        # 风格指南
+    ├── novel-volume/       # 卷纲
+    ├── novel-opening/      # 黄金三章
+    ├── novel-chapter/      # 章节编写
+    │   └── scripts/count_han.sh
+    └── novel-cover/        # 封面生成
+        └── scripts/（gen_cover.sh / overlay_text.py / check_edges.py）
 ```
