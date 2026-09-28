@@ -11,6 +11,7 @@
 | [novel-skills/](novel-skills/) | 网文创作全流程 | 调研、大纲、设定、卷纲、章节、封面共 9 个技能 |
 | [paper-skills/](paper-skills/) | 学术论文全流程 | 提案、综述、实验、撰写、修改、rebuttal、投稿共 7 个技能 |
 | [nex-skills/](nex-skills/) | 产品研发全生命周期 | 规格、设计、开发、架构、发布、运维、增长、路线图等共 12 个技能 |
+| [douyin-skills/](douyin-skills/) | 抖音内容调研 | 单视频下载剖析、账号级深度分析共 2 个技能 |
 
 后续其他技能家族会以各自目录加入。
 
@@ -85,6 +86,15 @@
 | [nex-docs-tidy](nex-skills/nex-docs-tidy/) | 文档审计：docs/ 树体检（结构合规、陈旧、孤儿/重复）→ 用户定处置 → 执行 |
 | [nex-slide](nex-skills/nex-slide/) | 幻灯片：素材汇集 → 大纲规划 → 固定品牌风格成片 → 质检 |
 
+## douyin-skills：抖音系技能
+
+抖音内容调研流水线，2026-09 实战沉淀：短链解析 → chrome-devtools 真浏览器提取（纯 curl 拿不到，抖音页面纯前端渲染）→ 分轨下载合成 → ark-asr 转写 → 结构化剖析。两技能分层触发：给视频链接 = 单视频剖析；给账号名/主页 = 账号级分析（内部复用单视频流水线）。
+
+| 技能 | 用途 |
+|------|------|
+| [douyin-video-analysis](douyin-skills/douyin-video-analysis/) | 单视频深度剖析：短链/链接 → 元数据（赞/藏/评/章节要点/热评）→ 视频流提取（含 blob MSE 分轨）→ 下载 → ark-asr 转写 → 三层评判（站得住/说过头/盲区）+ 核查清单 |
+| [douyin-account-analysis](douyin-skills/douyin-account-analysis/) | 账号级分析：外部搜索定位 sec_uid（勿走站内搜索）→ 选 ≥3 个代表性视频 → **作者归属验证**（sec_uid 比对防粉丝仿写混淆）→ 背景与争议调研 → 内容支柱/变现结构/观点体系归纳 + 结合用户情境的建议 |
+
 ## 安装
 
 ```bash
@@ -94,6 +104,7 @@ cp -r agent-skills/novel-skills/novel-* ~/.agents/skills/      # 小说系：用
 cp -r agent-skills/patent-skills/patent-* <项目>/.zcode/skills/ # 专利系：项目级（也可装到 ~/.agents/skills/）
 cp -r agent-skills/paper-skills/paper-* <项目>/.zcode/skills/  # 论文系：项目级（也可装到 ~/.agents/skills/）
 cp -r agent-skills/nex-skills/nex-* ~/.agents/skills/           # nex 系：用户级
+cp -r agent-skills/douyin-skills/douyin-* ~/.agents/skills/     # 抖音系：用户级（转写依赖 ark-asr，需一并安装）
 ```
 
 ## 密钥配置
@@ -160,7 +171,7 @@ agent-skills/
 │   ├── nex-roadmap/        # 路线图建议
 │   ├── nex-docs-tidy/      # 文档审计
 │   └── nex-slide/          # 幻灯片
-└── novel-skills/
+├── novel-skills/
     ├── novel-research/     # 题材调研
     ├── novel-outline/      # 三幕式总大纲
     ├── novel-worldview/    # 世界观设定
@@ -172,4 +183,10 @@ agent-skills/
     │   └── scripts/count_han.sh
     └── novel-cover/        # 封面生成
         └── scripts/（gen_cover.sh / overlay_text.py / check_edges.py）
+└── douyin-skills/
+    ├── douyin-video-analysis/     # 单视频下载与深度剖析
+    │   ├── SKILL.md
+    │   └── scripts/fetch.sh       # 短链解析 / 带校验下载 / 抽音轨
+    └── douyin-account-analysis/   # 账号级深度分析
+        └── SKILL.md
 ```
