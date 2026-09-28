@@ -73,10 +73,10 @@ bash <本技能目录>/scripts/fetch.sh audio /tmp/dy_video.mp4 /tmp/dy_audio.mp
 
 ## Step 6 转写
 
-调用 ark-asr 技能（mp4 不受支持，必须先抽好音轨）：
+**依赖**：ark-asr 技能（本仓库 ark-skills/ark-asr；mp4 不受支持，必须先抽好音轨）。转写脚本按以下顺序定位，避免绑死安装路径：① 环境变量 $ARK_ASR_HOME/scripts/transcribe.sh；② 安装根目录下的 ark-asr/scripts/transcribe.sh（与 ark-skills 同级安装时）；③ ~/.agents/skills/ark-asr/scripts/transcribe.sh。
 
 ```bash
-bash ~/.agents/skills/ark-asr/scripts/transcribe.sh /tmp/dy_audio.mp3 \
+bash <ark-asr 技能目录>/scripts/transcribe.sh /tmp/dy_audio.mp3 \
   -o transcript.txt --json transcript.json --utterances
 ```
 

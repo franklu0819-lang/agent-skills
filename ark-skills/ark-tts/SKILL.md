@@ -13,7 +13,8 @@ description: 火山引擎语音合成（豆包大模型 TTS），默认使用飞
 
 ```bash
 # 默认复刻音色
-python3 ~/.agents/skills/ark-tts/scripts/tts.py --text "大家好，欢迎来到飞哥的AI课堂" --output out.mp3
+# <技能基目录> 为本技能安装目录（技能加载时给出）
+python3 <技能基目录>/scripts/tts.py --text "大家好，欢迎来到飞哥的AI课堂" --output out.mp3
 
 # 浏览音色库（289 个，支持关键词过滤：解说/女声/客服/英语/角色…）
 python3 .../tts.py --list-voices

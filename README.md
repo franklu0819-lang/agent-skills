@@ -107,6 +107,19 @@ cp -r agent-skills/nex-skills/nex-* ~/.agents/skills/           # nex 系：用�
 cp -r agent-skills/douyin-skills/douyin-* ~/.agents/skills/     # 抖音系：用户级（转写依赖 ark-asr，需一并安装）
 ```
 
+## 质量校验
+
+全仓库结构契约由 `scripts/scan_skills.py` 把关（借鉴 K-Dense scientific-agent-skills 的契约测试思路：只读不执行、按规则按技能报告问题到行号）：
+
+```bash
+python3 scripts/scan_skills.py            # 常规：error 计入退出码
+python3 scripts/scan_skills.py --strict   # 严格：warning 也计入退出码
+```
+
+校验规则：frontmatter 封闭键集（未知键告警）、`name` 与目录名一致、description 长度、正文引用的脚本/文档真实存在、跨技能依赖显式声明（兄弟技能按名发现而非绝对路径、外部技能须注明"依赖"）。提交前建议跑一次；接入 pre-commit：`repos: [{repo: local, hooks: [{id: scan-skills, name: scan skills, entry: python3 scripts/scan_skills.py --strict, language: system, pass_filenames: false}]}]`。
+
+`llms.txt` 是给 Agent 看的仓库说明书（六家族 40 技能一行式索引、依赖关系、边界），安装或检索本仓库的 Agent 优先读它。
+
 ## 密钥配置
 
 技能与脚本**不读取、不存储、不落盘任何 API key**，认证统一从环境变量解析：

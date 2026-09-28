@@ -36,9 +36,9 @@ description: "小说章节编写工作流：按卷纲逐章撰写正文，硬性
    - <2000：当场扩写冲突过程或爽点细节（禁止注水对话和重复描写凑字），复测直到达标
    - 目标区间 2200–2500；>3000 考虑按卷纲拆为两章
 5. **落盘** — 写入 `volumes/第NN卷-<卷名>/chapters/第NNN章-<标题>.md`（NNN 三位数章号；标题从卷纲"标题方向"定稿）。
-6. **AIGC 检测（硬门槛）** — 对章节文件调用用户级技能 `aigc-detect` 的检测脚本。key 配在 `~/.zshrc`（仅交互式 zsh 加载），必须用 `zsh -ic` 调用：
+6. **AIGC 检测（硬门槛）** — **外部依赖**：`aigc-detect` 技能（不在本仓库；朱雀文本检测，key 配在 `~/.zshrc` 仅交互式 zsh 加载，必须用 `zsh -ic` 调用）。脚本按顺序定位：~/.zcode/skills/aigc-detect/scripts/detect.py → ~/.agents/skills/aigc-detect/scripts/detect.py：
    ```bash
-   zsh -ic 'python3 ~/.zcode/skills/aigc-detect/scripts/detect.py <章节文件路径>'
+   zsh -ic 'python3 <aigc-detect 技能目录>/scripts/detect.py <章节文件路径>'
    ```
    - 通过线（2026-09-17 用户指令）：**① 无 AI 特征级片段（任何段落 AIGC ≥0.99 即不通过）；② 疑似 AI（0.5–0.99）片段字数占全章比例 < 40%**，即人工特征占比 > 60%。检测不达标 = 本章没写完。
    - 不达标循环：跑 `--no-merge` 定位 label=1/2 的高 AI 段落 → 按"降 AIGC 五手法＋结构四招"**只改写这些段落**（禁整章重写，防破坏已通过部分；同一引导句式禁连用、编辑后必查重）→ 复测字数 → 整章复检，循环至达标；同一片段缝补超过 3 轮仍不过时，停止缝补、该段推倒重写。

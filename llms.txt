@@ -1,0 +1,77 @@
+# agent-skills
+
+> 面向 ZCode 等 Agent CLI 的中文技能仓库：6 个家族 40 个技能，全部为真实生产工作流沉淀（非演示）。按家族分目录组织（`<家族>-skills/<技能名>/SKILL.md` + 可选 scripts/references），装到 `~/.agents/skills/`（用户级）或 `<项目>/.zcode/skills/`（项目级）即可使用。
+
+## 快速事实
+
+- 6 家族：ark（火山方舟生成系 5）/ patent（专利全流程 5）/ novel（网文创作 9）/ paper（学术论文 7）/ nex（产品研发 12）/ douyin（抖音内容调研 2）
+- 认证一律走环境变量：`ARK_API_KEY`（方舟数据面，ark- 前缀）、`SPEECH_API_KEY`（豆包语音，UUID）；技能与脚本不读取、不存储、不落盘任何密钥
+- 结构契约：`python3 scripts/scan_skills.py` 校验全仓库（frontmatter 键集、name 与目录一致、引用文件存在、跨技能依赖声明）
+- 语言：文档与技能正文以中文为主
+
+## 家族与技能索引
+
+### ark-skills — 火山方舟/豆包生成系（用户级）
+- `ark-tts` — 语音合成：复刻音色朗读中文文本，289 音色库
+- `ark-asr` — 语音识别：本地音频/URL 转带标点文字，支持说话人分离（douyin 家族的转写依赖）
+- `ark-audio-gen` — 音频创作：一条提示词直出多角色对白+情绪+BGM+音效音轨（约 2 分钟内）
+- `ark-image-gen` — 文生图/图生图/组图/多图层拆分，指定比例与分辨率
+- `ark-video-gen` — 文生视频/图生视频/参考生视频，内置省钱纪律与跨片段一致性方法论
+
+### patent-skills — 专利全流程（项目级）
+- `patent-disclosure` — 技术交底书：从想法/代码库挖掘发明点并审查充分公开
+- `patent-priorart` — 现有技术检索：分类号+关键词多式检索，特征对比表与创造性评估
+- `patent-claims` — 权利要求撰写：独权/从权层次布局与支持性审查
+- `patent-draft` — 申请文件撰写：CN/US/PCT 说明书组装
+- `patent-oa` — 审查意见答复：逐条映射答复策略，起草意见陈述书
+
+### novel-skills — 网文创作全流程（用户级；正文技能带 AIGC 检测硬门）
+- `novel-research` — 题材调研：市场热度、读者画像、竞品拆解
+- `novel-outline` — 三幕式总大纲
+- `novel-worldview` — 世界观设定：力量体系、地图、势力、资源经济
+- `novel-characters` — 人物设定：主角档案、反派梯队、关系网
+- `novel-style` — 风格指南：视角、文风、对白规则与禁用清单
+- `novel-volume` — 卷纲：章级事件/爽点/钩子排布与伏笔登记
+- `novel-opening` — 黄金三章精写（留存生死线专用）
+- `novel-chapter` — 章节编写：字数/爽点/钩子/AIGC 检测四重验证
+- `novel-cover` — 封面生成：竖版 3:4 + 排字双门质检
+
+### paper-skills — 学术论文全流程（项目级；引用逐条核验）
+- `paper-proposal` — 选题提案：缺口分析 → 研究提案 → 对抗评审
+- `paper-litreview` — 文献综述：多查询检索+滚雪球，引用矩阵，逐条核验真实可达
+- `paper-experiment` — 实验：假设/基线/指标设计 → 可复现配置
+- `paper-draft` — 撰写：论点-证据映射，证据池只用已核验来源
+- `paper-revise` — 修改：模拟同行评审 → 逐项修复
+- `paper-rebuttal` — 审稿意见逐点回应
+- `paper-submit` — 投稿：作者指南抓取 → 模板成稿 → cover letter
+
+### nex-skills — 产品研发全生命周期（用户级；多角色子代理工作流+用户关卡）
+- `nex-specs` — 产品规格：想法/功能请求 → 评审过的 PRD 式规格（用户故事、验收标准、里程碑）
+- `nex-design` — 视觉设计：三方向风格板并行探索 → 用户选向 → 高保真交互原型
+- `nex-dev` — 双向开发：规格+已确认设计 → 可测试验收标准 → 先红后绿的 TDD 实现
+- `nex-arch` — 技术架构：现状勘察 → 架构提案 → 用户定向
+- `nex-reverse` — 逆向工程：重建 as-built 架构与数据设计 → 逐模块行为规格 → 一致性对抗审查
+- `nex-release` — 发布：版本号、changelog、绿色构建+测试+E2E → 发布门审查（不部署）
+- `nex-ops` — 运维/事故：根因诊断（证据链）→ 用户选定修复 → 最小修复 → 事故报告
+- `nex-growth` — 增长运营：指标基线 → 活动/内容计划 → 文案物料 → 事实性对抗审查
+- `nex-business-plan` — 商业计划：并行市场调研+数据基线 → 计划综合 → 事实核查 → 终稿
+- `nex-roadmap` — 路线图建议：只读项目文档与调研报告，提出优先级排序的 top 5 待建功能
+- `nex-docs-tidy` — 文档审计：docs/ 树体检（结构合规、陈旧、孤儿/重复）→ 用户定处置 → 执行
+- `nex-slide` — 幻灯片：素材汇集 → 大纲规划 → 固定品牌风格成片 → 质检
+
+### douyin-skills — 抖音内容调研（用户级；依赖 ark-asr 与 chrome-devtools MCP）
+- `douyin-video-analysis` — 单视频剖析：短链解析 → 真浏览器提取流地址 → 下载转写 → 三层评判+核查清单
+- `douyin-account-analysis` — 账号级分析：外部搜索定位 → 作者归属验证（防粉丝仿写混淆）→ 内容体系归纳与情境化建议
+
+## 跨技能依赖
+
+- `douyin-*` → `ark-asr`（转写；定位顺序见技能内说明，支持 $ARK_ASR_HOME）
+- `douyin-*` → chrome-devtools MCP（真实浏览器；纯 curl 拿不到抖音数据）
+- `novel-chapter` / `novel-opening` → 外部技能 `aigc-detect`（不在本仓库；朱雀文本检测）
+- `novel-opening` → `novel-chapter`（字数统计脚本与 AIGC 流程复用）
+
+## 边界
+
+- 不面向非抖音平台（B站/YouTube/小红书不在支持范围）
+- 密钥永不落盘；含密钥的产物禁止提交
+- 每个技能自包含（scripts 随技能目录分发）；兄弟技能引用一律按技能名发现而非绝对路径

@@ -31,9 +31,9 @@ description: "小说开篇黄金三章精写工作流：为第 1 卷前三章（
      ```bash
      bash <novel-chapter 技能目录>/scripts/count_han.sh <章节文件>
      ```
-   - **每章字数达标后立即过 AIGC 检测硬门槛**（无 AI 特征级片段、疑似 AI 片段字数占比 <40% 才算本章过关，过关才写下一章）——调用方式与不达标循环同 `/novel-chapter` Pipeline 第 6 步：
+   - **每章字数达标后立即过 AIGC 检测硬门槛**（无 AI 特征级片段、疑似 AI 片段字数占比 <40% 才算本章过关，过关才写下一章）——**外部依赖** `aigc-detect`（不在本仓库），调用方式与不达标循环同 `/novel-chapter` Pipeline 第 6 步：
      ```bash
-     zsh -ic 'python3 ~/.zcode/skills/aigc-detect/scripts/detect.py <章节文件>'
+     zsh -ic 'python3 <aigc-detect 技能目录>/scripts/detect.py <章节文件>'
      ```
      黄金三章是留存生死线，检测更从严：开头 300 字（历史最高判区）不达标即用毛边清单加固；多轮改写时每轮记录占比，交付时列明。
 3. **连读自检**（三章齐后整体过一遍，回答写进交付说明）：
