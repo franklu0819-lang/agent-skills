@@ -9,6 +9,7 @@
 | [ark-skills/](ark-skills/) | 火山引擎方舟（Ark）/ 豆包系 | 语音、音频、图片、视频生成共 5 个技能 |
 | [patent-skills/](patent-skills/) | 专利全流程 | 交底、检索、权利要求、申请文件、OA 答复共 5 个技能 |
 | [novel-skills/](novel-skills/) | 网文创作全流程 | 调研、大纲、设定、卷纲、章节、封面共 9 个技能 |
+| [paper-skills/](paper-skills/) | 学术论文全流程 | 提案、综述、实验、撰写、修改、rebuttal、投稿共 7 个技能 |
 
 后续其他技能家族会以各自目录加入。
 
@@ -50,6 +51,20 @@
 | [novel-chapter](novel-skills/novel-chapter/) | 章节编写：按卷纲逐章撰写，字数/爽点/钩子/AIGC 检测四重验证 |
 | [novel-cover](novel-skills/novel-cover/) | 封面生成：Seedream 竖版 3:4 封面 + 排字，双门质检（客观 + 主观） |
 
+## paper-skills：论文系技能
+
+学术论文全流程技能链：选题提案 → 文献综述 → 实验 → 撰写 → 修改 → rebuttal → 投稿，每步均有审阅关卡，引用一律逐条核验真实性。
+
+| 技能 | 用途 |
+|------|------|
+| [paper-proposal](paper-skills/paper-proposal/) | 选题提案：领域侦察与缺口分析 → 研究提案（问题、假设、方法、贡献、工作计划）→ 新颖性/可行性对抗评审 |
+| [paper-litreview](paper-skills/paper-litreview/) | 文献综述：多查询系统检索+滚雪球 → 主题聚类叙事综述、引用矩阵、缺口分析，逐条核验引用真实可达 |
+| [paper-experiment](paper-skills/paper-experiment/) | 实验：假设/变量/基线/数据集/指标/消融/统计计划设计 → 可复现配置驱动实验代码 → 结果分析 |
+| [paper-draft](paper-skills/paper-draft/) | 撰写：章节大纲与论点-证据映射（用户批准）→ 逐节起草，只用实验产出与已核验文献作为证据池 |
+| [paper-revise](paper-skills/paper-revise/) | 修改：模拟同行评审（新颖性、方法、清晰度、呈现）→ 用户选题修复 → 逐项验证解决 |
+| [paper-rebuttal](paper-skills/paper-rebuttal/) | Rebuttal：逐条映射审稿意见到回应策略（补充实验/礼貌反驳需用户确认）→ 逐点回应信与承诺修改 |
+| [paper-submit](paper-skills/paper-submit/) | 投稿：抓取期刊/会议作者指南 → 会议模板成稿、统一引用、图表整合、cover letter → 投稿前检查 |
+
 ## 安装
 
 ```bash
@@ -57,6 +72,7 @@ git clone https://github.com/franklu0819-lang/agent-skills.git
 cp -r agent-skills/ark-skills/ark-* ~/.agents/skills/          # ark 系：用户级
 cp -r agent-skills/novel-skills/novel-* ~/.agents/skills/      # 小说系：用户级
 cp -r agent-skills/patent-skills/patent-* <项目>/.zcode/skills/ # 专利系：项目级（也可装到 ~/.agents/skills/）
+cp -r agent-skills/paper-skills/paper-* <项目>/.zcode/skills/  # 论文系：项目级（也可装到 ~/.agents/skills/）
 ```
 
 ## 密钥配置
@@ -102,6 +118,14 @@ agent-skills/
 │   ├── patent-claims/      # 权利要求撰写
 │   ├── patent-draft/       # 申请文件撰写
 │   └── patent-oa/          # 审查意见答复
+├── paper-skills/
+│   ├── paper-proposal/     # 选题提案
+│   ├── paper-litreview/    # 文献综述
+│   ├── paper-experiment/   # 实验
+│   ├── paper-draft/        # 撰写
+│   ├── paper-revise/       # 模拟评审与修改
+│   ├── paper-rebuttal/     # 审稿意见回应
+│   └── paper-submit/       # 投稿准备
 └── novel-skills/
     ├── novel-research/     # 题材调研
     ├── novel-outline/      # 三幕式总大纲

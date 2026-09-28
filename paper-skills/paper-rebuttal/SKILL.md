@@ -1,0 +1,29 @@
+---
+name: paper-rebuttal
+description: "Rebuttal workflow: planner maps every reviewer comment to a response strategy → user confirms the strategy at a gate (especially extra experiments and polite disagreements) → executor drafts the point-by-point response letter and applies the promised manuscript edits → reviewer verifies every comment is answered and every promised change actually landed. Use when responding to peer review comments, 审稿意见回复, writing a rebuttal/response letter, or preparing a revised resubmission. Also triggered as /paper-rebuttal."
+---
+
+# Rebuttal workflow
+
+Turn received review comments into a verified point-by-point response and a revised manuscript. Track progress with TodoWrite.
+
+## Dispatch rules
+
+- Sub-agents start fresh: every dispatch must be self-contained — comment list, manuscript paths, strategy, constraints. Never say "as discussed".
+- One paper, one folder: rebuttal artifacts live in `docs/paper/<slug>/submission/`.
+- Never promise in the letter what the manuscript does not contain; never fabricate a new experiment or number to appease a reviewer — if evidence is missing, say what will be done and what cannot.
+- Independent steps run in parallel (dispatch in the same message).
+- Communicate with the user in the user's language; the letter's language follows the venue.
+
+## Pipeline
+
+1. **Inputs**: collect the review comments from the user (paste or file) and save them verbatim to `docs/paper/<slug>/submission/reviews-received.md`. Locate the current manuscript.
+2. **Strategy — dispatch `planner`** → `docs/paper/<slug>/submission/rebuttal-plan.md`
+   For each comment, numbered per reviewer: classify it (fatal flaw / major / minor / misunderstanding), pick a strategy (new experiment, clarification, text revision, polite disagreement backed by evidence), list the manuscript edits it requires, and estimate effort.
+3. **GATE — user confirms the strategy** (AskUserQuestion): especially any extra experiments to run and any polite disagreements.
+4. **Draft — dispatch `executor`**
+   Write `docs/paper/<slug>/submission/response-letter.md` — point-by-point: quote the comment, respond, name exactly where the manuscript changed. Apply all promised edits to the manuscript.
+5. **Verify — dispatch `reviewer`**
+   Every comment has a response; every promised edit is actually present in the revised manuscript (diff check); tone stays professional; no overpromising.
+6. **Fix — dispatch `executor`**; max 3 rounds.
+7. **Deliver**: response letter + revised manuscript paths + summary of what each reviewer received.
