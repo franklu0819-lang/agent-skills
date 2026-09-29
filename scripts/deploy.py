@@ -61,6 +61,7 @@ def read_manifest(dest):
 
 
 def write_manifest(dest, skills):
+    os.makedirs(dest, exist_ok=True)
     p = os.path.join(dest, MANIFEST_NAME)
     with open(p, "w", encoding="utf-8", newline="\n") as f:
         json.dump({"skills": skills}, f, ensure_ascii=False, indent=2, sort_keys=True)
@@ -115,6 +116,12 @@ def main():
                 tag = "新增"
                 act = True
             elif bh is None:
+                if args.init:
+                    # 首次纳管：安装侧现状即基线（随后 --deploy 判定为安全更新）
+                    base[sname] = dh
+                    inited += 1
+                    print(f"  [+] {sname} 记录基线（安装侧现状，与源不同）")
+                    continue
                 print(f"  [?] {sname} 安装侧无基线且内容与源不同：--init 记录现状，或 --force 覆盖")
                 conflicts += 1
                 continue
