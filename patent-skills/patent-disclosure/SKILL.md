@@ -10,7 +10,7 @@ Turn a rough technical idea (or code, or design docs) into a reviewed, user-appr
 ## Dispatch rules
 
 - Sub-agents start fresh: every dispatch must be self-contained — goal, source-material paths, output paths, constraints. Never say "as discussed".
-- One case, one folder: reuse the case's existing folder if there is one; otherwise default to `docs/business/patent/<case-slug>/` (a project AGENTS.md or the user naming another location wins). Pipeline paths below are relative to the case folder.
+- One case, one folder: reuse the case's existing folder if there is one; otherwise default to `patent<NNN>/` — NNN is a 3-digit zero-padded sequence: scan the workspace for existing `patent*` folders and use max+1 (first case = `patent001`); the user naming another location wins. Pipeline paths below are relative to the case folder.
 - A disclosure is judged by what a person skilled in the art can rebuild from it: no vague hand-waving where a concrete mechanism is needed, and no invented technical effects — every effect must trace to the source material or be marked "to be verified".
 - Independent steps run in parallel (dispatch in the same message).
 - Communicate with the user in the user's language; the disclosure's language follows the target jurisdiction (default Chinese for CN filings).

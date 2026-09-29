@@ -10,7 +10,7 @@ Turn a rough paper idea into a reviewed, user-approved research proposal. Track 
 ## Dispatch rules
 
 - Sub-agents start fresh: every dispatch must be self-contained — goal, relevant file paths, constraints. Never say "as discussed".
-- One paper, one folder: pick a slug up front; all paper artifacts live in `docs/paper/<slug>/`.
+- One paper, one folder: number the folder `paper<NNN>` — NNN is a 3-digit zero-padded sequence (existing `paper*` folders max +1, first = `paper001`); all paper artifacts live there.
 - Academic integrity is non-negotiable: no fabricated data, results, or citations. Anything unknown is reported as unknown.
 - Web research degrades gracefully: if the search backend is unavailable or quota-exhausted, query publisher APIs directly (arXiv, ACL Anthology, Crossref, DBLP, Semantic Scholar) via WebFetch/curl.
 - Independent steps run in parallel (dispatch in the same message).
@@ -18,11 +18,11 @@ Turn a rough paper idea into a reviewed, user-approved research proposal. Track 
 
 ## Pipeline
 
-1. **Setup — confirm with the user**: paper type (journal / conference / degree thesis), target venue or school requirements, language, timeline. Pick the slug → `docs/paper/<slug>/`.
+1. **Setup — confirm with the user**: paper type (journal / conference / degree thesis), target venue or school requirements, language, timeline. Pick the number → `paper<NNN>/`.
 2. **Scout — dispatch `researcher`**
-   Field state of the art, active groups, recent trends, candidate gaps → `docs/paper/<slug>/literature/scouting.md`. This is fast reconnaissance to position the idea, not a full survey (that is `/paper-litreview`).
+   Field state of the art, active groups, recent trends, candidate gaps → `paper<NNN>/literature/scouting.md`. This is fast reconnaissance to position the idea, not a full survey (that is `/paper-litreview`).
 3. **Proposal — dispatch `planner`**
-   Pass the idea + scouting report + venue/degree requirements. Output `docs/paper/<slug>/proposal.md`: research questions (specific and answerable), hypotheses, method & experiment design (data, baselines, metrics), expected contributions — each mapped to how it will be validated, related-work positioning, work plan with milestones, risks.
+   Pass the idea + scouting report + venue/degree requirements. Output `paper<NNN>/proposal.md`: research questions (specific and answerable), hypotheses, method & experiment design (data, baselines, metrics), expected contributions — each mapped to how it will be validated, related-work positioning, work plan with milestones, risks.
 4. **Review — dispatch `reviewer`**
    Pass the proposal path. Focus: novelty against the scouting report, feasibility (data, compute, skills, time), overclaiming, method validity.
 5. **Fix — dispatch `executor`** for P0/P1 issues; max 3 rounds. If the review traced an issue to a factual error in `scouting.md`, fixing that record is in scope — otherwise the error survives into the literature review.

@@ -10,7 +10,7 @@ Turn an approved disclosure (and prior-art chart, if any) into a layered, review
 ## Dispatch rules
 
 - Sub-agents start fresh: every dispatch must be self-contained — disclosure path, prior-art paths, layout, output paths, constraints. Never say "as discussed".
-- One case, one folder: reuse the case's existing folder if there is one; otherwise default to `docs/business/patent/<case-slug>/` (a project AGENTS.md or the user naming another location wins). Pipeline paths below are relative to the case folder.
+- One case, one folder: reuse the case's existing folder if there is one; otherwise default to `patent<NNN>/` — NNN is a 3-digit zero-padded sequence: scan the workspace for existing `patent*` folders and use max+1 (first case = `patent001`); the user naming another location wins. Pipeline paths below are relative to the case folder.
 - Claim scope is a business decision dressed as a drafting exercise: the layout gate (step 3) is where the user decides how wide to reach and how much to keep in reserve — never trade scope away silently while drafting.
 - No feature may appear in a claim that the disclosure's embodiments cannot support.
 - Independent steps run in parallel (dispatch in the same message).

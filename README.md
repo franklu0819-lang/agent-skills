@@ -96,28 +96,36 @@
 | [douyin-video-analysis](douyin-skills/douyin-video-analysis/) | 单视频深度剖析：短链/链接 → 元数据（赞/藏/评/章节要点/热评）→ 视频流提取（含 blob MSE 分轨）→ 下载 → ark-asr 转写 → 三层评判（站得住/说过头/盲区）+ 核查清单 |
 | [douyin-account-analysis](douyin-skills/douyin-account-analysis/) | 账号级分析：外部搜索定位 sec_uid（勿走站内搜索）→ 选 ≥3 个代表性视频 → **作者归属验证**（sec_uid 比对防粉丝仿写混淆）→ 背景与争议调研 → 内容支柱/变现结构/观点体系归纳 + 结合用户情境的建议 |
 
-## 安装
+## 安装与部署
+
+不再手动 `cp`——`scripts/deploy.py` 按部署清单（`scripts/deploy.json`）同步各家族到安装目录，并用内容 hash 防止静默覆盖安装侧热修：
 
 ```bash
-git clone https://github.com/franklu0819-lang/agent-skills.git
-cp -r agent-skills/ark-skills/ark-* ~/.agents/skills/          # ark 系：用户级
-cp -r agent-skills/novel-skills/novel-* <项目>/.agents/skills/ # 小说系：项目级（装到写作项目，如 novels）
-cp -r agent-skills/patent-skills/patent-* <项目>/.zcode/skills/ # 专利系：项目级（也可装到 ~/.agents/skills/）
-cp -r agent-skills/paper-skills/paper-* <项目>/.zcode/skills/  # 论文系：项目级（也可装到 ~/.agents/skills/）
-cp -r agent-skills/nex-skills/nex-* ~/.agents/skills/           # nex 系：用户级
-cp -r agent-skills/douyin-skills/douyin-* ~/.agents/skills/     # 抖音系：用户级（转写依赖 ark-asr，需一并安装）
+py scripts/deploy.py --status    # 看漂移：源/安装侧/基线三方对比
+py scripts/deploy.py --init      # 首次对现有安装记录基线（不覆盖任何文件）
+py scripts/deploy.py --deploy    # 同步：已同步跳过 / 源更新安全覆盖 / 安装侧热修报冲突
+py scripts/deploy.py --deploy --force  # 冲突时备份热修为 <技能>.bak.<hash8> 后覆盖
 ```
+
+当前部署布局：ark 系 → 用户级 `~/.agents/skills/`（全局）；novel / paper / patent / douyin 系 → 项目级，装到各自写作/业务工作区（如 novels、papers）的 `.zcode/skills/`，产物目录直接建在工作区根下（paper/patent 用 `paper<NNN>` / `patent<NNN>` 三位零填充编号）；nex 系已开发、未部署。
+
+改技能一律改本源仓库再 `--deploy` 同步，不要直接改安装侧。各工作区的 AGENTS.md 由 `scripts/emit_agents_md.py` 统一生成（全局纪律 + 家族链条），改纪律改脚本重新生成。
 
 ## 质量校验
 
-全仓库结构契约由 `scripts/scan_skills.py` 把关（借鉴 K-Dense scientific-agent-skills 的契约测试思路：只读不执行、按规则按技能报告问题到行号）：
+三个校验/维护工具，提交前都建议跑：
 
 ```bash
-python3 scripts/scan_skills.py            # 常规：error 计入退出码
-python3 scripts/scan_skills.py --strict   # 严格：warning 也计入退出码
+py scripts/scan_skills.py            # 技能结构契约（error 计入退出码）
+py scripts/scan_agents.py            # agent 定义契约（tools 白名单、MCP 工具风险提醒）
+py scripts/emit_agents_md.py --check # AGENTS.md 与生成源是否一致
 ```
 
-校验规则：frontmatter 封闭键集（未知键告警）、`name` 与目录名一致、description 长度、正文引用的脚本/文档真实存在、跨技能依赖显式声明（兄弟技能按名发现而非绝对路径、外部技能须注明"依赖"）。提交前建议跑一次；接入 pre-commit：`repos: [{repo: local, hooks: [{id: scan-skills, name: scan skills, entry: python3 scripts/scan_skills.py --strict, language: system, pass_filenames: false}]}]`。
+`scan_skills.py` 规则：frontmatter 封闭键集（未知键告警）、`name` 与目录名一致、description 长度（过短/过长双审计，>500 字符列为减负候选）、正文引用的脚本/文档真实存在、跨技能依赖显式声明、**subagent 派发引用可解析**（dispatch/派遣 的目标必须存在于 `~/.zcode/agents`、项目 `.zcode/agents` 或内置名单——历史上 oracle / data-analyst / looker 三个不存在的派发目标就是这样抓出来的）。接入 pre-commit：`repos: [{repo: local, hooks: [{id: scan-skills, name: scan skills, entry: py scripts/scan_skills.py --strict, language: system, pass_filenames: false}]}]`。
+
+`scan_agents.py` 规则：frontmatter/name 一致性、tools 白名单（未知工具报错；`mcp__*` 依赖会话 MCP 可用性，仅提醒——agent .md 列了不可用工具会阻断派发，此脚本用于提前拦截）。
+
+`scripts/trigger_cases.md` 是触发回归用例集（典型话术 → 期望技能，含歧义与跨家族抑制用例）：**改任何 description 前后各核对一遍**，防触发漂移。
 
 `llms.txt` 是给 Agent 看的仓库说明书（六家族 40 技能一行式索引、依赖关系、边界），安装或检索本仓库的 Agent 优先读它。
 
@@ -130,7 +138,7 @@ python3 scripts/scan_skills.py --strict   # 严格：warning 也计入退出码
 | `ARK_API_KEY` | 方舟数据面 API（图片/视频生成） | [火山方舟控制台](https://console.volcengine.com/ark)，`ark-` 开头 |
 | `SPEECH_API_KEY` | 豆包语音服务（TTS/ASR/音频创作），**方舟 ark- Key 本服务不认** | 豆包语音控制台 API Key 管理页，UUID 格式 |
 
-写入 `~/.zshrc` 即可，脚本会自动解析：
+写入 shell 配置即可（Windows Git Bash 为 `~/.bashrc`，zsh 为 `~/.zshrc`），脚本会自动解析：
 
 ```bash
 export ARK_API_KEY=ark-xxxxxxxx

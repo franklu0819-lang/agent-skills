@@ -1,6 +1,6 @@
 ---
 name: nex-growth
-description: "Growth/operations workflow: data-analyst baselines current metrics → planner drafts the campaign/content plan → user approves at a gate → executor produces copy and assets → reviewer fact-checks tone and overpromising. Use for marketing campaigns, content production, launch announcements, or operations planning. Also triggered as /nex-growth."
+description: "Growth/operations workflow: executor baselines current metrics → planner drafts the campaign/content plan → user approves at a gate → executor produces copy and assets → reviewer fact-checks tone and overpromising. Use for marketing campaigns, content production, launch announcements, or operations planning. Also triggered as /nex-growth."
 ---
 
 # Growth / operations workflow
@@ -15,7 +15,7 @@ Baseline → plan → approve → produce → fact-check. Track progress with To
 
 ## Pipeline
 
-1. **Baseline — dispatch `data-analyst`**
+1. **Baseline — dispatch `executor`**
    Current relevant metrics (traffic, conversion, retention — whatever the data sources hold) → report to `docs/marketing/<slug>/baseline.md`. Skip with a note if no data exists yet.
 2. **Plan — dispatch `planner`**
    Pass the baseline report + campaign goal + audience, and name the output path. Have planner file the campaign plan to `docs/marketing/<slug>/plan.md` with goals, audience, channels, key messages, content list (naming each item's target file in the same campaign folder), schedule, success metrics.
@@ -25,4 +25,4 @@ Baseline → plan → approve → produce → fact-check. Track progress with To
 5. **Fact-check — dispatch `reviewer`**
    Focus: factual claims, overpromising, tone/audience fit, terminology consistency.
 6. **Fix loop — dispatch `executor`** for P0/P1; max 3 rounds.
-7. **Deliver**: campaign folder path + content summary; remind to measure with `data-analyst` after the campaign window closes → `docs/marketing/<slug>/results.md`.
+7. **Deliver**: campaign folder path + content summary; remind to measure with `executor` after the campaign window closes → `docs/marketing/<slug>/results.md`.

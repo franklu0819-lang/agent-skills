@@ -27,7 +27,7 @@ Inputs: the product spec AND the confirmed design. For UI-facing work, do not de
    Implement the minimum that turns every test green, following repo conventions and matching the confirmed design for UI work; refactor only within scope. If a criterion or the design turns out wrong or unimplementable, STOP that item and report a **spec/design defect** instead of hacking around it (TDD → SDD/design feedback direction).
 7. **Dual review — dispatch `reviewer`**
    Pass the diff + spec path + design artifacts + test list. Three gates: (a) code quality per repo conventions; (b) spec fidelity — every acceptance criterion covered by a meaningful assertion, no untested criterion, no coverage theater; (c) design fidelity (UI work) — rendered result matches the confirmed design's layout, states, and flows.
-8. **Fix loop — dispatch `executor`** for P0/P1 (code, test, or design-fidelity gaps); re-run the suite; max 3 rounds, then report what remains. If blocked by a suspected unrelated bug, dispatch `oracle` for diagnosis — the fix decision is the user's.
+8. **Fix loop — dispatch `executor`** for P0/P1 (code, test, or design-fidelity gaps); re-run the suite; max 3 rounds, then report what remains. If blocked by a suspected unrelated bug, dispatch `researcher` for diagnosis — the fix decision is the user's.
 9. **Spec reconciliation (TDD → SDD closure)**
    Spec defects surfaced in steps 6-8 get folded back into the spec file so it matches what was actually built; every spec change is listed in the final report.
 10. **Deliver**: change summary + full test results (green) + spec path + design artifacts used + spec changes made.

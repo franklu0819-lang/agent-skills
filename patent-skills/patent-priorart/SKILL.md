@@ -10,7 +10,7 @@ Build a verifiable novelty/inventiveness assessment for a technical solution. Tr
 ## Dispatch rules
 
 - Sub-agents start fresh: every dispatch must be self-contained — the technical solution (or disclosure path), search scope, file paths, constraints. Never say "as discussed".
-- One case, one folder: reuse the case's existing folder if there is one; otherwise default to `docs/business/patent/<case-slug>/` (a project AGENTS.md or the user naming another location wins). Pipeline paths below are relative to the case folder.
+- One case, one folder: reuse the case's existing folder if there is one; otherwise default to `patent<NNN>/` — NNN is a 3-digit zero-padded sequence: scan the workspace for existing `patent*` folders and use max+1 (first case = `patent001`); the user naming another location wins. Pipeline paths below are relative to the case folder.
 - Citation integrity is the core risk of LLM-assisted searching: every reference must carry a resolvable URL (checked, with access date) — a patent number via Google Patents or Espacenet, a paper via DOI. References with no resolvable URL are treated as unverified. No plausible-looking phantom references, ever.
 - The assessment reports what the found references actually disclose — overstating the prior art kills the case as surely as missing it.
 - Independent steps run in parallel (dispatch in the same message) — but parallel writers never share one output file.

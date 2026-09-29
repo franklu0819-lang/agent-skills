@@ -10,21 +10,21 @@ Draft a paper section by section from an approved outline, with every claim back
 ## Dispatch rules
 
 - Sub-agents start fresh: every dispatch must be self-contained — outline, section spec, input file paths, constraints. Never say "as discussed".
-- One paper, one folder: all artifacts live in `docs/paper/<slug>/`.
+- One paper, one folder: all artifacts live in `paper<NNN>/`.
 - Numbers and results may only come from experiment/analysis artifacts; citations may only come from the verified literature matrix. No invented data, no unverified references.
 - Independent sections can be drafted in parallel (dispatch in the same message).
 - Communicate with the user in the user's language; the paper's language follows the venue/degree requirement.
 
 ## Pipeline
 
-1. **Inputs**: locate the proposal and literature review under `docs/paper/<slug>/` (if missing, ask the user for the paper's thesis and key references). Confirm the structure convention — IMRaD for journal/conference papers, the school's template for degree theses — and the language.
+1. **Inputs**: locate the proposal and literature review under `paper<NNN>/` (if missing, ask the user for the paper's thesis and key references). Confirm the structure convention — IMRaD for journal/conference papers, the school's template for degree theses — and the language.
 2. **Evidence first**
-   If experiments were run, use the figures/tables under `docs/paper/<slug>/experiments/analysis/`. If the paper reports experiments but none exist yet, suggest `/paper-experiment` before drafting — prose written ahead of evidence invites invented numbers. For data-only papers (surveys, public datasets), dispatch `data-analyst` on the real data → `docs/paper/<slug>/assets/`.
+   If experiments were run, use the figures/tables under `paper<NNN>/experiments/analysis/`. If the paper reports experiments but none exist yet, suggest `/paper-experiment` before drafting — prose written ahead of evidence invites invented numbers. For data-only papers (surveys, public datasets), dispatch `executor` on the real data → `paper<NNN>/assets/`.
    Every number later cited in prose must trace to one of these artifacts.
-3. **Outline — dispatch `planner`** → `docs/paper/<slug>/outline.md`
+3. **Outline — dispatch `planner`** → `paper<NNN>/outline.md`
    Per section: the claims it makes, the evidence for each (which figure/table/citation), length budget, and a contribution↔section mapping so nothing promised in the abstract goes unsupported.
 4. **GATE — user approves the outline** (AskUserQuestion: approve / adjust). Fixing structure here is far cheaper than after drafting.
-5. **Draft — dispatch `executor`** per section → `docs/paper/<slug>/draft/<nn>-<section>.md`
+5. **Draft — dispatch `executor`** per section → `paper<NNN>/draft/<nn>-<section>.md`
    Follow the outline's claims; cite only verified references; reference figures/tables by artifact name.
 6. **Review — dispatch `reviewer`** per drafted section
    Focus: every claim has evidence, numbers match the artifacts, citations real, and the argument flows across section boundaries.

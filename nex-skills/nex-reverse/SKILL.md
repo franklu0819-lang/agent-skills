@@ -1,6 +1,6 @@
 ---
 name: nex-reverse
-description: "Reverse-engineering workflow: survey the codebase → oracle reconstructs the as-built architecture and database design → planner recovers per-module behavior specs and human docs → executor builds the test catalog → adversarial consistency review against the code. Use when the user wants to recover a legacy project's architecture, database/ER design, specs, test cases, or documentation from existing code. Also triggered as /nex-reverse."
+description: "Reverse-engineering workflow: survey the codebase → researcher reconstructs the as-built architecture and database design → planner recovers per-module behavior specs and human docs → executor builds the test catalog → adversarial consistency review against the code. Use when the user wants to recover a legacy project's architecture, database/ER design, specs, test cases, or documentation from existing code. Also triggered as /nex-reverse."
 ---
 
 # Reverse-engineering workflow
@@ -23,8 +23,8 @@ The code is the source of truth; documents are the product — architecture and 
    - Existing doc → **migrate** (move into the docs/ layout below this project, mapping to its stage folder) / **refresh in place** (stay put, content rewritten from code) / **replace** (write fresh in the new layout, retire the old) / **keep untouched**;
    - Missing doc → **backfill** (produce it in the layout) / **skip**.
    Default suggestion per row: migrate if only its location is wrong, refresh if only its content is stale, replace if both, backfill for important gaps (README, specs for core modules). Carry the choices into steps 4-9.
-3. **As-built architecture & database — dispatch `oracle`**
-   Pass the survey findings. oracle returns in-message: actual components & responsibilities (vs. any documented intent), dependencies and data flow, the real data model (entities, tables, columns, key indexes), and notable drift or risks — schema vs ORM mismatch, missing indexes for hot query patterns. Read-only, no files.
+3. **As-built architecture & database — dispatch `researcher`**
+   Pass the survey findings. researcher returns in-message: actual components & responsibilities (vs. any documented intent), dependencies and data flow, the real data model (entities, tables, columns, key indexes), and notable drift or risks — schema vs ORM mismatch, missing indexes for hot query patterns. Read-only, no files.
 4. **File the as-built design — dispatch `planner` twice, in parallel**
    - `docs/develop/arch/<slug>/architecture.md` — components, dependencies, data flow, headed "as-built (reversed from code)"; drift notes included.
    - `docs/develop/arch/<slug>/database.md` — ER, tables/columns/constraints, actual indexes and the query patterns they serve, migration state.

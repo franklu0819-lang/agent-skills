@@ -10,7 +10,7 @@ Turn a received office action into a verified, point-by-point response with amen
 ## Dispatch rules
 
 - Sub-agents start fresh: every dispatch must be self-contained — the OA text (or its file path), the current application and claim file paths, the confirmed strategy, output paths. Never say "as discussed".
-- One case, one folder: reuse the case's existing folder if there is one; otherwise default to `docs/business/patent/<case-slug>/` (a project AGENTS.md or the user naming another location wins). Pipeline paths below are relative to the case folder; each OA round gets its own subfolder `oa/<n>/`.
+- One case, one folder: reuse the case's existing folder if there is one; otherwise default to `patent<NNN>/` — NNN is a 3-digit zero-padded sequence: scan the workspace for existing `patent*` folders and use max+1 (first case = `patent001`); the user naming another location wins. Pipeline paths below are relative to the case folder; each OA round gets its own subfolder `oa/<n>/`.
 - Two hard constraints: every amendment must have basis in what the application as filed records (explicit text, or content directly and unambiguously derivable from it), and every argument must stand on the application's own content or verifiable public knowledge — no invented technical effects to argue inventiveness.
 - Never misquote the examiner or a cited reference; rebut what they actually say.
 - Independent steps run in parallel (dispatch in the same message).

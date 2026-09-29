@@ -18,7 +18,7 @@ Produce an evidence-backed business plan for a product or idea. Track progress w
 
 1. **Research + data, in parallel**
    - `researcher`: market landscape, competitors, target users, pricing precedents → report to `docs/business/<slug>/research.md`.
-   - `data-analyst`: only if real data exists to ground the plan (existing product metrics, datasets) → report to `docs/business/<slug>/baseline.md`; otherwise skip and note the gap.
+   - `executor`: only if real data exists to ground the plan (existing product metrics, datasets) → report to `docs/business/<slug>/baseline.md`; otherwise skip and note the gap.
 2. **Synthesize — dispatch `planner`**
    Pass both report paths + the original idea, and name the output path. Have planner file the business plan to `docs/business/<slug>/plan.md` covering problem & market, target users, offering, monetization, go-to-market, key assumptions, risks, phased milestones with verifiable criteria.
 3. **GATE — direction check**

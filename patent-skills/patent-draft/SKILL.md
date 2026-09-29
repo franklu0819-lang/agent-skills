@@ -10,7 +10,7 @@ Assemble a complete, internally consistent application draft around the approved
 ## Dispatch rules
 
 - Sub-agents start fresh: every dispatch must be self-contained — claims path, disclosure path, output paths, constraints. Never say "as discussed".
-- One case, one folder: reuse the case's existing folder if there is one; otherwise default to `docs/business/patent/<case-slug>/` (a project AGENTS.md or the user naming another location wins). Pipeline paths below are relative to the case folder.
+- One case, one folder: reuse the case's existing folder if there is one; otherwise default to `patent<NNN>/` — NNN is a 3-digit zero-padded sequence: scan the workspace for existing `patent*` folders and use max+1 (first case = `patent001`); the user naming another location wins. Pipeline paths below are relative to the case folder.
 - The specification is the only reservoir later amendments may draw from: every claim feature needs embodiments covering its full claimed range and its variants now — after filing, anything not written can no longer be added.
 - Terminology discipline: one concept, one term, everywhere — claim wording appears in the specification verbatim.
 - Independent steps run in parallel (dispatch in the same message).
