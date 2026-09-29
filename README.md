@@ -101,7 +101,7 @@
 ```bash
 git clone https://github.com/franklu0819-lang/agent-skills.git
 cp -r agent-skills/ark-skills/ark-* ~/.agents/skills/          # ark 系：用户级
-cp -r agent-skills/novel-skills/novel-* ~/.agents/skills/      # 小说系：用户级
+cp -r agent-skills/novel-skills/novel-* <项目>/.agents/skills/ # 小说系：项目级（装到写作项目，如 novels）
 cp -r agent-skills/patent-skills/patent-* <项目>/.zcode/skills/ # 专利系：项目级（也可装到 ~/.agents/skills/）
 cp -r agent-skills/paper-skills/paper-* <项目>/.zcode/skills/  # 论文系：项目级（也可装到 ~/.agents/skills/）
 cp -r agent-skills/nex-skills/nex-* ~/.agents/skills/           # nex 系：用户级

@@ -25,7 +25,7 @@
 - `patent-draft` — 申请文件撰写：CN/US/PCT 说明书组装
 - `patent-oa` — 审查意见答复：逐条映射答复策略，起草意见陈述书
 
-### novel-skills — 网文创作全流程（用户级；正文技能带 AIGC 检测硬门）
+### novel-skills — 网文创作全流程（项目级：装到写作项目 .agents/skills/；正文技能带 AIGC 检测硬门）
 - `novel-research` — 题材调研：市场热度、读者画像、竞品拆解（横向选赛道）
 - `novel-deconstruct` — 拆书：单本爆款逆向（黄金三章/爽点频谱/桥段库/人物公式/文风画像），产出模块库，断点续跑
 - `novel-outline` — 三幕式总大纲
