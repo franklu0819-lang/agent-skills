@@ -6,7 +6,7 @@
 
 - 6 家族：ark（火山方舟生成系 5）/ patent（专利全流程 5）/ novel（网文创作 10）/ paper（学术论文 7）/ nex（产品研发 12）/ douyin（抖音内容调研 2）
 - 认证一律走环境变量：`ARK_API_KEY`（方舟数据面，ark- 前缀）、`SPEECH_API_KEY`（豆包语音，UUID）；技能与脚本不读取、不存储、不落盘任何密钥
-- 结构契约：`python3 scripts/scan_skills.py` 校验全仓库（frontmatter 键集、name 与目录一致、引用文件存在、跨技能依赖声明）
+- 结构契约：`py scripts/scan_skills.py` 校验全仓库（frontmatter 键集、name 与目录一致、引用文件存在、跨技能依赖声明、subagent 派发引用可解析）；agent 定义校验 `py scripts/scan_agents.py`；部署用 `py scripts/deploy.py --deploy`
 - 语言：文档与技能正文以中文为主
 
 ## 家族与技能索引
@@ -25,7 +25,7 @@
 - `patent-draft` — 申请文件撰写：CN/US/PCT 说明书组装
 - `patent-oa` — 审查意见答复：逐条映射答复策略，起草意见陈述书
 
-### novel-skills — 网文创作全流程（项目级：装到写作项目 .agents/skills/；正文技能带 AIGC 检测硬门）
+### novel-skills — 网文创作全流程（项目级：装到写作项目 .zcode/skills/，如 novels；正文技能带 AIGC 检测硬门）
 - `novel-research` — 题材调研：市场热度、读者画像、竞品拆解（横向选赛道）
 - `novel-deconstruct` — 拆书：单本爆款逆向（黄金三章/爽点频谱/桥段库/人物公式/文风画像），产出模块库，断点续跑
 - `novel-outline` — 三幕式总大纲
@@ -60,7 +60,7 @@
 - `nex-docs-tidy` — 文档审计：docs/ 树体检（结构合规、陈旧、孤儿/重复）→ 用户定处置 → 执行
 - `nex-slide` — 幻灯片：素材汇集 → 大纲规划 → 固定品牌风格成片 → 质检
 
-### douyin-skills — 抖音内容调研（用户级；依赖 ark-asr 与 chrome-devtools MCP）
+### douyin-skills — 抖音内容调研（项目级：装到业务工作区 .zcode/skills/，如 douyin；依赖用户级 ark-asr 与 chrome-devtools MCP）
 - `douyin-video-analysis` — 单视频剖析：短链解析 → 真浏览器提取流地址 → 下载转写 → 三层评判+核查清单
 - `douyin-account-analysis` — 账号级分析：外部搜索定位 → 作者归属验证（防粉丝仿写混淆）→ 内容体系归纳与情境化建议
 

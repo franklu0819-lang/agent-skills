@@ -1,6 +1,6 @@
 # agent-skills
 
-个人 Agent 技能仓库，托管面向 ZCode 等 Agent CLI 的技能（SKILL.md + 配套脚本），按技能家族分目录组织，安装到 `~/.agents/skills/` 即可使用。
+个人 Agent 技能仓库，托管面向 ZCode 等 Agent CLI 的技能（SKILL.md + 配套脚本），按技能家族分目录组织，安装到 `~/.agents/skills/`（用户级）或 `<工作区>/.zcode/skills/`（项目级）即可使用。
 
 ## 目录说明
 
