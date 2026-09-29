@@ -1,6 +1,6 @@
 ---
 name: nex-specs
-description: "Product spec workflow: turn an idea or feature request into a reviewed PRD-style spec (user stories, scope, priorities, acceptance criteria, milestones) filed to docs/develop/specs/, then approved by the user. Use when the user describes a product idea and wants requirements clarified before design or development. Also triggered as /nex-specs."
+description: "Product spec: turns an idea or feature request into a reviewed PRD-style spec (user stories, scope, priorities, acceptance criteria, milestones) filed to docs/develop/specs/ and approved by the user. Use when the user describes a product idea and wants requirements clarified before design or development. Also triggered as /nex-specs."
 ---
 
 # Product spec workflow

@@ -1,6 +1,6 @@
 ---
 name: nex-business-plan
-description: "Business plan workflow: parallel market research + data baseline → planner synthesizes a business plan → adversarial fact-check → revised final plan. Use when the user wants a business plan, a go/no-go evaluation of a product idea, monetization strategy, or market-entry analysis. Also triggered as /nex-business-plan."
+description: "Business plan: parallel market research and data baseline, synthesized into a plan, then adversarial fact-check and a revised final. Use when the user wants a business plan, a go/no-go evaluation of a product idea, monetization strategy, or market-entry analysis. Also triggered as /nex-business-plan."
 ---
 
 # Business plan workflow

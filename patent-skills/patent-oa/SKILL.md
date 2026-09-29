@@ -1,6 +1,6 @@
 ---
 name: patent-oa
-description: "Office-action response workflow: planner maps every OA objection and cited reference to a response strategy (argue / amend / delete / divisional) → user confirms the strategy at a gate, especially scope concessions → executor drafts the observation letter and amendment pages → reviewer verifies every objection is answered and every amendment stays within the original disclosure. Use for 答复审查意见, OA答复, 意见陈述书, overcoming 新颖性/创造性/客体 rejections, or handling a received 审查意见通知书. Also triggered as /patent-oa."
+description: "Office-action response: every objection and cited reference mapped to a strategy (argue / amend / delete / divisional; scope concessions confirmed with the user), then the observation letter and amendment pages, verified against the original disclosure. Use for 答复审查意见, OA答复, 意见陈述书, overcoming 新颖性/创造性/客体 rejections, or handling a received 审查意见通知书. Also triggered as /patent-oa."
 ---
 
 # Office-action response workflow

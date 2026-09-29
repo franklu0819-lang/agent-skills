@@ -1,6 +1,6 @@
 ---
 name: nex-dev
-description: "SDD+TDD bidirectional development workflow: inputs are the product spec AND the user-confirmed design (prototype/screenshots from /nex-design) → spec with testable acceptance criteria (user-approved) → failing tests derived from the spec (red) → minimal implementation to green → dual review (code quality + spec fidelity + design fidelity) → spec reconciliation when reality contradicts the spec. Use for feature development, bug fixes (red = failing repro test, green = the fix), refactors, or any non-trivial code change. Also triggered as /nex-dev."
+description: "SDD+TDD bidirectional development: inputs are the approved product spec AND the user-confirmed design (from /nex-design); acceptance criteria turned into failing tests first (red), then minimal implementation to green, with dual code/spec/design review. Use for feature development, bug fixes (red = failing repro test, green = the fix), refactors, or any non-trivial code change. Also triggered as /nex-dev."
 ---
 
 # Development workflow (SDD × TDD)

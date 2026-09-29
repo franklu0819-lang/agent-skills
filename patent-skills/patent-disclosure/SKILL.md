@@ -1,6 +1,6 @@
 ---
 name: patent-disclosure
-description: "Patent disclosure workflow: mine invention points out of a rough idea, codebase, or design docs → executor drafts the technical disclosure (background, technical solution, effects, embodiments) → reviewer checks sufficiency of disclosure and invention-point sharpness → user-approved disclosure. Use when starting any patent: 技术交底书, 发明交底, mining patentable points from a feature/算法/系统设计, or preparing material to hand to a patent attorney. Also triggered as /patent-disclosure."
+description: "Mine invention points out of a rough idea, codebase, or design docs and draft the technical disclosure (background, solution, effects, embodiments) with a sufficiency check. Use when starting any patent: 技术交底书, 发明交底, mining patentable points from a feature/算法/系统设计, or preparing material to hand to a patent attorney. Also triggered as /patent-disclosure."
 ---
 
 # Patent disclosure workflow

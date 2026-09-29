@@ -1,6 +1,6 @@
 ---
 name: paper-experiment
-description: "Paper experiment workflow: planner designs the experiments (hypotheses, variables, baselines, datasets, metrics, ablations, stats plan) → user approves → executor implements reproducible config-driven experiment code and runs it → executor analyzes results into publication-ready figures/tables → reviewer checks the evidence honestly supports the claims. Use for designing, running, or analyzing paper experiments, 实验设计/跑实验/结果分析, or turning results into paper figures. Also triggered as /paper-experiment."
+description: "Design, run, and analyze paper experiments — hypotheses/variables/baselines/metrics/ablations plan, reproducible config-driven runs, publication-ready figures and tables. Use for designing, running, or analyzing paper experiments, 实验设计/跑实验/结果分析, or turning results into paper figures. Also triggered as /paper-experiment."
 ---
 
 # Paper experiment workflow

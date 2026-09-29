@@ -1,6 +1,6 @@
 ---
 name: patent-claims
-description: "Claim drafting workflow: planner designs the claim architecture (subject-matter types, independent/dependent layering, fallback positions against the prior-art chart, design-around resistance) → user approves the layout at a gate → executor drafts the claim set → reviewer checks clarity, antecedent basis, and support. Use for 权利要求撰写, 独权从权布局, claim set drafting, turning a disclosure into claims, or stress-testing claims against prior art. Also triggered as /patent-claims."
+description: "Claim-set drafting around an approved disclosure: independent/dependent layering, fallback positions against the prior-art chart, design-around resistance; clarity/antecedent-basis checked. Use for 权利要求撰写, 独权从权布局, claim set drafting, turning a disclosure into claims, or stress-testing claims against prior art. Also triggered as /patent-claims."
 ---
 
 # Claim drafting workflow

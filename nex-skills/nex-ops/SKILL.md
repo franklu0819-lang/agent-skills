@@ -1,6 +1,6 @@
 ---
 name: nex-ops
-description: "Ops/incident workflow: researcher diagnoses the root cause with an evidence chain → user picks the fix at a gate → executor applies the minimal fix → reviewer verifies → incident report filed to docs/develop/ops/. Use for production incidents, abnormal metrics, performance degradation, or maintenance tasks. Also triggered as /nex-ops."
+description: "Ops/incident handling: root-cause diagnosis with an evidence chain, user picks the fix, minimal fix applied and verified, incident report filed. Use for production incidents, abnormal metrics, performance degradation, or maintenance tasks. Also triggered as /nex-ops."
 ---
 
 # Ops / incident workflow

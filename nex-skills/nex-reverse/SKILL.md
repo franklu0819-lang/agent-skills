@@ -1,6 +1,6 @@
 ---
 name: nex-reverse
-description: "Reverse-engineering workflow: survey the codebase → researcher reconstructs the as-built architecture and database design → planner recovers per-module behavior specs and human docs → executor builds the test catalog → adversarial consistency review against the code. Use when the user wants to recover a legacy project's architecture, database/ER design, specs, test cases, or documentation from existing code. Also triggered as /nex-reverse."
+description: "Reverse-engineering: reconstructs the as-built architecture and database design from the code, recovers per-module behavior specs and human docs, and builds the test catalog, all consistency-reviewed. Use when the user wants to recover a legacy project's architecture, database/ER design, specs, test cases, or documentation from existing code. Also triggered as /nex-reverse."
 ---
 
 # Reverse-engineering workflow

@@ -1,6 +1,6 @@
 ---
 name: patent-draft
-description: "Patent application drafting workflow: executor drafts the full specification (technical field, background, summary mirroring the claims, detailed embodiments covering every claim feature and variant), abstract, and figure notes → reviewer checks term consistency, claim support, and embodiment coverage → user-approved filing draft. Use for 专利申请文件撰写, 说明书撰写, 撰写专利申请, assembling the CN/US/PCT application package around an approved claim set. Also triggered as /patent-draft."
+description: "Full patent application drafting around an approved claim set: specification (summary mirroring claims, embodiments covering every claim feature and variant), abstract, figure notes — CN/US/PCT package. Use for 专利申请文件撰写, 说明书撰写, 撰写专利申请, assembling the application package. Also triggered as /patent-draft."
 ---
 
 # Patent application drafting workflow

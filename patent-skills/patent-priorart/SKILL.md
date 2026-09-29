@@ -1,6 +1,6 @@
 ---
 name: patent-priorart
-description: "Prior-art search workflow: researcher runs systematic multi-query patent & literature search (classification codes + keywords, snowballing) → executor builds the feature comparison chart and novelty/inventiveness assessment → reviewer verifies every cited reference is real and reachable → user-approved report. Use for 现有技术检索, 专利查新, novelty search, 专利检索分析, deciding whether an idea is patentable, or checking what the claims must distinguish from. Also triggered as /patent-priorart."
+description: "Systematic prior-art search (classification codes + keywords, snowballing) producing a feature comparison chart and novelty/inventiveness assessment, citations verified real and reachable. Use for 现有技术检索, 专利查新, novelty search, 专利检索分析, deciding whether an idea is patentable, or checking what the claims must distinguish from. Also triggered as /patent-priorart."
 ---
 
 # Prior-art search workflow

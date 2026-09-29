@@ -1,6 +1,6 @@
 ---
 name: nex-arch
-description: "Technical architecture workflow: survey existing structure → researcher proposes architecture (components, tech-selection trade-offs, data flow, data-model draft) → user picks the direction at a gate → planner files the architecture doc and database design doc → reviewer gates closure and consistency → fix loop. Use when the user wants system or module architecture design, technology selection with a durable record, or database/ER/schema design. Feeds /nex-dev, which implements against the approved architecture. Also triggered as /nex-arch."
+description: "Technical architecture design: survey of the existing structure, an architecture proposal (components, tech-selection trade-offs, data flow, data-model draft) for the user to pick, then the architecture and database design docs filed and consistency-reviewed. Use when the user wants system or module architecture design, technology selection with a durable record, or database/ER/schema design. Feeds /nex-dev, which implements against the approved architecture. Also triggered as /nex-arch."
 ---
 
 # Architecture & database design workflow

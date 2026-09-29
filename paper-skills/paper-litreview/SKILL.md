@@ -1,6 +1,6 @@
 ---
 name: paper-litreview
-description: "Literature review workflow: researcher runs systematic multi-query search with snowballing → executor synthesizes the review (topic-clustered narrative, citation matrix, gap analysis) → reviewer verifies every single citation is real and reachable → user-approved review. Use for 文献综述, related-work sections, surveying prior art, or building the reference pool for a paper or thesis. Also triggered as /paper-litreview."
+description: "Systematic literature review via multi-query search and snowballing; produces a topic-clustered narrative review, citation matrix, and gap analysis, with every citation verified real and reachable. Use for 文献综述, related-work sections, surveying prior art, or building the reference pool for a paper or thesis. Also triggered as /paper-litreview."
 ---
 
 # Literature review workflow

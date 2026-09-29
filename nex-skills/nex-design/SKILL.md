@@ -1,6 +1,6 @@
 ---
 name: nex-design
-description: "Design workflow, two-stage: Stage A explores three distinct visual directions (low-fi style boards, parallel-built in the sandbox) for the user to pick one; Stage B develops the chosen direction into a hi-fi interactive prototype — vision judges visual quality and interaction logic, reviewer checks design-system consistency and development-creep, the user confirms. Deliverable is design confirmation — visual language and interaction flow — NOT development: no production wiring, no real data, no API integration. Use when the user asks for a page design, UI mockup, prototype, interaction-flow check, or visual exploration before development starts. Also triggered as /nex-design."
+description: "Two-stage design: three distinct visual directions explored in parallel for the user to pick, then the chosen direction developed into a hi-fi interactive prototype. Deliverable is design confirmation — visual language and interaction flow — NOT development: no production wiring, no real data, no API integration. Use when the user asks for a page design, UI mockup, prototype, interaction-flow check, or visual exploration before development starts. Also triggered as /nex-design."
 ---
 
 # Design workflow (explore → hi-fi → confirm)

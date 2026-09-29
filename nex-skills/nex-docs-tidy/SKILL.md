@@ -1,6 +1,6 @@
 ---
 name: nex-docs-tidy
-description: "Docs audit workflow: survey the docs/ tree against the workflow conventions and produce a layout health report (structure compliance, staleness, orphans/duplicates), user picks dispositions at a gate, executor applies the approved moves/marks/retirements. Content is NOT verified against code (that is /nex-reverse's job) and lifecycle state is NOT judged (a finished campaign looks the same as an active one — that call is the owning workflow's/user's). Use when the user wants to tidy the docs layout or get a periodic structural health check. Also triggered as /nex-docs-tidy."
+description: "Docs audit: layout health report on the docs/ tree (structure compliance, staleness, orphans/duplicates), user picks dispositions, approved moves/marks/retirements applied. Content is NOT verified against code (that is /nex-reverse's job). Use when the user wants to tidy the docs layout or get a periodic structural health check. Also triggered as /nex-docs-tidy."
 ---
 
 # Docs tidy workflow

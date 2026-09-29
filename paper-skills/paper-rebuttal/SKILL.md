@@ -1,6 +1,6 @@
 ---
 name: paper-rebuttal
-description: "Rebuttal workflow: planner maps every reviewer comment to a response strategy → user confirms the strategy at a gate (especially extra experiments and polite disagreements) → executor drafts the point-by-point response letter and applies the promised manuscript edits → reviewer verifies every comment is answered and every promised change actually landed. Use when responding to peer review comments, 审稿意见回复, writing a rebuttal/response letter, or preparing a revised resubmission. Also triggered as /paper-rebuttal."
+description: "Point-by-point response to peer review: every reviewer comment mapped to a response strategy (extra experiments and disagreements confirmed with the user first), response letter drafted and promised manuscript edits applied. Use when responding to peer review comments, 审稿意见回复, writing a rebuttal/response letter, or preparing a revised resubmission. Also triggered as /paper-rebuttal."
 ---
 
 # Rebuttal workflow

@@ -1,6 +1,6 @@
 ---
 name: paper-revise
-description: "Paper revision workflow: reviewer simulates peer review (novelty, method soundness, clarity, presentation) → user picks which issues to fix at a gate → executor applies revisions → reviewer verifies each chosen issue is actually resolved. Use for polishing a draft before submission, 论文修改, incorporating advisor feedback, or raising a paper to a target venue's bar. Also triggered as /paper-revise."
+description: "Simulated peer review (novelty, method soundness, clarity, presentation) followed by user-selected, verified revisions. Use for polishing a draft before submission, 论文修改, incorporating advisor feedback, or raising a paper to a target venue's bar. Also triggered as /paper-revise."
 ---
 
 # Paper revision workflow

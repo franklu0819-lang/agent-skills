@@ -1,6 +1,6 @@
 ---
 name: nex-roadmap
-description: "Roadmap suggestion workflow: reads ONLY existing project docs (docs/ tree) and product research reports — never source code — then proposes the top 5 features to build next, priority-ranked with explicit rationale. Use when the user wants next-step feature suggestions, a roadmap proposal, or a what-to-build-next decision grounded in existing specs/plans/research. Also triggered as /nex-roadmap."
+description: "Roadmap suggestion: reads ONLY existing project docs (docs/ tree) and product research reports — never source code — and proposes the top 5 features to build next, priority-ranked with rationale. Use when the user wants next-step feature suggestions, a roadmap proposal, or a what-to-build-next decision grounded in existing specs/plans/research. Also triggered as /nex-roadmap."
 ---
 
 # Roadmap suggestion workflow

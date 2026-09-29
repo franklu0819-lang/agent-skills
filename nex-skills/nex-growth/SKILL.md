@@ -1,6 +1,6 @@
 ---
 name: nex-growth
-description: "Growth/operations workflow: executor baselines current metrics → planner drafts the campaign/content plan → user approves at a gate → executor produces copy and assets → reviewer fact-checks tone and overpromising. Use for marketing campaigns, content production, launch announcements, or operations planning. Also triggered as /nex-growth."
+description: "Growth/operations: metrics baseline, campaign/content plan for the user to approve, copy and asset production, then a tone/overpromising fact-check. Use for marketing campaigns, content production, launch announcements, or operations planning. Also triggered as /nex-growth."
 ---
 
 # Growth / operations workflow

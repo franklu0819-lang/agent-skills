@@ -1,6 +1,6 @@
 ---
 name: paper-submit
-description: "Submission preparation workflow: researcher fetches the venue's author guide → executor builds the formatted manuscript (venue LaTeX template or docx, unified citation style, integrated figures) plus a cover letter → reviewer runs the pre-submission checklist (limits, anonymization, reference closure, declarations) → user approves the package. Use when preparing a paper for submission, 投稿格式化, fitting a journal/conference template, or writing a cover letter. Also triggered as /paper-submit."
+description: "Submission-ready package: venue-template manuscript (LaTeX/docx), unified citations, integrated figures, cover letter, and a pre-submission checklist. Use when preparing a paper for submission, 投稿格式化, fitting a journal/conference template, or writing a cover letter. Also triggered as /paper-submit."
 ---
 
 # Submission preparation workflow

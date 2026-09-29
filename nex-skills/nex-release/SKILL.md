@@ -1,6 +1,6 @@
 ---
 name: nex-release
-description: "Release workflow: executor prepares the release (version bump, changelog, green build + tests + E2E pass driven by chrome-devtools) without deploying → reviewer runs a release gate (E2E green, migrations, env vars, secrets, rollback path) → user approves → executor ships → smoke check → PSI gate for web apps (Performance ≥ 90, Accessibility/Best Practices/SEO = 100). Use when the user wants to release, deploy, or publish a version. Also triggered as /nex-release."
+description: "Release preparation and shipping: version bump, changelog, green build + tests + E2E, release gate (migrations, env vars, secrets, rollback path), then deploy and smoke/PSI check for web apps. Use when the user wants to release, deploy, or publish a version. Also triggered as /nex-release."
 ---
 
 # Release workflow

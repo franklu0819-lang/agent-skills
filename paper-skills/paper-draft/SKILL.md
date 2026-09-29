@@ -1,6 +1,6 @@
 ---
 name: paper-draft
-description: "Paper drafting workflow: planner produces a section outline with a claim→evidence map (user-approved) → executor drafts section by section using experiment outputs and the verified literature as the only evidence pool → reviewer checks argument support and citation accuracy per section. Use for writing a paper first draft, 论文初稿, or specific chapters/sections (intro, method, experiments, discussion, 学位论文章节). Also triggered as /paper-draft."
+description: "Write a paper first draft section by section from an approved outline, using experiment outputs and the verified literature as the only evidence pool. Use for writing a paper first draft, 论文初稿, or specific chapters/sections (intro, method, experiments, discussion, 学位论文章节). Also triggered as /paper-draft."
 ---
 
 # Paper drafting workflow

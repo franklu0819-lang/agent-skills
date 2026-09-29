@@ -1,6 +1,6 @@
 ---
 name: nex-slide
-description: "Slide production workflow: gathers source material from documents, websites, images, and videos → plans the deck outline → executor builds the PPTX per fixed brand style (red #dc3545 + white theme, 【星网天合】 brand mark in the top-right of every slide) → judge runs per-page visual acceptance → fix loop → user confirms. Use when the user wants a presentation/PPT/slides built from existing material. Also triggered as /nex-slide."
+description: "Slide production: gathers source material from documents, websites, images, and videos, plans the deck outline, builds the PPTX per the fixed brand style with per-page visual acceptance, then a fix loop. Use when the user wants a presentation/PPT/slides built from existing material. Also triggered as /nex-slide."
 ---
 
 # Slide production workflow

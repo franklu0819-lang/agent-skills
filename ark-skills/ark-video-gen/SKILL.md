@@ -1,6 +1,6 @@
 ---
 name: ark-video-gen
-description: 直连火山引擎方舟（Ark）API 做文生视频 / 图生视频 / 参考生视频，默认模型 doubao-seedance-2-5-260628。内置省钱调用纪律（本地校验、draft 先行、成本预估）与跨片段一致性方法论（统一素材包、尾帧接力、视频延长）。Use whenever the user wants to 生成视频、文生视频、图生视频、参考生视频、生成一段视频/视频片段、让 AI 做视频、视频保持背景一致/画面连续、做短剧、口播数字人视频、提到 seedance/即梦/豆包视频 — even if they don't explicitly name a model or tool. Also triggered as /ark-video-gen.
+description: "直连火山引擎方舟（Ark）API 做文生视频 / 图生视频 / 参考生视频，默认模型 doubao-seedance-2-5-260628，内置省钱调用纪律与跨片段一致性方法论（统一素材包、尾帧接力）。Use whenever the user wants to 生成视频、文生视频、图生视频、参考生视频、生成一段视频/视频片段、让 AI 做视频、视频保持背景一致/画面连续、做短剧、口播数字人视频、提到 seedance/即梦/豆包视频 — even if they don't explicitly name a model or tool. Also triggered as /ark-video-gen."
 ---
 
 # 火山方舟视频生成（doubao-seedance，直连 API）

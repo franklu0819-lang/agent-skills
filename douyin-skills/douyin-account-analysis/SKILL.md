@@ -1,6 +1,6 @@
 ---
 name: douyin-account-analysis
-description: 抖音账号级深度分析：定位账号 → 选取≥3个代表性视频（含作者归属验证，防粉丝仿写混淆）→ 复用 douyin-video-analysis 流水线逐个下载转写 → 外部背景与争议调研 → 归纳账号内容支柱/变现结构/观点体系并三层评判（站得住/说过头/盲区）→ 结合用户自身情境给建议。Use whenever the user 搜索/分析某个抖音账号、博主、UP主、IP（如"分析一下XX这个抖音号"、"总结XX的主要观点"、"XX这个博主靠谱吗"、"帮我拆解XX的账号/内容模式/变现方式"）——给账号名或主页链接 + 分析意图就用本技能。Also triggered as /douyin-account-analysis.
+description: "抖音账号级深度分析：定位账号与作者归属验证（防粉丝仿写混淆），选取 ≥3 个代表性视频逐个下载转写（复用 douyin-video-analysis 流水线），结合外部背景与争议调研，归纳内容支柱/变现结构/观点体系并三层评判，结合用户情境给建议。Use whenever the user 搜索/分析某个抖音账号、博主、UP主、IP（如"分析一下XX这个抖音号"、"总结XX的主要观点"、"XX这个博主靠谱吗"、"帮我拆解XX的账号/内容模式/变现方式"）——给账号名或主页链接 + 分析意图就用本技能。Also triggered as /douyin-account-analysis."
 ---
 
 # 抖音账号级深度分析

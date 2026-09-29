@@ -1,6 +1,6 @@
 ---
 name: paper-proposal
-description: "Paper proposal workflow: researcher scouts the field and gaps → planner drafts the research proposal (questions, hypotheses, method, contributions, work plan) → adversarial review of novelty and feasibility → user-approved proposal. Use when starting any paper or thesis: choosing a topic, defining research questions, writing a research proposal, 开题报告, or evaluating whether an idea is publishable. Also triggered as /paper-proposal."
+description: "Research proposal for a new paper or thesis — field scouting, research questions, hypotheses, method, contributions, work plan, with adversarial review of novelty and feasibility. Use when starting any paper or thesis: choosing a topic, defining research questions, writing a research proposal, 开题报告, or evaluating whether an idea is publishable. Also triggered as /paper-proposal."
 ---
 
 # Paper proposal workflow
