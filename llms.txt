@@ -1,10 +1,10 @@
 # agent-skills
 
-> 面向 ZCode 等 Agent CLI 的中文技能仓库：6 个家族 40 个技能，全部为真实生产工作流沉淀（非演示）。按家族分目录组织（`<家族>-skills/<技能名>/SKILL.md` + 可选 scripts/references），装到 `~/.agents/skills/`（用户级）或 `<项目>/.zcode/skills/`（项目级）即可使用。
+> 面向 ZCode 等 Agent CLI 的中文技能仓库：6 个家族 41 个技能，全部为真实生产工作流沉淀（非演示）。按家族分目录组织（`<家族>-skills/<技能名>/SKILL.md` + 可选 scripts/references），装到 `~/.agents/skills/`（用户级）或 `<项目>/.zcode/skills/`（项目级）即可使用。
 
 ## 快速事实
 
-- 6 家族：ark（火山方舟生成系 5）/ patent（专利全流程 5）/ novel（网文创作 9）/ paper（学术论文 7）/ nex（产品研发 12）/ douyin（抖音内容调研 2）
+- 6 家族：ark（火山方舟生成系 5）/ patent（专利全流程 5）/ novel（网文创作 10）/ paper（学术论文 7）/ nex（产品研发 12）/ douyin（抖音内容调研 2）
 - 认证一律走环境变量：`ARK_API_KEY`（方舟数据面，ark- 前缀）、`SPEECH_API_KEY`（豆包语音，UUID）；技能与脚本不读取、不存储、不落盘任何密钥
 - 结构契约：`python3 scripts/scan_skills.py` 校验全仓库（frontmatter 键集、name 与目录一致、引用文件存在、跨技能依赖声明）
 - 语言：文档与技能正文以中文为主
@@ -26,7 +26,8 @@
 - `patent-oa` — 审查意见答复：逐条映射答复策略，起草意见陈述书
 
 ### novel-skills — 网文创作全流程（用户级；正文技能带 AIGC 检测硬门）
-- `novel-research` — 题材调研：市场热度、读者画像、竞品拆解
+- `novel-research` — 题材调研：市场热度、读者画像、竞品拆解（横向选赛道）
+- `novel-deconstruct` — 拆书：单本爆款逆向（黄金三章/爽点频谱/桥段库/人物公式/文风画像），产出模块库，断点续跑
 - `novel-outline` — 三幕式总大纲
 - `novel-worldview` — 世界观设定：力量体系、地图、势力、资源经济
 - `novel-characters` — 人物设定：主角档案、反派梯队、关系网

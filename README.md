@@ -8,7 +8,7 @@
 |------|------|------|
 | [ark-skills/](ark-skills/) | 火山引擎方舟（Ark）/ 豆包系 | 语音、音频、图片、视频生成共 5 个技能 |
 | [patent-skills/](patent-skills/) | 专利全流程 | 交底、检索、权利要求、申请文件、OA 答复共 5 个技能 |
-| [novel-skills/](novel-skills/) | 网文创作全流程 | 调研、大纲、设定、卷纲、章节、封面共 9 个技能 |
+| [novel-skills/](novel-skills/) | 网文创作全流程 | 调研、大纲、设定、卷纲、章节、拆书、封面共 10 个技能 |
 | [paper-skills/](paper-skills/) | 学术论文全流程 | 提案、综述、实验、撰写、修改、rebuttal、投稿共 7 个技能 |
 | [nex-skills/](nex-skills/) | 产品研发全生命周期 | 规格、设计、开发、架构、发布、运维、增长、路线图等共 12 个技能 |
 | [douyin-skills/](douyin-skills/) | 抖音内容调研 | 单视频下载剖析、账号级深度分析共 2 个技能 |
@@ -43,7 +43,8 @@
 
 | 技能 | 用途 |
 |------|------|
-| [novel-research](novel-skills/novel-research/) | 题材调研：市场热度、读者画像、3-5 部竞品拆解、差异化方向 |
+| [novel-research](novel-skills/novel-research/) | 题材调研：市场热度、读者画像、3-5 部竞品拆解、差异化方向（横向选赛道） |
+| [novel-deconstruct](novel-skills/novel-deconstruct/) | 拆书：单本爆款工程级逆向——黄金三章细拆、爽点频谱、桥段库、人物公式、文风画像，产出可复用模块库（纵向学写法，断点续跑） |
 | [novel-outline](novel-skills/novel-outline/) | 三幕式总大纲：一句话故事、三幕九节点骨架、分卷框架、爽点节奏 |
 | [novel-worldview](novel-skills/novel-worldview/) | 世界观设定：修炼/力量体系、地图动线、势力组织、资源经济 |
 | [novel-characters](novel-skills/novel-characters/) | 人物设定：主角档案、感情线、反派梯队、关系网、出场登记 |
@@ -186,6 +187,7 @@ agent-skills/
 │   └── nex-slide/          # 幻灯片
 ├── novel-skills/
     ├── novel-research/     # 题材调研
+    ├── novel-deconstruct/  # 拆书（模块库逆向）
     ├── novel-outline/      # 三幕式总大纲
     ├── novel-worldview/    # 世界观设定
     ├── novel-characters/   # 人物设定
