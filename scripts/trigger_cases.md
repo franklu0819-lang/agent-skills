@@ -30,7 +30,7 @@
 | N5 | 写第一章到第三章（开篇） | novel-opening（不是 novel-chapter） |
 | N6 | 继续写第 47 章 / 批量写到 50 章 | novel-chapter（且顺序执行不并行） |
 | N7 | 给这本书做个封面 | novel-cover |
-| N8 | （歧义）「继续写」无卷纲时 | 应引导先 /novel-volume，不得裸写正文 |
+| N8 | （歧义）「继续写」无章节号 | 路由到 novel-chapter（中置信可接受），其正文前置检查发现缺已确认卷纲时必须引导先 /novel-volume，不得裸写正文（路由层 + 技能内前置检查两层防线） |
 
 ## patent 系（patents 工作区）
 
