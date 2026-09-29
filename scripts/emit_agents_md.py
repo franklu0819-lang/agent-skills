@@ -57,10 +57,11 @@ FAMILIES = {
         "chain": "链条：`/novel-research` 题材调研 → `/novel-outline` 总大纲 → 设定三件套 "
                  "（`/novel-worldview` `/novel-characters` `/novel-style`）→ `/novel-volume` 卷纲 → "
                  "`/novel-opening` 黄金三章 → `/novel-chapter` 逐章正文（顺序循环，严禁并行写多章）→ "
-                 "`/novel-cover` 封面。正文硬门槛：≥2000 纯汉字、每章爽点、章末钩子、AIGC 检测达标。",
+                 "`/novel-cover` 封面。已有成书可随时 `/novel-deconstruct` 拆书逆向（六层拆解 + 跨书指令库）。"
+                 "正文硬门槛：≥2000 纯汉字、每章爽点、章末钩子、AIGC 检测达标。",
         "artifact": "产物根：`books/<book>/`；状态文件：`books/<book>/progress.md`（伏笔台账 + 章节进度，"
                     "novel 系技能已内置维护，重入必读）。",
-        "skills": "本区已安装：research / outline / worldview / characters / style / volume / opening / chapter / cover（9 个）。",
+        "skills": "本区已安装：research / outline / worldview / characters / style / volume / opening / chapter / cover / deconstruct（10 个）。",
     },
     "patents": {
         "title": "专利工作区（patent-skills）",
