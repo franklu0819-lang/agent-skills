@@ -1,6 +1,6 @@
 ---
 name: ark-image-gen
-description: "直连火山方舟 API 用豆包 Seedream 全系模型做文生图 / 图生图 / 组图 / 多图层拆分，支持指定画面比例（16:9、9:16 等）与分辨率档位。Use whenever the user wants 生成图片、文生图、画一张图、画个Logo/插画/海报、配图、产品图、图生图、参考图生成、横版/竖版/指定比例的图、一次生成一组图、拆图层/分层/把图里的元素拆出来（PSD 式透明图层）—— 即使没有明说"生成图片"三个字，只要是要一张/一组全新图片或拆层就用本技能。Also triggered as /ark-image-gen。"
+description: "直连火山方舟 API 用豆包 Seedream 全系模型做文生图 / 图生图 / 组图 / 多图层拆分，支持指定画面比例（16:9、9:16 等）与分辨率档位。Use whenever the user wants 生成图片、文生图、画一张图、画个Logo/插画/海报、配图、产品图、图生图、参考图生成、横版/竖版/指定比例的图、一次生成一组图、拆图层/分层/把图里的元素拆出来（PSD 式透明图层）—— 即使没有明说“生成图片”三个字，只要是要一张/一组全新图片或拆层就用本技能。Also triggered as /ark-image-gen。"
 ---
 
 # 火山方舟图片生成（Seedream 全系，直连 API）

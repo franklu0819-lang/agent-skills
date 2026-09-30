@@ -1,6 +1,6 @@
 ---
 name: douyin-video-analysis
-description: "下载抖音视频并深度剖析：短链解析 → 真浏览器提取视频流与元数据（纯 curl 拿不到）→ 下载转写（豆包 ASR）→ 结构化剖析（观点还原/可信度分层/盲区/建议）。Use whenever the user pastes a v.douyin.com 或 douyin.com 链接并想 下载这个抖音视频、视频转文字、提取字幕/文案、剖析/分析/总结这个视频、视频里的观点靠谱吗、帮我看这个视频讲了什么、深度拆解视频内容 —— 即使没说"抖音"两个字，只要给了抖音链接加分析意图就用本技能。Also triggered as /douyin-video-analysis."
+description: "下载抖音视频并深度剖析：短链解析 → 真浏览器提取视频流与元数据（纯 curl 拿不到）→ 下载转写（豆包 ASR）→ 结构化剖析（观点还原/可信度分层/盲区/建议）。Use whenever the user pastes a v.douyin.com 或 douyin.com 链接并想 下载这个抖音视频、视频转文字、提取字幕/文案、剖析/分析/总结这个视频、视频里的观点靠谱吗、帮我看这个视频讲了什么、深度拆解视频内容 —— 即使没说“抖音”两个字，只要给了抖音链接加分析意图就用本技能。Also triggered as /douyin-video-analysis."
 ---
 
 # 抖音视频下载与深度剖析
