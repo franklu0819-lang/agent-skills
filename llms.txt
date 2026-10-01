@@ -1,10 +1,10 @@
 # agent-skills
 
-> 面向 ZCode 等 Agent CLI 的中文技能仓库：6 个家族 41 个技能，全部为真实生产工作流沉淀（非演示）。按家族分目录组织（`<家族>-skills/<技能名>/SKILL.md` + 可选 scripts/references），装到 `~/.agents/skills/`（用户级）或 `<项目>/.zcode/skills/`（项目级）即可使用。
+> 面向 ZCode 等 Agent CLI 的中文技能仓库：7 个家族 42 个技能，全部为真实生产工作流沉淀（非演示）。按家族分目录组织（`<家族>-skills/<技能名>/SKILL.md` + 可选 scripts/references），装到 `~/.agents/skills/`（用户级）或 `<项目>/.zcode/skills/`（项目级）即可使用。
 
 ## 快速事实
 
-- 6 家族：ark（火山方舟生成系 5）/ patent（专利全流程 5）/ novel（网文创作 10）/ paper（学术论文 7）/ nex（产品研发 12）/ douyin（抖音内容调研 2）
+- 7 家族：ark（火山方舟生成系 5）/ patent（专利全流程 5）/ novel（网文创作 10）/ paper（学术论文 7）/ nex（产品研发 12）/ douyin（抖音内容调研 2）/ social（社媒图文 1）
 - 认证一律走环境变量：`ARK_API_KEY`（方舟数据面，ark- 前缀）、`SPEECH_API_KEY`（豆包语音，UUID）；技能与脚本不读取、不存储、不落盘任何密钥
 - 结构契约：`py scripts/scan_skills.py` 校验全仓库（frontmatter 键集、name 与目录一致、引用文件存在、跨技能依赖声明、subagent 派发引用可解析）；agent 定义校验 `py scripts/scan_agents.py`；部署用 `py scripts/deploy.py --deploy`
 - 语言：文档与技能正文以中文为主
@@ -64,15 +64,19 @@
 - `douyin-video-analysis` — 单视频剖析：短链解析 → 真浏览器提取流地址 → 下载转写 → 三层评判+核查清单
 - `douyin-account-analysis` — 账号级分析：外部搜索定位 → 作者归属验证（防粉丝仿写混淆）→ 内容体系归纳与情境化建议
 
+### social-skills — 社媒图文（用户级；依赖用户级 ark-image-gen）
+- `social-cards` — 贴图+文案：给定内容要点 → 3:4 信息卡组（AI 无字背景 + PIL 本地排版 + 视觉验收闭环）+ 小红书/公众号文案包（不含内容收集）
+
 ## 跨技能依赖
 
 - `douyin-*` → `ark-asr`（转写；定位顺序见技能内说明，支持 $ARK_ASR_HOME）
 - `douyin-*` → chrome-devtools MCP（真实浏览器；纯 curl 拿不到抖音数据）
+- `social-cards` → `ark-image-gen`（3:4 无文字背景生成；文字一律本地排版，不进 AI 生成环节）
 - `novel-chapter` / `novel-opening` → 外部技能 `aigc-detect`（不在本仓库；朱雀文本检测）
 - `novel-opening` → `novel-chapter`（字数统计脚本与 AIGC 流程复用）
 
 ## 边界
 
-- 不面向非抖音平台（B站/YouTube/小红书不在支持范围）
+- douyin 家族不面向非抖音平台（B站/YouTube 不在支持范围）；小红书/公众号图文由 social 家族覆盖
 - 密钥永不落盘；含密钥的产物禁止提交
 - 每个技能自包含（scripts 随技能目录分发）；兄弟技能引用一律按技能名发现而非绝对路径

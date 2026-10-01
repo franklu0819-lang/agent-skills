@@ -12,6 +12,7 @@
 | [paper-skills/](paper-skills/) | 学术论文全流程 | 提案、综述、实验、撰写、修改、rebuttal、投稿共 7 个技能 |
 | [nex-skills/](nex-skills/) | 产品研发全生命周期 | 规格、设计、开发、架构、发布、运维、增长、路线图等共 12 个技能 |
 | [douyin-skills/](douyin-skills/) | 抖音内容调研 | 单视频下载剖析、账号级深度分析共 2 个技能 |
+| [social-skills/](social-skills/) | 社媒图文 | 给定内容 → 3:4 贴图组 + 小红书/公众号文案共 1 个技能 |
 
 后续其他技能家族会以各自目录加入。
 
@@ -96,6 +97,14 @@
 | [douyin-video-analysis](douyin-skills/douyin-video-analysis/) | 单视频深度剖析：短链/链接 → 元数据（赞/藏/评/章节要点/热评）→ 视频流提取（含 blob MSE 分轨）→ 下载 → ark-asr 转写 → 三层评判（站得住/说过头/盲区）+ 核查清单 |
 | [douyin-account-analysis](douyin-skills/douyin-account-analysis/) | 账号级分析：外部搜索定位 sec_uid（勿走站内搜索）→ 选 ≥3 个代表性视频 → **作者归属验证**（sec_uid 比对防粉丝仿写混淆）→ 背景与争议调研 → 内容支柱/变现结构/观点体系归纳 + 结合用户情境的建议 |
 
+## social-skills：社媒图文技能
+
+给内容做贴图与文案，2026-10 实战沉淀（Gemini 4 发布速览全套图）。核心方法：**AI 只生成无文字背景，文字一律 PIL 本地排版**（中文零错别字由代码保证），产出过视觉验收闭环。硬边界：不含内容收集——事实/数据/来源/日期必须已给定，缺了先停下要素材。
+
+| 技能 | 用途 |
+|------|------|
+| [social-cards](social-skills/social-cards/) | 给定内容要点 → 3:4 信息卡组（1080×1440，封面/看点/对比条形/定价时间线等）+ 小红书/公众号文案包（标题备选、正文、事实核对清单、常见疑问预答）；排版基座 cardkit.py 内置墨迹盒居中、断词原子、浅底深字等硬规则 |
+
 ## 安装与部署
 
 不再手动 `cp`——`scripts/deploy.py` 按部署清单（`scripts/deploy.json`）同步各家族到安装目录，并用内容 hash 防止静默覆盖安装侧热修：
@@ -107,7 +116,7 @@ py scripts/deploy.py --deploy    # 同步：已同步跳过 / 源更新安全覆
 py scripts/deploy.py --deploy --force  # 冲突时备份热修为 <技能>.bak.<hash8> 后覆盖
 ```
 
-当前部署布局：ark 系 → 用户级 `~/.agents/skills/`（全局）；novel / paper / patent / douyin 系 → 项目级，装到各自写作/业务工作区（如 novels、papers）的 `.zcode/skills/`，产物目录直接建在工作区根下（paper/patent 用 `paper<NNN>` / `patent<NNN>` 三位零填充编号）；nex 系 → 用户级 `~/.zcode/skills/`（全局，任意工作区可触发 /nex-*）。
+当前部署布局：ark / social 系 → 用户级 `~/.agents/skills/`（全局）；novel / paper / patent / douyin 系 → 项目级，装到各自写作/业务工作区（如 novels、papers）的 `.zcode/skills/`，产物目录直接建在工作区根下（paper/patent 用 `paper<NNN>` / `patent<NNN>` 三位零填充编号）；nex 系 → 用户级 `~/.zcode/skills/`（全局，任意工作区可触发 /nex-*）。
 
 改技能一律改本源仓库再 `--deploy` 同步，不要直接改安装侧。各工作区的 AGENTS.md 由 `scripts/emit_agents_md.py` 统一生成（全局纪律 + 家族链条），改纪律改脚本重新生成。
 
@@ -127,7 +136,7 @@ py scripts/emit_agents_md.py --check # AGENTS.md 与生成源是否一致
 
 `scripts/trigger_cases.md` 是触发回归用例集（典型话术 → 期望技能，含歧义与跨家族抑制用例）：**改任何 description 前后各核对一遍**，防触发漂移。
 
-`llms.txt` 是给 Agent 看的仓库说明书（六家族 40 技能一行式索引、依赖关系、边界），安装或检索本仓库的 Agent 优先读它。
+`llms.txt` 是给 Agent 看的仓库说明书（七家族 42 技能一行式索引、依赖关系、边界），安装或检索本仓库的 Agent 优先读它。
 
 ## 密钥配置
 
@@ -206,10 +215,14 @@ agent-skills/
     │   └── scripts/count_han.sh
     └── novel-cover/        # 封面生成
         └── scripts/（gen_cover.sh / overlay_text.py / check_edges.py）
-└── douyin-skills/
-    ├── douyin-video-analysis/     # 单视频下载与深度剖析
-    │   ├── SKILL.md
-    │   └── scripts/fetch.sh       # 短链解析 / 带校验下载 / 抽音轨
-    └── douyin-account-analysis/   # 账号级深度分析
-        └── SKILL.md
+├── douyin-skills/
+│   ├── douyin-video-analysis/     # 单视频下载与深度剖析
+│   │   ├── SKILL.md
+│   │   └── scripts/fetch.sh       # 短链解析 / 带校验下载 / 抽音轨
+│   └── douyin-account-analysis/   # 账号级深度分析
+│       └── SKILL.md
+└── social-skills/
+    └── social-cards/              # 贴图组 + 发布文案（不含内容收集）
+        ├── SKILL.md
+        └── scripts/（cardkit.py / example_deck.py）
 ```
