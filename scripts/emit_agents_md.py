@@ -37,7 +37,9 @@ DISCIPLINES = """## 全局纪律（所有技能工作流通用）
   `~/.zcode/agents/` 或 `.zcode/agents/` 下的定义，并跑 `py <repo>/scripts/scan_skills.py`。
 
 ### 技能维护
-本目录技能安装自 `agent-skills` 源仓库；改技能请改源仓库后执行
+本目录技能安装自 `agent-skills` 源仓库，**唯一安装目录是本工作区的 `.zcode/skills/`**
+（`deploy.json` 的既定目标；`.agents/skills/` 不是安装目录，勿在其下放任何技能副本——
+同名双副本会加载旧版、改而不生效，发现即删）。改技能请改源仓库后执行
 `py <repo>/scripts/deploy.py --deploy` 同步，勿直接改安装侧（会被部署器判为冲突）。
 """
 
@@ -58,7 +60,7 @@ FAMILIES = {
                  "（`/novel-worldview` `/novel-characters` `/novel-style`）→ `/novel-volume` 卷纲 → "
                  "`/novel-opening` 黄金三章 → `/novel-chapter` 逐章正文（顺序循环，严禁并行写多章）→ "
                  "`/novel-cover` 封面。已有成书可随时 `/novel-deconstruct` 拆书逆向（六层拆解 + 跨书指令库）。"
-                 "正文硬门槛：≥2000 纯汉字、每章爽点、章末钩子、AIGC 检测达标。",
+                 "正文硬门槛：每章 2200–2500 字（非空白字符口径，含标点，与线上 word_count 一致；不足扩写、超长删减）、每章爽点、章末钩子、AIGC 检测达标。",
         "artifact": "产物根：`books/<book>/`；状态文件：`books/<book>/progress.md`（伏笔台账 + 章节进度，"
                     "novel 系技能已内置维护，重入必读）。",
         "skills": "本区已安装：research / outline / worldview / characters / style / volume / opening / chapter / cover / deconstruct（10 个）。",
