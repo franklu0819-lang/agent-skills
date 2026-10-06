@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>公众号次图封面 500×500</title>
+<style>
+  :root {
+    /* 品牌色板 v2：详见 assets/brand.md */
+    --bg-deep: #04142B;
+    --bg: #0B3355;
+    --brand: #82DEF5;
+    --gold: #F2D183;
+    --fg: #F2FAF9;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 500px; height: 500px; overflow: hidden; }
+  body {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(150deg, var(--bg-deep), var(--bg));
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center;
+  }
+  .main {
+    font-size: 96px; line-height: 1.3; font-weight: 700;
+    color: var(--fg); letter-spacing: 4px;
+  }
+  .main em { font-style: normal; color: var(--brand); }
+  .bar { width: 120px; height: 12px; background: var(--gold); border-radius: 6px; margin: 40px auto 28px; }
+  .brand { font-size: 30px; color: var(--fg); letter-spacing: 6px; opacity: 0.75; }
+</style>
+</head>
+<body>
+  <div class="main">【两个词<br>以内】<br><em>【重点词】</em></div>
+  <div class="bar"></div>
+  <div class="brand">【品牌名】</div>
+</body>
+</html>

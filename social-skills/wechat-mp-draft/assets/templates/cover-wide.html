@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>公众号首图封面 900×383</title>
+<style>
+  :root {
+    /* 品牌色板 v2：提取自公众号头像（XIAOFEI'S AI BUSINESS NOTES），详见 assets/brand.md */
+    --bg-deep: #04142B;    /* 背景渐变起点（近黑深蓝） */
+    --bg: #0B3355;         /* 背景渐变终点（深海军蓝） */
+    --brand: #82DEF5;      /* 电光青蓝：重点词、装饰亮端 */
+    --brand-deep: #17547D; /* 青蓝暗端 */
+    --gold: #F2D183;       /* 金色：结构性点缀（标签、圆环） */
+    --fg: #F2FAF9;         /* 主文字（青调白） */
+    --fg-sub: rgba(242, 250, 249, 0.62);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 900px; height: 383px; overflow: hidden; }
+  body {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, var(--bg-deep), var(--bg));
+    display: flex;
+  }
+  .left {
+    width: 600px; padding: 48px 20px 48px 56px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .tag {
+    align-self: flex-start;
+    background: var(--gold); color: var(--bg-deep);
+    font-size: 22px; line-height: 1; letter-spacing: 2px; font-weight: 700;
+    padding: 10px 18px; border-radius: 6px; margin-bottom: 26px;
+  }
+  h1 { font-size: 58px; line-height: 1.28; color: var(--fg); font-weight: 700; letter-spacing: 1px; white-space: nowrap; }
+  h1 em { font-style: normal; color: var(--brand); }
+  .sub { margin-top: 22px; font-size: 27px; color: var(--fg-sub); letter-spacing: 1px; }
+  .right {
+    flex: 1; position: relative;
+    background: linear-gradient(160deg, var(--brand-deep), #46B4DC 85%, var(--brand));
+    clip-path: polygon(22% 0, 100% 0, 100% 100%, 0 100%);
+  }
+  .right::after {
+    content: ""; position: absolute; right: 48px; bottom: 36px;
+    width: 132px; height: 132px; border-radius: 50%;
+    border: 16px solid var(--gold);
+  }
+  .right::before {
+    content: ""; position: absolute; right: 140px; top: 56px;
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--gold);
+  }
+</style>
+</head>
+<body>
+  <div class="left">
+    <span class="tag">【栏目标签】</span>
+    <h1>【主标题一行】<br><em>【重点词】</em>【尾】</h1>
+    <div class="sub">【副标题：一句话补充说明】</div>
+  </div>
+  <div class="right"></div>
+</body>
+</html>

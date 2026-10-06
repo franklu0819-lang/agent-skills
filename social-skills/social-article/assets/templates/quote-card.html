@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>金句卡 / 朋友圈图 1080×1080</title>
+<style>
+  :root {
+    /* 品牌色板 v2：详见 assets/brand.md */
+    --bg-deep: #04142B;
+    --bg: #0B3355;
+    --brand: #82DEF5;      /* 重点词强调色 */
+    --gold: #F2D183;       /* 引号、装饰线 */
+    --fg: #F2FAF9;
+    --fg-sub: rgba(242, 250, 249, 0.62);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1080px; overflow: hidden; }
+  body {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(160deg, var(--bg-deep) 0%, var(--bg) 75%, #103F66 200%);
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 0 120px; position: relative;
+  }
+  .quote-mark {
+    font-size: 200px; line-height: 1; color: var(--gold);
+    font-family: Georgia, "Times New Roman", serif;
+    height: 120px;
+  }
+  .quote {
+    font-size: 60px; line-height: 1.6; color: var(--fg);
+    font-weight: 600; letter-spacing: 2px; max-width: 840px;
+  }
+  .quote em { font-style: normal; color: var(--brand); }
+  .byline { margin-top: 72px; display: flex; align-items: center; gap: 24px; }
+  .byline .dash { width: 88px; height: 6px; background: var(--gold); border-radius: 3px; }
+  .byline .name { font-size: 30px; color: var(--fg-sub); letter-spacing: 4px; }
+</style>
+</head>
+<body>
+  <div class="quote-mark">“</div>
+  <div class="quote">【金句正文，最多三行，<em>【重点词】</em>用强调色标出】</div>
+  <div class="byline">
+    <div class="dash"></div>
+    <div class="name">【署名 / 品牌名 / 公众号名】</div>
+  </div>
+</body>
+</html>

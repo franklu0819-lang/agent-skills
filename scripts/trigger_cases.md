@@ -4,7 +4,7 @@
 实际触发的技能必须与「期望」一致。任何一条变了，先判断是 wording 改坏了还是预期本该更新，
 再改 description——触发漂移是技能仓库最常见的静默退化。
 
-覆盖已部署家族（ark 用户级 + paper/novel/patent/douyin 项目级）。nex 未部署，不在触发面内。
+覆盖已部署家族（ark、social 用户级 + paper/novel/patent/douyin 项目级）。nex 未部署，不在触发面内。
 
 ## paper 系（papers 工作区）
 
@@ -68,6 +68,13 @@
 | S2 | 内容都在这份文件里（给定路径），出一组公众号图文卡片和发布文案 | social-cards（直接用给定内容，不重新调研） |
 | S3 | （缺内容）「做一套 XX 发布的贴图」但对话里没有任何要点/数据 | social-cards 触发后先停下要素材或先调研，不得编造数据产图 |
 | S4 | （分界）「生成一张 16:9 海报图」「画一只猫」 | ark-image-gen（无卡组 + 文案交付诉求，不触发 social-cards） |
+| S5 | 帮我写一篇公众号文章，讲讲 XX | social-article |
+| S6 | 给这篇内容出 3 个公众号标题（标注当量）+ 摘要 | social-article |
+| S7 | 写一篇头条号文章 / 头条文章 | social-article |
+| S8 | 把这篇文章排版好，提交到公众号草稿箱 | wechat-mp-draft |
+| S9 | 给公众号文章做个封面图 | wechat-mp-draft（封面在其职责内；只要图不提交时走其 cover 流程） |
+| S10 | （分界）「公众号文章配图」 | 按形态路由：3:4 卡组 → social-cards；正文横幅/金句卡 → social-article |
+| S11 | （分界）「把文章直接发出去 / 群发」 | wechat-mp-draft 只到草稿箱，须说明发布需后台手动操作 |
 
 ## 跨家族抑制（不该触发的）
 

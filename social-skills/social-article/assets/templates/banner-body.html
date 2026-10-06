@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>正文小节横幅 900×500</title>
+<style>
+  :root {
+    /* 品牌色板 v2：详见 assets/brand.md */
+    --bg-deep: #04142B;
+    --bg: #0B3355;
+    --brand: #82DEF5;
+    --gold: #F2D183;
+    --fg: #F2FAF9;
+    --fg-sub: rgba(242, 250, 249, 0.62);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 900px; height: 500px; overflow: hidden; }
+  body {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(150deg, var(--bg-deep), var(--bg));
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 0 72px; position: relative;
+  }
+  .num {
+    font-size: 120px; font-weight: 800; line-height: 1;
+    color: transparent; -webkit-text-stroke: 4px var(--brand);
+    letter-spacing: 4px;
+  }
+  h1 { margin-top: 26px; font-size: 68px; line-height: 1.3; color: var(--fg); font-weight: 700; }
+  h1 em { font-style: normal; color: var(--brand); }
+  .sub { margin-top: 20px; font-size: 28px; color: var(--fg-sub); letter-spacing: 1px; }
+  .rule {
+    position: absolute; left: 72px; bottom: 56px;
+    width: 320px; height: 6px; border-radius: 3px;
+    background: linear-gradient(90deg, var(--gold) 0 96px, var(--brand) 96px);
+  }
+</style>
+</head>
+<body>
+  <div class="num">01</div>
+  <h1>【小节主标题：<em>【重点词】</em>】</h1>
+  <div class="sub">【一句话说明本节内容】</div>
+  <div class="rule"></div>
+</body>
+</html>

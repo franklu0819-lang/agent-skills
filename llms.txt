@@ -1,10 +1,10 @@
 # agent-skills
 
-> 面向 ZCode 等 Agent CLI 的中文技能仓库：7 个家族 42 个技能，全部为真实生产工作流沉淀（非演示）。按家族分目录组织（`<家族>-skills/<技能名>/SKILL.md` + 可选 scripts/references），装到 `~/.agents/skills/`（用户级）或 `<项目>/.zcode/skills/`（项目级）即可使用。
+> 面向 ZCode 等 Agent CLI 的中文技能仓库：7 个家族 44 个技能，全部为真实生产工作流沉淀（非演示）。按家族分目录组织（`<家族>-skills/<技能名>/SKILL.md` + 可选 scripts/references），装到 `~/.agents/skills/`（用户级）或 `<项目>/.zcode/skills/`（项目级）即可使用。
 
 ## 快速事实
 
-- 7 家族：ark（火山方舟生成系 5）/ patent（专利全流程 5）/ novel（网文创作 10）/ paper（学术论文 7）/ nex（产品研发 12）/ douyin（抖音内容调研 2）/ social（社媒图文 1）
+- 7 家族：ark（火山方舟生成系 5）/ patent（专利全流程 5）/ novel（网文创作 10）/ paper（学术论文 7）/ nex（产品研发 12）/ douyin（抖音内容调研 2）/ social（社媒图文 3）
 - 认证一律走环境变量：`ARK_API_KEY`（方舟数据面，ark- 前缀）、`SPEECH_API_KEY`（豆包语音，UUID）；技能与脚本不读取、不存储、不落盘任何密钥
 - 结构契约：`py scripts/scan_skills.py` 校验全仓库（frontmatter 键集、name 与目录一致、引用文件存在、跨技能依赖声明、subagent 派发引用可解析）；agent 定义校验 `py scripts/scan_agents.py`；部署用 `py scripts/deploy.py --deploy`
 - 语言：文档与技能正文以中文为主
@@ -66,12 +66,16 @@
 
 ### social-skills — 社媒图文（用户级；依赖用户级 ark-image-gen）
 - `social-cards` — 贴图+文案：给定内容要点 → 3:4 信息卡组（AI 无字背景 + PIL 本地排版 + 视觉验收闭环）+ 小红书/公众号文案包（不含内容收集）
+- `social-article` — 文章内容包：公众号/头条号标题候选（≤20 汉字当量脚本校验）、正文、摘要、正文配图（横幅/金句卡模板渲染 + AI 无字图；只产内容不提交）
+- `wechat-mp-draft` — 公众号草稿提交：受限 Markdown → 内联样式 HTML（typeset.py）→ 封面（模板/AI 生图）→ mp_submit.py 上传正文图与封面素材并 draft/add 进草稿箱（只到草稿箱，不发布）
 
 ## 跨技能依赖
 
 - `douyin-*` → `ark-asr`（转写；定位顺序见技能内说明，支持 $ARK_ASR_HOME）
 - `douyin-*` → chrome-devtools MCP（真实浏览器；纯 curl 拿不到抖音数据）
 - `social-cards` → `ark-image-gen`（3:4 无文字背景生成；文字一律本地排版，不进 AI 生成环节）
+- `social-article` → `ark-image-gen`（AI 配图）+ chrome-devtools MCP（模板渲染出图）
+- `wechat-mp-draft` → `social-article`（上游成稿）+ `ark-image-gen`（AI 封面）+ chrome-devtools MCP（模板渲染）
 - `novel-chapter` / `novel-opening` → 外部技能 `aigc-detect`（不在本仓库；朱雀文本检测）
 - `novel-opening` → `novel-chapter`（字数统计脚本与 AIGC 流程复用）
 
