@@ -66,6 +66,24 @@ bash <ark-image-gen技能目录>/scripts/image_gen.sh "$STYLE，<每张不同的
 事实核对清单（贴图每处表述 ↔ 来源逐条对应）｜常见疑问预答（预判评论区质疑并给准确答案）。
 **图文口径必须一致**：图里改了数字/译法，同步改文案。
 
+**公众号发布文字硬限制：≤ 1000 汉字当量**（公众号图片消息形态的文字上限）。当量口径与标题一致：
+汉字/全角标点 =1，英文字母/数字/半角符号 =0.5。交付前必须脚本验证（预期 ≈950~1000，超限即改）：
+
+```bash
+python3 - <<'EOF'
+import unicodedata, re
+text = open("文案.md", encoding="utf-8").read()
+m = re.search(r"\*\*正文（整段显示在贴图组下方[^*]*\*\*\n(.*?)\n---", text, re.S)
+clean = "".join(ln.lstrip("> ").rstrip() + "\n" for ln in m.group(1).splitlines() if ln.strip())
+t = clean.replace("\n", "")
+total = sum(1 if unicodedata.east_asian_width(c) in ("F", "W") else 0.5 for c in t)
+print("汉字当量: %.1f / 1000 -> %s" % (total, "OK" if total <= 1000 else "OVER"))
+EOF
+```
+
+超限时只精简行文（连接词、重复表述、冗余修饰），**不得砍关键事实与口径限定**；
+标题候选、导语（≤120 字）、事实核对清单、疑问预答不占该额度。
+
 ## 环境
 
 - Windows + Git Bash；Python 用 `py -3` 调用
