@@ -1,12 +1,37 @@
 {
   "_comment": "deploy.py 部署清单。{HOME}=用户主目录，{PROJECT}=本仓库的父目录。dest 指向技能安装目录（其下每个子目录是一个技能）。",
   "targets": [
-    { "family": "nex-skills",   "dest": "{HOME}/.zcode/skills" },
-    { "family": "ark-skills",    "dest": "{HOME}/.agents/skills" },
-    { "family": "social-skills", "dest": "{HOME}/.agents/skills" },
-    { "family": "paper-skills",  "dest": "{PROJECT}/papers/.zcode/skills" },
-    { "family": "novel-skills",  "dest": "{PROJECT}/novels/.zcode/skills" },
-    { "family": "patent-skills", "dest": "{PROJECT}/patents/.zcode/skills" },
-    { "family": "douyin-skills", "dest": "{PROJECT}/douyin/.zcode/skills" }
+    {
+      "family": "nex-skills",
+      "dest": "{HOME}/.zcode/skills"
+    },
+    {
+      "family": "ark-skills",
+      "dest": "{HOME}/.agents/skills"
+    },
+    {
+      "family": "social-skills",
+      "dest": "{HOME}/.zcode/skills"
+    },
+    {
+      "family": "paper-skills",
+      "dest": "{PROJECT}/papers/.zcode/skills"
+    },
+    {
+      "family": "novel-skills",
+      "dest": "{PROJECT}/novels/.zcode/skills"
+    },
+    {
+      "family": "patent-skills",
+      "dest": "{PROJECT}/patents/.zcode/skills"
+    },
+    {
+      "family": "douyin-skills",
+      "dest": "{PROJECT}/douyin/.zcode/skills"
+    },
+    {
+      "family": "tut-skills",
+      "dest": "{PROJECT}/tutorials/.zcode/skills"
+    }
   ]
 }

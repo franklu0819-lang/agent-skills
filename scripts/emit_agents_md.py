@@ -83,6 +83,16 @@ FAMILIES = {
         "artifact": "产物：分析报告按主题落盘（如 `reports/<主题>/`），单视频剖析产物随视频目录组织。",
         "skills": "本区已安装：video-analysis / account-analysis（2 个）。",
     },
+    "tutorials": {
+        "title": "课程视频工作区（tut-skills）",
+        "chain": "链条：`jargon-anim` 技能（自动触发，非斜杠命令）端到端制作「AI 黑话图鉴」系列动画课："
+                 "文案分镜（GATE 用户过目）→ 复刻音色逐句配音（ark-tts，裁静音）→ 确定性 HTML 动画 → "
+                 "puppeteer 逐帧渲染 → ffmpeg 合成烧录字幕。软件操作录屏教程走用户级 video-tutorial-gen 技能。",
+        "artifact": "产物根：`AI黑话/第NN期-主题/`（一期一目录，含 script.json/timeline.json/anim/ 与成片 "
+                    "`AI黑话图鉴-EP{NN}-{slug}.mp4`）。状态文件：每期目录 `STATUS.md`。"
+                    "事实口径（如 1 token ≈ 1.3~1.6 汉字）以系列记忆与 SKILL.md 为准，数字引用必查证。",
+        "skills": "本区已安装：jargon-anim（1 个）。",
+    },
 }
 
 HEADER = "<!-- 本文件由 agent-skills/scripts/emit_agents_md.py 生成，勿手改；改纪律/链条请改脚本后重新生成。 -->\n"

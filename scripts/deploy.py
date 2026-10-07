@@ -17,6 +17,7 @@
     py scripts/deploy.py --init            # 为现有安装记录基线（不覆盖任何文件）
     py scripts/deploy.py --deploy          # 同步（新增/安全更新；冲突跳过并报告）
     py scripts/deploy.py --deploy --force  # 冲突也覆盖（热修内容先备份）
+    py scripts/deploy.py --deploy --family social-skills  # 只处理指定家族（可多次给）
 """
 import os
 import sys
@@ -81,11 +82,14 @@ def main():
     g.add_argument("--init", action="store_true", help="记录安装基线，不覆盖文件")
     g.add_argument("--deploy", action="store_true", help="同步源到安装目录")
     ap.add_argument("--force", action="store_true", help="冲突时备份后覆盖")
+    ap.add_argument("--family", action="append", help="只处理指定家族（可多次给）")
     args = ap.parse_args()
 
     conflicts, updated, inited, extra_report = 0, 0, 0, 0
 
     for family, dest in load_targets():
+        if args.family and family not in args.family:
+            continue
         fam_dir = os.path.join(REPO_ROOT, family)
         src_skills = sorted(d for d in os.listdir(fam_dir)
                             if os.path.isdir(os.path.join(fam_dir, d))

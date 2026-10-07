@@ -116,9 +116,10 @@ py scripts/deploy.py --status    # 看漂移：源/安装侧/基线三方对比
 py scripts/deploy.py --init      # 首次对现有安装记录基线（不覆盖任何文件）
 py scripts/deploy.py --deploy    # 同步：已同步跳过 / 源更新安全覆盖 / 安装侧热修报冲突
 py scripts/deploy.py --deploy --force  # 冲突时备份热修为 <技能>.bak.<hash8> 后覆盖
+py scripts/deploy.py --deploy --family social-skills  # 只同步指定家族（可多次给）
 ```
 
-当前部署布局：ark / social 系 → 用户级 `~/.agents/skills/`（全局）；novel / paper / patent / douyin 系 → 项目级，装到各自写作/业务工作区（如 novels、papers）的 `.zcode/skills/`，产物目录直接建在工作区根下（paper/patent 用 `paper<NNN>` / `patent<NNN>` 三位零填充编号）；nex 系 → 用户级 `~/.zcode/skills/`（全局，任意工作区可触发 /nex-*）。
+当前部署布局：ark 系 → 用户级 `~/.agents/skills/`（全局）；novel / paper / patent / douyin 系 → 项目级，装到各自写作/业务工作区（如 novels、papers）的 `.zcode/skills/`，产物目录直接建在工作区根下（paper/patent 用 `paper<NNN>` / `patent<NNN>` 三位零填充编号）；nex / social 系 → 用户级 `~/.zcode/skills/`（全局，任意工作区可触发 /nex-* 与 social 系技能）。
 
 改技能一律改本源仓库再 `--deploy` 同步，不要直接改安装侧。各工作区的 AGENTS.md 由 `scripts/emit_agents_md.py` 统一生成（全局纪律 + 家族链条），改纪律改脚本重新生成。
 
