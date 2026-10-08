@@ -1,11 +1,11 @@
 # agent-skills
 
-> 面向 ZCode 等 Agent CLI 的中文技能仓库：7 个家族 44 个技能，全部为真实生产工作流沉淀（非演示）。按家族分目录组织（`<家族>-skills/<技能名>/SKILL.md` + 可选 scripts/references），装到 `~/.agents/skills/`（用户级）或 `<项目>/.zcode/skills/`（项目级）即可使用。
+> 面向 ZCode 等 Agent CLI 的中文技能仓库：10 个家族 55 个技能，全部为真实生产工作流沉淀（非演示）。按家族分目录组织（`<家族>-skills/<技能名>/SKILL.md` + 可选 scripts/references），装到 `~/.agents/skills/`（用户级）或 `<项目>/.zcode/skills/`（项目级）即可使用。
 
 ## 快速事实
 
-- 7 家族：ark（火山方舟生成系 5）/ patent（专利全流程 5）/ novel（网文创作 10）/ paper（学术论文 7）/ nex（产品研发 12）/ douyin（抖音内容调研 2）/ social（社媒图文 3）
-- 认证一律走环境变量：`ARK_API_KEY`（方舟数据面，ark- 前缀）、`SPEECH_API_KEY`（豆包语音，UUID）；技能与脚本不读取、不存储、不落盘任何密钥
+- 10 家族：ark（火山方舟生成系 5）/ glm（智谱 GLM 系 5）/ minimax（MiniMax 海螺系 5）/ patent（专利全流程 5）/ novel（网文创作 10）/ paper（学术论文 7）/ nex（产品研发 12）/ douyin（抖音内容调研 2）/ social（社媒图文 3）/ tut（科普动画 1）
+- 认证一律走环境变量：`ARK_API_KEY`（方舟数据面，ark- 前缀）、`ARK_SPEECH_API_KEY`（豆包语音，UUID，兼容旧名 SPEECH_API_KEY）、`ZHIPU_API_KEY`（智谱开放平台 GLM 系，glm- 家族统一只认此变量）、`MINIMAX_API_KEY`（MiniMax 开放平台 api.minimax.cn，minimax- 家族统一只认此变量；国内/海外两站 Key 独立）；技能与脚本不读取、不存储、不落盘任何密钥
 - 结构契约：`py scripts/scan_skills.py` 校验全仓库（frontmatter 键集、name 与目录一致、引用文件存在、跨技能依赖声明、subagent 派发引用可解析）；agent 定义校验 `py scripts/scan_agents.py`；部署用 `py scripts/deploy.py --deploy`
 - 语言：文档与技能正文以中文为主
 
@@ -17,6 +17,20 @@
 - `ark-audio-gen` — 音频创作：一条提示词直出多角色对白+情绪+BGM+音效音轨（约 2 分钟内）
 - `ark-image-gen` — 文生图/图生图/组图/多图层拆分，指定比例与分辨率
 - `ark-video-gen` — 文生视频/图生视频/参考生视频，内置省钱纪律与跨片段一致性方法论
+
+### glm-skills — 智谱开放平台 GLM 系（用户级）
+- `glm-tts` — 语音合成：7 系统音色带情感朗读，长文本自动分段拼接，支持复刻音色
+- `glm-tts-clone` — 音色复刻：上传 3~30 秒参考音频（mp3/wav）API 复刻出专属音色 ID，附列表/试听/删除管理；复刻 ID 交 glm-tts --voice 朗读（造音色 vs 用音色朗读分工）
+- `glm-asr` — 语音识别：本地音频/URL 转文字，超 30 秒自动分段+段间上下文接力，热词表、方言与中英混说（通用转写/说话人分离走 ark-asr）
+- `glm-ocr` — 文档解析：图片/PDF/URL 转 Markdown，手写/印章/公式/复杂表格（HTML 直出），可带布局坐标
+- `glm-image-gen` — 文生图：旗舰画质 + 中英文文字渲染 SOTA（海报标题/招牌/图文不乱码），比例推荐档或 32 对齐自定义，0.1 元/张；仅文生图，图生图/组图/拆层走 ark-image-gen
+
+### minimax-skills — MiniMax 开放平台·海螺系（用户级，生成系 5 技能；文本模型不设技能，需要时由会话模型直连其 OpenAI 兼容端点）
+- `minimax-tts` — 语音合成：speech-2.8 系列，327 系统音色精选 10 个内置，emotion/pitch/多音色混合/停顿标记/发音字典，长文本分段断点续跑（hex 解码 + PCM 拼接）
+- `minimax-tts-clone` — 音色复刻：上传 10 秒–5 分钟参考音频复刻出自定义命名音色 ID（¥9.90/音色，需实名），列表/试听/删除管理；注意复刻音色 7 天不调用会被删
+- `minimax-asr` — 语音识别：asr-1.0，说话人分离（verbose-json）、SRT/VTT 直出、词级时间戳、20 种语言混合识别，超 500 秒自动 ffmpeg 分段并修正时间轴（仅文件输入）
+- `minimax-image-gen` — 文生图/主体参考图生图：image-01，八档比例或自定义像素（512-2048），一次 9 张，固定种子复现，image-01-live 风格化（国内站）
+- `minimax-video-gen` — 视频生成：v2 MiniMax-H3/H3-Max（4-15s 最高 2K，按秒计费）+ v1 Hailuo-2.3/02 legacy 便宜档（512P ¥0.6/条），任务创建→轮询→下载一条龙，内置成本预估与"模型×分辨率×时长"矩阵校验
 
 ### patent-skills — 专利全流程（项目级）
 - `patent-disclosure` — 技术交底书：从想法/代码库挖掘发明点并审查充分公开
@@ -68,6 +82,9 @@
 - `social-cards` — 贴图+文案：给定内容要点 → 3:4 信息卡组（AI 无字背景 + PIL 本地排版 + 视觉验收闭环）+ 小红书/公众号文案包（不含内容收集）
 - `social-article` — 文章内容包：公众号/头条号标题候选（≤20 汉字当量脚本校验）、正文、摘要、正文配图（横幅/金句卡模板渲染 + AI 无字图；只产内容不提交）
 - `wechat-mp-draft` — 公众号草稿提交：受限 Markdown → 内联样式 HTML（typeset.py）→ 封面（模板/AI 生图）→ mp_submit.py 上传正文图与封面素材并 draft/add 进草稿箱（只到草稿箱，不发布）
+
+### tut-skills — 科普动画（项目级：装到 tutorials 工作区）
+- `jargon-anim` — 「AI 黑话图鉴」系列科普动画：文案分镜 → ark-tts 复刻音色配音 → HTML/JS 动画逐帧渲染 → ffmpeg 合成烧录字幕（本地渲染，不烧云端视频模型）
 
 ## 跨技能依赖
 

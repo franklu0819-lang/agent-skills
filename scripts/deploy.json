@@ -10,6 +10,14 @@
       "dest": "{HOME}/.agents/skills"
     },
     {
+      "family": "glm-skills",
+      "dest": "{HOME}/.agents/skills"
+    },
+    {
+      "family": "minimax-skills",
+      "dest": "{HOME}/.agents/skills"
+    },
+    {
       "family": "social-skills",
       "dest": "{HOME}/.zcode/skills"
     },

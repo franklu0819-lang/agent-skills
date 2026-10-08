@@ -4,7 +4,7 @@
 实际触发的技能必须与「期望」一致。任何一条变了，先判断是 wording 改坏了还是预期本该更新，
 再改 description——触发漂移是技能仓库最常见的静默退化。
 
-覆盖已部署家族（ark、social 用户级 + paper/novel/patent/douyin 项目级）。nex 未部署，不在触发面内。
+覆盖已部署家族（ark、glm、social、minimax 用户级 + paper/novel/patent/douyin 项目级）。nex 未部署，不在触发面内。
 
 ## paper 系（papers 工作区）
 
@@ -59,6 +59,41 @@
 | A3 | 生成一张 16:9 的海报配图 | ark-image-gen |
 | A4 | 做一段 15 秒的文生视频 | ark-video-gen |
 | A5 | 做一段带 BGM 和多角色对白的广播剧片段 | ark-audio-gen（不是 ark-tts） |
+
+## glm 系（用户级，全局）
+
+| # | 用户话术 | 期望 |
+|---|---------|------|
+| G1 | 用智谱的 GLM-ASR 转写这个音频 / 用 glm-asr 把录音转文字 | glm-asr |
+| G2 | 这段录音带行业术语，配上热词转写 / 方言录音转文字 | glm-asr（热词/方言强项；无热词/方言诉求则 ark-asr） |
+| G3 | 用彤彤的声音把这段文字读出来 | glm-tts（点名智谱音色；未点名引擎的通用配音 → ark-tts） |
+| G4 | 识别这张发票/扫描件上的字，转成 Markdown | glm-ocr |
+| G5 | （分界）「转写这段录音」不带引擎指向 | ark-asr（通用默认），不得误触 glm-asr |
+| G6 | （分界）「语音转文字」但用户明确说别用豆包/火山 | glm-asr（当前唯一非火山 ASR） |
+| G7 | 这张图里的总金额是多少（单点信息问答，不要求全文） | 主 agent 直接视觉看图回答，不触发 glm-ocr；要整页精确转写/落盘 .md 时才用 glm-ocr |
+| G8 | 把这 50 页扫描 PDF 全文转成 Markdown 入库（RAG） | glm-ocr（大 PDF 先样本试跑再全量，--pages 拆段并行） |
+| G9 | 把图片里这个表格提出来，要能直接用的格式 | glm-ocr（表格直出 HTML `<table>`；按坐标取元素用 --json 的 layout_details） |
+| G10 | （跨家族分界）「把这段视频/音频里说的话弄成文字」 | ark-asr（语音）；glm-ocr 只管图片/PDF 的文字 |
+| G11 | 用这段录音在智谱复刻一个音色 / 把我的声音克隆给 GLM / 用 glm-tts-clone 复刻 | glm-tts-clone（点名智谱/GLM 的"造音色"） |
+| G12 | （分界）「用我的声音读这段话」（未指明引擎，已有复刻音色） | ark-tts（默认引擎+已有飞哥复刻音色）；明确要智谱侧复刻/已有 glm 复刻 ID 时才 glm-tts-clone→glm-tts 链路 |
+| G13 | （链路分界）「看看我在智谱复刻了哪些音色 / 删掉这个复刻音色」 | glm-tts-clone（--list/--delete 管"音色资产"）；「用某复刻音色朗读文本」→ glm-tts --voice <ID> |
+| G14 | 用智谱画一张海报 / 用 GLM 生图 / 用 glm-image 生成插画 | glm-image-gen（点名智谱/GLM 引擎的文生图） |
+| G15 | 做张海报，图上要有大字标题「限时特惠」且不能乱码 | glm-image-gen（中英文文字渲染是独门强项；要本地精确排版文字的贴图组才走 social-cards） |
+| G16 | （分界）「生成一张图片」不带引擎指向 | ark-image-gen（通用默认），不得误触 glm-image-gen |
+| G17 | （能力分界）「用智谱引擎把这张参考图改成雪山场景」 | glm-image 不支持图生图，引导走 ark-image-gen（Seedream 参考图）；仅当用户坚持智谱且只要文字描述重画时才 glm-image-gen |
+| G18 | （跨家族分界）「用 MiniMax/海螺画张图，保持这个角色长相」 | minimax-image-gen（主体参考一致性）；点名智谱 → glm-image-gen（无参考图能力） |
+
+## minimax 系（用户级，全局；2026-10-08 新增并部署，5 技能 API 全链路实测通过）
+
+| # | 用户话术 | 期望 |
+|---|---------|------|
+| M1 | 用海螺语音把这段文字读出来 / 用 MiniMax 的甜美女声配音 | minimax-tts（点名海螺/MiniMax 音色） |
+| M2 | （分界）「把这段文字读出来」不带引擎 | ark-tts（默认引擎），不得误触 minimax-tts |
+| M3 | 用 MiniMax 复刻我的声音 / 把这段录音克隆成海螺音色 | minimax-tts-clone |
+| M4 | 用 MiniMax 转写这段录音 / 海螺 ASR | minimax-asr（点名 MiniMax；通用转写默认 ark-asr） |
+| M5 | 用 image-01 画一张 16:9 的图 / MiniMax 生图 | minimax-image-gen |
+| M6 | 用海螺/Hailuo 做一段 6 秒视频 / 用 MiniMax-H3 生成视频 | minimax-video-gen |
+| M7 | （分界）「做一段 10 秒视频」不带引擎 | ark-video-gen（默认），不得误触 minimax-video-gen |
 
 ## social 系（用户级，全局）
 

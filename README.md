@@ -7,6 +7,8 @@
 | 目录 | 家族 | 内容 |
 |------|------|------|
 | [ark-skills/](ark-skills/) | 火山引擎方舟（Ark）/ 豆包系 | 语音、音频、图片、视频生成共 5 个技能 |
+| [glm-skills/](glm-skills/) | 智谱 GLM 系 | 语音合成、音色复刻、语音识别、文档解析 OCR、文生图共 5 个技能 |
+| [minimax-skills/](minimax-skills/) | MiniMax 海螺系 | 语音合成、音色复刻、语音识别、文生图、视频生成共 5 个技能 |
 | [patent-skills/](patent-skills/) | 专利全流程 | 交底、检索、权利要求、申请文件、OA 答复共 5 个技能 |
 | [novel-skills/](novel-skills/) | 网文创作全流程 | 调研、大纲、设定、卷纲、章节、拆书、封面共 10 个技能 |
 | [paper-skills/](paper-skills/) | 学术论文全流程 | 提案、综述、实验、撰写、修改、rebuttal、投稿共 7 个技能 |
@@ -25,6 +27,28 @@
 | [ark-audio-gen](ark-skills/ark-audio-gen/) | 音频创作：一条提示词直出含多角色对白、情绪、BGM、音效的成片音轨（约 2 分钟内） | Seed-Audio 1.0 |
 | [ark-image-gen](ark-skills/ark-image-gen/) | 文生图 / 图生图 / 组图 / 多图层拆分，支持指定比例与分辨率档位 | Seedream 全系（5.0 lite/flash/pro、4.5、4.0） |
 | [ark-video-gen](ark-skills/ark-video-gen/) | 文生视频 / 图生视频 / 参考生视频，内置本地参数校验、draft 先行、成本预估等省钱纪律，支持尾帧接力保持画面连续 | doubao-seedance-2-5 |
+
+## glm-skills：智谱 GLM 系技能
+
+| 技能 | 用途 | 默认模型/服务 |
+|------|------|---------------|
+| [glm-tts](glm-skills/glm-tts/) | 语音合成（TTS），7 个系统音色（彤彤/锤锤/小陈等）带情感朗读，长文本自动分段拼接，支持复刻音色 | glm-tts |
+| [glm-tts-clone](glm-skills/glm-tts-clone/) | 音色复刻：上传 3~30 秒参考音频，API 复刻出专属音色 ID（免控制台网页），配套列表/试听/删除管理，复刻 ID 交给 glm-tts 朗读 | glm-tts-clone |
+| [glm-asr](glm-skills/glm-asr/) | 语音识别（ASR），本地音频/URL 转文字，超 30 秒自动分段+上下文接力，支持热词表、方言与中英混说 | glm-asr-2512 |
+| [glm-ocr](glm-skills/glm-ocr/) | 文档解析 OCR：图片/PDF/URL 转 Markdown，手写体、印章、复杂表格（直出 HTML）、公式，返回布局明细与坐标，可批量、PDF 可拆页 | glm-ocr |
+| [glm-image-gen](glm-skills/glm-image-gen/) | 文生图：旗舰画质 + 中英文文字渲染 SOTA（海报大字/招牌/多格图文不乱码），比例推荐档或 32 对齐自定义，仅文生图（图生图走 ark-image-gen） | glm-image |
+
+## minimax-skills：MiniMax 海螺系技能
+
+覆盖 MiniMax 开放平台（api.minimax.cn）现役生成系全栈能力，与 ark/glm 家族按"点名引擎"分工（默认引擎仍走 ark/会话本体；文本模型不设技能，点名 MiniMax 文本模型时由会话模型直连其 OpenAI 兼容端点）。
+
+| 技能 | 用途 | 默认模型/服务 |
+|------|------|---------------|
+| [minimax-tts](minimax-skills/minimax-tts/) | 语音合成（TTS）：327 系统音色精选 10 个内置，emotion 情绪/pitch 音调/多音色混合/停顿标记/发音字典，长文本分段续跑 | speech-2.8-hd |
+| [minimax-tts-clone](minimax-skills/minimax-tts-clone/) | 音色复刻：上传 10 秒–5 分钟参考音频，API 复刻出自定义命名音色 ID（¥9.90/音色），配套列表/试听/删除；复刻 ID 交给 minimax-tts 朗读 | /v1/voice_clone |
+| [minimax-asr](minimax-skills/minimax-asr/) | 语音识别（ASR）：本地音频转文字，说话人分离、SRT/VTT 直出、词级时间戳，超 500 秒自动 ffmpeg 分段拼接 | asr-1.0 |
+| [minimax-image-gen](minimax-skills/minimax-image-gen/) | 文生图/主体参考图生图：八档比例或自定义像素，一次 9 张，固定种子复现，image-01-live 风格化 | image-01 |
+| [minimax-video-gen](minimax-skills/minimax-video-gen/) | 视频生成：v2 H3/H3-Max（4-15s 最高 2K 按秒计费）+ v1 Hailuo 便宜档（512P ¥0.6/条），任务创建→轮询→下载一条龙，内置成本预估与组合矩阵校验 | MiniMax-H3 |
 
 ## patent-skills：专利系技能
 
@@ -119,7 +143,7 @@ py scripts/deploy.py --deploy --force  # 冲突时备份热修为 <技能>.bak.<
 py scripts/deploy.py --deploy --family social-skills  # 只同步指定家族（可多次给）
 ```
 
-当前部署布局：ark 系 → 用户级 `~/.agents/skills/`（全局）；novel / paper / patent / douyin 系 → 项目级，装到各自写作/业务工作区（如 novels、papers）的 `.zcode/skills/`，产物目录直接建在工作区根下（paper/patent 用 `paper<NNN>` / `patent<NNN>` 三位零填充编号）；nex / social 系 → 用户级 `~/.zcode/skills/`（全局，任意工作区可触发 /nex-* 与 social 系技能）。
+当前部署布局：ark 系 → 用户级 `~/.agents/skills/`（全局）；glm 系 → 用户级 `~/.agents/skills/`（全局）；novel / paper / patent / douyin 系 → 项目级，装到各自写作/业务工作区（如 novels、papers）的 `.zcode/skills/`，产物目录直接建在工作区根下（paper/patent 用 `paper<NNN>` / `patent<NNN>` 三位零填充编号）；nex / social 系 → 用户级 `~/.zcode/skills/`（全局，任意工作区可触发 /nex-* 与 social 系技能）。
 
 改技能一律改本源仓库再 `--deploy` 同步，不要直接改安装侧。各工作区的 AGENTS.md 由 `scripts/emit_agents_md.py` 统一生成（全局纪律 + 家族链条），改纪律改脚本重新生成。
 
@@ -148,13 +172,15 @@ py scripts/emit_agents_md.py --check # AGENTS.md 与生成源是否一致
 | 环境变量 | 用途 | 获取方式 |
 |----------|------|----------|
 | `ARK_API_KEY` | 方舟数据面 API（图片/视频生成） | [火山方舟控制台](https://console.volcengine.com/ark)，`ark-` 开头 |
-| `SPEECH_API_KEY` | 豆包语音服务（TTS/ASR/音频创作），**方舟 ark- Key 本服务不认** | 豆包语音控制台 API Key 管理页，UUID 格式 |
+| `ARK_SPEECH_API_KEY` | 豆包语音服务（TTS/ASR/音频创作），**方舟 ark- Key 本服务不认**；兼容旧名 `SPEECH_API_KEY` | 豆包语音控制台 API Key 管理页，UUID 格式 |
+| `ZHIPU_API_KEY` | 智谱开放平台（GLM-TTS/GLM-ASR/GLM-OCR），glm- 家族统一只认此变量，**火山 Key 本服务不认** | [bigmodel.cn「API Keys」页](https://bigmodel.cn/usercenter/proj-mgmt/apikeys)，形如 `<32位hex>.<16位hex>` |
 
 写入 shell 配置即可（Windows Git Bash 为 `~/.bashrc`，zsh 为 `~/.zshrc`），脚本会自动解析：
 
 ```bash
 export ARK_API_KEY=ark-xxxxxxxx
-export SPEECH_API_KEY=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+export ARK_SPEECH_API_KEY=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+export ZHIPU_API_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxx
 ```
 
 ## 目录结构
@@ -178,6 +204,38 @@ agent-skills/
 │   └── ark-video-gen/    # 视频生成
 │       ├── SKILL.md
 │       └── scripts/ark_video.sh
+├── glm-skills/
+│   ├── glm-tts/          # 语音合成
+│   │   ├── SKILL.md
+│   │   └── scripts/tts.py
+│   ├── glm-tts-clone/    # 音色复刻
+│   │   ├── SKILL.md
+│   │   └── scripts/voice_clone.py
+│   ├── glm-asr/          # 语音识别
+│   │   ├── SKILL.md
+│   │   └── scripts/transcribe.py
+│   ├── glm-ocr/          # 文档解析 OCR
+│   │   ├── SKILL.md
+│   │   └── scripts/ocr.py
+│   └── glm-image-gen/    # 文生图
+│       ├── SKILL.md
+│       └── scripts/image_gen.py
+├── minimax-skills/
+│   ├── minimax-tts/        # 语音合成（speech-2.8）
+│   │   ├── SKILL.md
+│   │   └── scripts/tts.py
+│   ├── minimax-tts-clone/  # 音色复刻
+│   │   ├── SKILL.md
+│   │   └── scripts/voice_clone.py
+│   ├── minimax-asr/        # 语音识别（asr-1.0）
+│   │   ├── SKILL.md
+│   │   └── scripts/asr.py
+│   ├── minimax-image-gen/  # 文生图（image-01）
+│   │   ├── SKILL.md
+│   │   └── scripts/image_gen.py
+│   └── minimax-video-gen/  # 视频生成（H3/Hailuo）
+│       ├── SKILL.md
+│       └── scripts/video_gen.py
 ├── patent-skills/
 │   ├── patent-disclosure/  # 技术交底书
 │   ├── patent-priorart/    # 现有技术检索
