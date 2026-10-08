@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # 豆包录音文件识别大模型（Seed-ASR）：本地音频或 URL → 文字（直连豆包语音 API）。
-# 认证：环境变量 SPEECH_API_KEY，其次解析 ~/.zshrc 里的 export SPEECH_API_KEY；本脚本不读取、不存储任何密钥。
+# 认证：环境变量 ARK_SPEECH_API_KEY（旧名 SPEECH_API_KEY 兼容），其次解析 ~/.zshrc 里的同名 export（新名优先）；本脚本不读取、不存储任何密钥。
 # 注意：必须是豆包语音控制台的 UUID Key，方舟 ark- 开头的 Key 本服务不认；录音文件识别需在控制台开通。
 # 依赖：python3、curl、uuidgen
 set -euo pipefail
@@ -66,15 +66,18 @@ done
 fail() { printf '{"ok":false,"error":%s}\n' "$(python3 -c 'import sys,json;print(json.dumps(sys.argv[1]))' "$1")" >&2; exit 1; }
 
 find_api_key() {
-  if [ -n "${SPEECH_API_KEY:-}" ]; then printf '%s' "$SPEECH_API_KEY"; return 0; fi
+  if [ -n "${ARK_SPEECH_API_KEY:-}" ]; then printf '%s' "$ARK_SPEECH_API_KEY"; return 0; fi
+  if [ -n "${SPEECH_API_KEY:-}" ]; then printf '%s' "$SPEECH_API_KEY"; return 0; fi  # 旧名兼容
   local zshrc="${ZDOTDIR:-$HOME}/.zshrc"
   [ -f "$zshrc" ] || return 1
-  grep -E '^[[:space:]]*export[[:space:]]+SPEECH_API_KEY=' "$zshrc" | tail -1 \
-    | sed -E 's/^[[:space:]]*export[[:space:]]+SPEECH_API_KEY="?([^"#+[:space:]]*)"?[[:space:]]*(#.*)?$/\1/'
+  { grep -E '^[[:space:]]*export[[:space:]]+ARK_SPEECH_API_KEY=' "$zshrc" | tail -1
+    grep -E '^[[:space:]]*export[[:space:]]+SPEECH_API_KEY=' "$zshrc" | tail -1
+  } | head -1 \
+    | sed -E 's/^[[:space:]]*export[[:space:]]+(ARK_)?SPEECH_API_KEY="?([^"#+[:space:]]*)"?[[:space:]]*(#.*)?$/\2/'
 }
 
 API_KEY=$(find_api_key) || true
-[ -n "$API_KEY" ] || fail "缺少 API Key：请 export SPEECH_API_KEY=<豆包语音控制台 UUID Key>，或写入 ~/.zshrc（方舟 ark- Key 本服务不认）"
+[ -n "$API_KEY" ] || fail "缺少 API Key：请 export ARK_SPEECH_API_KEY=<豆包语音控制台 UUID Key>（旧名 SPEECH_API_KEY 仍兼容），或写入 ~/.zshrc（方舟 ark- Key 本服务不认）"
 
 RID="${QUERY_ID:-$(uuidgen | tr 'A-Z' 'a-z')}"
 

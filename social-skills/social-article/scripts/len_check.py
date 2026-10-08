@@ -3,16 +3,20 @@
 """标题/摘要长度校验（汉字当量口径，与 social-cards 技能一致）。
 
 当量口径：east_asian_width 为 F/W（汉字、全角标点）记 1，其余（字母/数字/半角
-符号）记 0.5。公众号标题既定上限 20 当量（接口硬上限 64 字仅是兜底）。
+符号）记 0.5。公众号文章标题上限 32 当量——微信按汉字 2 字符/英文 1 字符计、
+上限 64 字符，当量 ×2 恰好对齐；20 当量是贴图标题（social-cards）的版面限制，
+不适用于文章标题（2026-10-08 勘误）。
 
 用法：
-    python3 len_check.py title "标题一" "标题二"        # 公众号标题，默认 ≤20 当量
+    python3 len_check.py title "标题一" "标题二"        # 公众号标题，默认 ≤32 当量
     python3 len_check.py title --limit 30 "头条标题"    # 自定义上限（头条标题 5–30 字）
     python3 len_check.py digest "摘要文字"              # 摘要，默认 ≤120 当量
-    python3 len_check.py file copy.md                   # 自动抽取 标题候选/摘要 段校验
+    python3 len_check.py file 文案.md                   # 自动抽取 标题候选/摘要 段校验
 
-file 模式约定（copy.md 既定结构）：`## 标题候选` 段每行 `1. （手法）标题` 按 20
-当量；`## 头条标题候选` 段按 30 当量；`## 摘要` 段整段按 120 当量。
+file 模式约定（文案.md 既定结构，旧名 copy.md 同样适用）：`## 标题候选` 段每行
+`1. （手法）标题` 按 32 当量；`## 头条标题候选` 段按 30 当量；`## 摘要` 段整段按
+120 当量。标题行的行尾当量注记（`—— 17.0 当量` / `（17.0 当量）`）自动剥离，
+不计入长度。
 退出码：0 全部通过；1 有超限或什么都没校验到。结果走 stdout，错误走 stderr。
 """
 import re
@@ -62,6 +66,9 @@ def title_lines(sec_text):
         if not m:
             continue
         t = re.sub(r"^[（(][^（）()]*[)）]\s*", "", m.group(1).strip())
+        # 行尾当量注记（「—— 17.0 当量」「（17.0 当量）」）是给人看的，剥离后再校验
+        t = re.sub(r"[ \t]*[——-]+[ \t]*\d+(?:\.\d+)?\s*当量$", "", t)
+        t = re.sub(r"[ \t]*[（(]\d+(?:\.\d+)?\s*当量[)）]$", "", t)
         t = t.replace("**", "").strip()
         if t:
             out.append(t)
@@ -78,7 +85,7 @@ def main():
 
     if mode == "title":
         rest = args[1:]
-        limit = 20.0
+        limit = 32.0
         if "--limit" in rest:
             k = rest.index("--limit")
             if k + 1 >= len(rest):
@@ -100,7 +107,7 @@ def main():
 
     elif mode == "file":
         if len(args) < 2:
-            print("file 模式需要 copy.md 路径", file=sys.stderr)
+            print("file 模式需要文章 md 路径（文案.md / copy.md）", file=sys.stderr)
             return 1
         with open(args[1], encoding="utf-8") as f:
             md = f.read()
@@ -110,7 +117,7 @@ def main():
             ts = title_lines(sec)
             if ts:
                 found = True
-                results += [check("公众号标题 %d" % (k + 1), t, 20.0) for k, t in enumerate(ts)]
+                results += [check("公众号标题 %d" % (k + 1), t, 32.0) for k, t in enumerate(ts)]
         sec = section(md, "标题候选", require="头条")
         if sec is not None:
             ts = title_lines(sec)
@@ -126,7 +133,7 @@ def main():
                 found = True
                 results.append(check("摘要", text, 120.0))
         if not found:
-            print("file 模式：copy.md 里没有找到 标题候选/头条标题候选/摘要 任一段（## 级标题）",
+            print("file 模式：文章 md 里没有找到 标题候选/头条标题候选/摘要 任一段（## 级标题）",
                   file=sys.stderr)
             return 1
 

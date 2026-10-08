@@ -29,7 +29,7 @@ for sc in script["scenes"]:
         r = subprocess.run(["bash", ASR, mp3], capture_output=True, text=True)
         out = r.stdout.strip().splitlines()[-1] if r.stdout.strip() else ""
         if r.returncode != 0 or not out:
-            infra_fails.append((b["id"], f"ASR 调用失败(rc={r.returncode}),检查 ark-asr 技能/SPEECH_API_KEY/网络"))
+            infra_fails.append((b["id"], f"ASR 调用失败(rc={r.returncode}),检查 ark-asr 技能/ARK_SPEECH_API_KEY/网络"))
             continue
         t = norm(out)
         missing = [w for w in words if norm(w) not in t]

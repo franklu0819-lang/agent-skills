@@ -5,7 +5,7 @@ description: 把公众号文章提交到微信公众号草稿箱：正文排版�
 
 # 公众号草稿提交（排版 → 封面 → 草稿箱）
 
-把一篇已成稿的文章（通常是 social-article 技能产出的 `copy.md`）送进公众号草稿箱。四步：拿文章包 → 排版 → 封面 → 提交。
+把一篇已成稿的文章（通常是 social-article 技能产出的 `文案.md`，旧产物可能叫 `copy.md`，两者等价）送进公众号草稿箱。四步：拿文章包 → 排版 → 封面 → 提交。
 
 ## 前置检查（首次使用必做）
 
@@ -15,7 +15,7 @@ description: 把公众号文章提交到微信公众号草稿箱：正文排版�
 
 ## 第一步：拿文章包
 
-输入是含标题/正文/摘要的文章 md（如 `docs/marketing/<slug>/copy.md`）。没有现成文章时先引导用户走 social-article 技能成稿，不要在本技能里从零写文章。
+输入是含标题/正文/摘要的文章 md（如 `docs/marketing/<slug>/文案.md`）。没有现成文章时先引导用户走 social-article 技能成稿，不要在本技能里从零写文章。
 
 ## 第二步：排版
 
@@ -43,7 +43,7 @@ zsh -ic 'python3 <本技能目录>/scripts/mp_submit.py add draft.json --output 
 {
   "articles": [
     {
-      "title": "文章标题（≤20 汉字当量）",
+      "title": "文章标题（≤32 汉字当量，即微信 64 字符上限）",
       "author": "飞哥",
       "digest": "≤120 字摘要",
       "content_html_file": "正文.html",

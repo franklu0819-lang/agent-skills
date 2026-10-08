@@ -5,7 +5,7 @@ description: 豆包录音文件识别大模型（Seed-ASR）语音转文字：�
 
 # 豆包录音文件识别大模型（直连豆包语音 API）
 
-用封装脚本直连 `https://openspeech.bytedance.com/api/v3/auc/bigmodel/submit`（提交）+ `/query`（轮询），把本地音频或 URL 转写成文字。认证用 `SPEECH_API_KEY`（豆包语音控制台 UUID Key）——不要读取、传递或落盘任何 API key；**方舟 ark- Key 本服务不认**；录音文件识别服务需在豆包语音控制台开通。
+用封装脚本直连 `https://openspeech.bytedance.com/api/v3/auc/bigmodel/submit`（提交）+ `/query`（轮询），把本地音频或 URL 转写成文字。认证用 `ARK_SPEECH_API_KEY`（豆包语音控制台 UUID Key，旧名 `SPEECH_API_KEY` 仍兼容）——不要读取、传递或落盘任何 API key；**方舟 ark- Key 本服务不认**；录音文件识别服务需在豆包语音控制台开通。
 
 > ark- 家族分工：文字→语音用 `ark-tts`/`ark-audio-gen`；语音→文字用本技能。
 

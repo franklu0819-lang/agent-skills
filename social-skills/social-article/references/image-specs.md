@@ -47,6 +47,8 @@ bash <ark-image-gen 技能目录>/scripts/image_gen.sh "<场景描述>，无任�
 
 - Retina 屏截图是 2x 物理像素（如 1800×1000），比例不变、更清晰，直接可用。
 - 文字量增多时优先**缩小内容**（精简文字），不要缩字号突破下限。
+- resize 后视口高度可能被 clamp 不足（如 macOS 上要求 1080 实得 1042）：**用 fullPage 截图**——页面画布尺寸是准的（html/body 定宽高 + overflow hidden），fullPage 按页面全高截取，不受视口不足影响；先 `evaluate_script` 量 `innerWidth/innerHeight` 与内容块 rect 确认布局，再截图。
+- 产物命名用中文：横幅 `横幅.png`（源 `横幅.html`）、金句卡 `金句卡.png`（源 `金句卡.html`）——与 `文案.md` 同一命名规则（2026-10-08 定），目标目录已有惯例则从惯例。
 
 ## 自建新模板
 

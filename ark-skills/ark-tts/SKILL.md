@@ -46,7 +46,7 @@ python3 .../tts.py --text "..." --custom-id custom_zh_xxx --output out.mp3
 
 ## 凭证（已配置）
 
-`~/.zshrc` 的 `SPEECH_API_KEY`（豆包语音控制台 > API Key管理 的 Key，**UUID 格式**）。解析顺序：`--api-key` → `SPEECH_API_KEY` → `ARK_API_KEY` → ~/.zshrc。
+`~/.zshrc` 的 `ARK_SPEECH_API_KEY`（豆包语音控制台 > API Key管理 的 Key，**UUID 格式**，旧名 `SPEECH_API_KEY` 仍兼容）。解析顺序：`--api-key` → `ARK_SPEECH_API_KEY` → `SPEECH_API_KEY` → `ARK_API_KEY` → ~/.zshrc。
 
 **重要**：方舟 `ark-` 开头的 Key 本服务**不认**（返回 45000010 Invalid X-Api-Key，2026-09-17 实测 4 把 ark Key 全拒）；必须是语音控制台 API Key管理 里的 UUID Key。
 

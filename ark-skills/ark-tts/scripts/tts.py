@@ -17,11 +17,11 @@
   --format FMT      音频格式 mp3/pcm/ogg_opus（默认 mp3）
   --sample-rate N   采样率（默认 24000）
   --emotion E       情感（如 happy，仅部分 1.0 公版音色支持，复刻/2.0 音色忽略）
-  --api-key KEY     API Key（默认自动解析 SPEECH_API_KEY / ARK_API_KEY）
+  --api-key KEY     API Key（默认自动解析 ARK_SPEECH_API_KEY / SPEECH_API_KEY / ARK_API_KEY）
 
 响应协议: 流式多段 JSON，每段 data 字段为 base64 音频块，拼接解码得到完整音频。
 
-凭证: 豆包语音控制台 > API Key管理 的 Key（UUID 格式），export SPEECH_API_KEY=... （不落盘）
+凭证: 豆包语音控制台 > API Key管理 的 Key（UUID 格式），export ARK_SPEECH_API_KEY=... （旧名 SPEECH_API_KEY 兼容，不落盘）
 """
 import argparse
 import base64
@@ -39,18 +39,18 @@ VOICES_MD = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file_
 
 
 def find_api_key(explicit: str) -> str:
-    """解析顺序: --api-key 参数 → SPEECH_API_KEY → ARK_API_KEY → ~/.zshrc export（取最后生效的）。
+    """解析顺序: --api-key 参数 → ARK_SPEECH_API_KEY → SPEECH_API_KEY（旧名兼容）→ ARK_API_KEY → ~/.zshrc export（取最后生效的）。
     注意: 必须是豆包语音控制台 API Key管理 里的 Key（UUID 格式）；方舟 ark- 开头的 Key 本服务不认。"""
     if explicit:
         return explicit
-    for var in ("SPEECH_API_KEY", "ARK_API_KEY"):
+    for var in ("ARK_SPEECH_API_KEY", "SPEECH_API_KEY", "ARK_API_KEY"):
         if os.environ.get(var):
             return os.environ[var]
     zshrc = os.path.expanduser("~/.zshrc")
     if os.path.isfile(zshrc):
         found = ""
         for line in open(zshrc, encoding="utf-8"):
-            m = re.match(r'\s*export\s+(SPEECH_API_KEY|ARK_API_KEY)=(?:"([^"]+)"|([^\s#]+))', line)
+            m = re.match(r'\s*export\s+(ARK_SPEECH_API_KEY|SPEECH_API_KEY|ARK_API_KEY)=(?:"([^"]+)"|([^\s#]+))', line)
             if m:
                 found = m.group(2) or m.group(3)
         return found
@@ -134,7 +134,7 @@ def main() -> None:
     if not a.output:
         die("缺少 --output 输出路径")
     if not key:
-        die("缺少 API Key：请 export SPEECH_API_KEY=<豆包语音控制台 API Key管理 的 Key>，或用 --api-key 传入")
+        die("缺少 API Key：请 export ARK_SPEECH_API_KEY=<豆包语音控制台 API Key管理 的 Key>（旧名 SPEECH_API_KEY 仍兼容），或用 --api-key 传入")
 
     audio_params = {"format": a.format, "sample_rate": a.sample_rate}
     if a.speed:

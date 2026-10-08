@@ -5,7 +5,7 @@ description: 火山引擎 Seed-Audio 1.0 音频创作：一条提示词端到端
 
 # Seed-Audio 1.0 音频创作（直连豆包语音 API）
 
-用封装脚本直连 `https://openspeech.bytedance.com/api/v3/tts/create`（`model: seed-audio-1.0`）做音频创作：对白、情绪、BGM、音效一条 prompt 直出成片音轨，无需多轨剪辑。认证用 `SPEECH_API_KEY`（豆包语音控制台 UUID Key）——不要读取、传递或落盘任何 API key，脚本自己从环境变量或 `~/.zshrc` 解析；**方舟 ark- Key 本服务不认**。
+用封装脚本直连 `https://openspeech.bytedance.com/api/v3/tts/create`（`model: seed-audio-1.0`）做音频创作：对白、情绪、BGM、音效一条 prompt 直出成片音轨，无需多轨剪辑。认证用 `ARK_SPEECH_API_KEY`（豆包语音控制台 UUID Key，旧名 `SPEECH_API_KEY` 仍兼容）——不要读取、传递或落盘任何 API key，脚本自己从环境变量或 `~/.zshrc` 解析；**方舟 ark- Key 本服务不认**。
 
 > ark- 家族分工：纯朗读/旁白/复刻音色配音用 `ark-tts`；带戏的成片音轨（多角色+音效+BGM）用本技能；录音转文字用 `ark-asr`。
 

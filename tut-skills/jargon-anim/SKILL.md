@@ -19,7 +19,7 @@ description: 制作「AI 黑话图鉴」系列科普动画视频(每期 90 秒�
 
 - node ≥18、ffmpeg、python3(均已在 PATH);本机 Chrome(`/Applications/Google Chrome.app/...`)
 - **用户级技能**:ark-tts(`~/.agents/skills/ark-tts/scripts/tts.py`,配音)、ark-asr(`~/.agents/skills/ark-asr/scripts/transcribe.sh`,ASR 终验);两者可用环境变量 `TTS_SH`/`ASR_SH` 覆盖路径
-- 火山语音 Key(SPEECH_API_KEY,zshrc;注意是语音控制台 UUID Key,非方舟 ark- Key)
+- 火山语音 Key(ARK_SPEECH_API_KEY,zshrc;旧名 SPEECH_API_KEY 兼容;注意是语音控制台 UUID Key,非方舟 ark- Key)
 - puppeteer-core —— **每期目录** `npm init -y && npm i puppeteer-core --registry=https://registry.npmmirror.com`(约 2s,勿走 npmjs 代理)
 
 ## 制作流程(每期端到端)
