@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<style>
+  :root{
+    --bg:#0d1017; --ink:#F2F5FA; --sub:#9AA3B2; --blue:#5B8CFF;
+    --card:rgba(255,255,255,.045); --line:rgba(255,255,255,.10);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1080px;height:1920px;overflow:hidden;background:var(--bg);
+    font-family:"Hiragino Sans GB","PingFang SC",-apple-system,sans-serif;color:var(--ink)}
+  #stage{position:relative;width:1080px;height:1920px}
+  section{position:absolute;inset:0;opacity:0}
+  .abs{position:absolute}
+
+  #bg{position:absolute;inset:0;
+    background:
+      radial-gradient(760px 900px at 50% 30%, rgba(91,140,255,.10), transparent 65%),
+      radial-gradient(600px 700px at 85% 92%, rgba(139,124,255,.06), transparent 60%),
+      var(--bg);}
+  #bg::after{content:"";position:absolute;inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+    background-size:90px 90px;mask-image:radial-gradient(700px 900px at 50% 40%,#000 30%,transparent 75%)}
+  .brand{position:absolute;top:64px;font-size:26px;letter-spacing:2px;color:rgba(255,255,255,.40);font-weight:600}
+  #bl{left:52px}  #br{right:52px;letter-spacing:3px}
+
+  /* ============ 竖屏安全区纪律(1080x1920) ============
+     ① 顶部 y<160 归角标;主内容 y 200~1400;字幕区 y1400~1650(画面元素底边 ≤1380 防重叠);
+     ② 底部 y>1700 留白避让抖音 UI(文案/头像/进度条);右侧 x>940 不放关键元素(点赞按钮列);
+     ③ 任何元素不用 CSS transform 居中(JS 会覆盖 transform),居中一律 left:0;right:0;margin:0 auto
+        / text-align:center / flex;
+     ④ opacity:0 的元素仍占 flex 空间,动态内容放独立绝对定位层 */
+
+  .stag{left:0;right:0;text-align:center;font-size:32px;color:var(--sub);letter-spacing:6px;font-weight:600}
+
+  /* ---- s1 钩子:大问句(中上) + 底部小注 ---- */
+  #s1-q{left:70px;right:70px;top:560px;text-align:center;font-size:80px;font-weight:800;line-height:1.35;letter-spacing:2px}
+  #s1-kw{display:inline-block;padding:6px 18px;border-radius:14px;background:var(--blue);color:#0d1017;
+    transform:none}  /* 强调词块:JS pop 的 scale 写在自身,不破坏文本流居中(inline-block 由父级 text-align 居中) */
+  #s1-note{left:0;right:0;top:1160px;text-align:center;font-size:36px;color:var(--sub);letter-spacing:2px}
+
+  /* ---- s2 概念:场景标签 + 概念大卡 + 两要素胶囊 ---- */
+  #s2-tag{top:340px}
+  #s2-card{position:absolute;left:80px;right:80px;top:640px;height:420px;border-radius:36px;background:var(--card);
+    border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
+  #s2-word{font-size:96px;font-weight:800;letter-spacing:6px}
+  #s2-row{position:absolute;left:0;right:0;top:1180px;display:flex;align-items:center;justify-content:center;gap:28px}
+  .pill{padding:20px 34px;border-radius:16px;background:var(--card);border:1px solid var(--line);
+    font-size:40px;font-weight:700;white-space:nowrap}
+
+  /* ---- s3 要点:标题 + 三条要点卡逐条入场(底边 ≤1380) ---- */
+  #s3-h{top:330px;left:0;right:0;text-align:center;font-size:56px;font-weight:800;letter-spacing:2px}
+  .pt{position:absolute;left:80px;right:80px;height:190px;border-radius:28px;background:var(--card);
+    border:1px solid var(--line);display:flex;align-items:center;gap:34px;padding:0 44px}
+  .pt .no{flex:none;width:84px;height:84px;border-radius:22px;display:flex;align-items:center;justify-content:center;
+    font-size:46px;font-weight:800;color:#0d1017}
+  .pt .tx{font-size:44px;font-weight:700;line-height:1.3}
+  #s3-p1{top:560px} #s3-p2{top:800px} #s3-p3{top:1040px}
+
+  /* ---- s4 数字:巨大数字滚动 + 说明 ---- */
+  #s4-n{left:0;right:0;top:520px;text-align:center;font-size:240px;font-weight:800;letter-spacing:4px;
+    font-variant-numeric:tabular-nums}
+  #s4-cap{left:0;right:0;top:1150px;text-align:center;font-size:40px;color:var(--sub);line-height:1.5}
+
+  /* ---- s5 金句:居中大字 ---- */
+  #s5-quote{left:70px;right:70px;top:620px;text-align:center;font-size:84px;font-weight:800;line-height:1.5;letter-spacing:3px}
+  #s5-quote b{color:var(--blue)}
+
+  /* ---- s6 收尾:引导关注(退场) + outro(合集名/关注/进度点) ---- */
+  #s6-hold{left:0;right:0;top:560px;text-align:center;font-size:76px;font-weight:800;letter-spacing:4px}
+  #outro{text-align:center}
+  #outro .ot{font-size:72px;font-weight:800;letter-spacing:8px}
+  #outro .oe{font-size:30px;color:var(--sub);letter-spacing:6px;margin-top:20px}
+  #outro .odash{width:440px;height:1px;background:var(--line);margin:40px auto}
+  #outro .onx{font-size:38px;letter-spacing:2px;line-height:1.5}
+  #outro .onx b{color:var(--blue)}
+  #outro .sub{font-size:32px;color:var(--sub);margin-top:34px;letter-spacing:2px}
+  #outro .dots{display:flex;gap:16px;justify-content:center;margin-top:36px}
+  #outro .dots i{width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.18)}
+  #outro .dots i.on{background:var(--blue)}
+  #veil{position:absolute;inset:0;background:#080a0f;opacity:0;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="bg"></div>
+  <div class="brand" id="bl">合集名</div>
+  <div class="brand" id="br">第NN期 · 本期主题</div><!-- 改成本期角标 -->
+
+  <!-- ============ 场景区:script.json 每个场景一个 section,每个 beat 一个动画节拍 ============
+       7 段式: s1 钩子 / s2 概念 / s3 要点 / s4 数字 / s5 金句 / s6 引导关注
+       RENDER 注册表必须与 section 一一对应,漏注册会在该场景帧直接报错
+       画面文字与旁白不要复述同一句(旁白说的,画面写关键词) -->
+
+  <section id="sc1">
+    <div class="abs" id="s1-q">为什么<span id="s1-kw">这事</span><br>和你想的不一样？</div>
+    <div class="abs" id="s1-note">三分钟讲清楚 · 先点个收藏</div>
+  </section>
+
+  <section id="sc2">
+    <div class="abs stag" id="s2-tag">这期讲清一个概念</div>
+    <div id="s2-card"><div id="s2-word">概念名</div></div>
+    <div id="s2-row">
+      <div class="pill" id="s2-a">要素一</div>
+      <div class="pill" id="s2-b">要素二</div>
+    </div>
+  </section>
+
+  <section id="sc3">
+    <div class="abs" id="s3-h">记住这 3 点</div>
+    <div class="pt" id="s3-p1"><div class="no" style="background:#5B8CFF">1</div><div class="tx">要点一关键词，短句</div></div>
+    <div class="pt" id="s3-p2"><div class="no" style="background:#8B7CFF">2</div><div class="tx">要点二关键词，短句</div></div>
+    <div class="pt" id="s3-p3"><div class="no" style="background:#FF9F5A">3</div><div class="tx">要点三关键词，短句</div></div>
+  </section>
+
+  <section id="sc4">
+    <div class="abs" id="s4-n">0</div>
+    <div class="abs" id="s4-cap">把这个数字换算成<br>能感知的例子</div>
+  </section>
+
+  <section id="sc5">
+    <div class="abs" id="s5-quote">一句话<b>金句</b><br>放这里</div>
+  </section>
+
+  <!-- 收尾场景(最后一个场景照此):section 必须带 flex 居中(否则 outro 停左上角);
+       veil 黑场只在这个场景函数里设置,renderFrame 不得覆盖 -->
+  <section id="sc6" style="display:flex;align-items:center;justify-content:center">
+    <div class="abs" id="s6-hold">关注 · 下期更干货</div>
+    <div id="outro">
+      <div class="ot">合集名</div>
+      <div class="oe">第NN期 · 本期主题</div><!-- 与右上角标一致 -->
+      <div class="odash"></div>
+      <div class="onx">下期预告：<b>下一期主题</b></div>
+      <div class="sub">关注合集 · 每周更新</div>
+      <div class="dots"><i class="on"></i><i></i><i></i><i></i></div><!-- 第 N 个点亮 = 第 N 期 -->
+    </div>
+  </section>
+
+  <div id="veil"></div>
+</div>
+
+<script>
+/* ================= 确定性动画引擎(与 jargon-anim 同源,竖屏 1080x1920) =================
+   renderFrame(frame) 由渲染脚本逐帧调用,任何帧可独立重算。 */
+const FPS = 30, W = 1080, H = 1920;
+const $ = id => document.getElementById(id);
+const clamp = (v,a,b)=>Math.min(b,Math.max(a,v));
+const E = (t,a,b)=>clamp((t-a)/(b-a),0,1);
+const eOutC = p=>1-Math.pow(1-p,3);
+const eOutB = p=>{const c=1.70158;return 1+(c+1)*Math.pow(p-1,3)+c*Math.pow(p-1,2)};
+const o=(el,v)=>{el.style.opacity=v};
+const ty=(el,v)=>{el.style.transform=`translateY(${v}px)`};
+function fadeUp(el,t,t0,d=0.45,dist=40){const e=eOutC(E(t,t0,t0+d));o(el,e);ty(el,(1-e)*dist)}
+function pop(el,t,t0,d=0.5,s0=0.6){const e=eOutB(E(t,t0,t0+d));o(el,E(t,t0,t0+d*0.5));el.style.transform=`scale(${s0+(1-s0)*e})`}
+
+/* 场景时间轴:puppeteer 注入 scenes+beatsMap;B('s3b2') 返回该句相对场景开头的秒数 */
+let SCENES = [], BEATS = {};
+const B = id => (BEATS[id] || 0) - curScene.t0;
+let curScene = {t0:0, end:0};
+
+/* ---- 各场景渲染(t=场景内秒数;以下均为示例,按本期 script.json 改画面文字与节拍) ---- */
+function s1(t){  // 钩子:问句上屏→强调词块弹出→小注
+  fadeUp($("s1-q"),t,0.2,0.5,50);
+  pop($("s1-kw"),t,B('s1b1')+0.4,0.5,0.7);
+  fadeUp($("s1-note"),t,B('s1b2')+0.2,0.45,30);
+}
+function s2(t){  // 概念:标签→概念卡→两要素胶囊
+  fadeUp($("s2-tag"),t,0.15,0.4,24);
+  pop($("s2-card"),t,B('s2b1')+0.15,0.55,0.72);
+  pop($("s2-a"),t,B('s2b2')+0.25,0.5,0.7);
+  pop($("s2-b"),t,B('s2b2')+0.75,0.5,0.7);
+}
+function s3(t){  // 要点:三条卡逐句入场
+  fadeUp($("s3-h"),t,0.15,0.4,30);
+  fadeUp($("s3-p1"),t,B('s3b1')+0.1,0.45,44);
+  fadeUp($("s3-p2"),t,B('s3b2')+0.1,0.45,44);
+  fadeUp($("s3-p3"),t,B('s3b3')+0.1,0.45,44);
+}
+function s4(t){  // 数字:大数字从 0 滚动到目标(替换 128 为本期数字),说明随后
+  pop($("s4-n"),t,0.2,0.6,0.65);
+  const e = eOutC(E(t,B('s4b1')+0.2,B('s4b1')+1.2));
+  $("s4-n").textContent = Math.round(128*e) + "K";  // 目标数字与单位按本期改
+  fadeUp($("s4-cap"),t,B('s4b2')+0.15,0.45,30);
+}
+function s5(t){  // 金句卡
+  fadeUp($("s5-quote"),t,0.2,0.55,44);
+}
+function s6(t){  // 收尾:引导句退场 → outro 入场 → 片尾黑场(veil 只在这里设置!)
+  const h=$("s6-hold");
+  if(t<B('s6b1')) fadeUp(h,t,0.15,0.4,30);
+  else { const p=E(t,B('s6b1'),B('s6b1')+0.4); o(h,1-p); ty(h,p*-90); }
+  fadeUp($("outro"),t,B('s6b1')+0.55,0.5,36);
+  const dur = curScene.end - curScene.t0;
+  o($("veil"), E(t,dur-0.9,dur-0.1));
+}
+const RENDER = {s1,s2,s3,s4,s5,s6};
+
+window.__initScenes = function(scenes, beats){
+  SCENES = scenes; BEATS = beats || {};
+};
+window.renderFrame = function(frame){
+  const t = frame/FPS;
+  const sc = SCENES.find(s=>t>=s.start && t<s.end) || SCENES[SCENES.length-1];
+  const fn = RENDER[sc.id];
+  if(typeof fn !== "function"){
+    throw new Error(`场景 ${sc.id} 未在 RENDER 注册(检查 script.json 场景与 index.html 是否一一对应)`);
+  }
+  document.querySelectorAll("section").forEach(el=>{
+    el.style.opacity = el.id==="sc"+sc.id.slice(1) ? 1 : 0;
+  });
+  curScene = {t0:sc.start, end:sc.end};
+  fn(t - sc.start);
+  /* ⚠️ 不要在这里设置 veil —— 由收尾场景函数全权负责,否则重编号后黑场会错位 */
+};
+</script>
+</body>
+</html>

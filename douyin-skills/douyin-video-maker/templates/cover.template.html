@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<style>
+  /* ============ 合集封面模版(1080x1920 竖版) ============
+     辨识度三要素(同一合集内恒定):版式 + 主题色 + 期号徽章;
+     每期只换:标题 {{TITLE}} / 钩子词 {{HOOK}} / 期号 {{EP_CN}}。
+     主题色由 collection.json 的 cover.palette 注入 CSS 变量(键如 c-main/c-accent/c-bg),
+     合集自定义模版:复制本文件到合集目录改版式即可,占位符保留。
+     注意:抖音主页九宫格会把封面裁成约 3:4,核心信息(期号/标题/钩子)必须落在 y<1400 区域。 */
+  :root{
+    --c-main:#5B8CFF; --c-accent:#FF9F5A; --c-bg:#0d1017;
+    --ink:#F2F5FA; --sub:#9AA3B2;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1080px;height:1920px;overflow:hidden;background:var(--c-bg);
+    font-family:"Hiragino Sans GB","PingFang SC",-apple-system,sans-serif;color:var(--ink)}
+  #bg{position:absolute;inset:0;
+    background:
+      radial-gradient(760px 900px at 50% 26%, color-mix(in srgb, var(--c-main) 16%, transparent), transparent 65%),
+      var(--c-bg)}
+  #bg::after{content:"";position:absolute;inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+    background-size:90px 90px;mask-image:radial-gradient(700px 900px at 50% 34%,#000 30%,transparent 75%)}
+  .abs{position:absolute}
+
+  .brand{position:absolute;top:64px;font-size:26px;letter-spacing:2px;color:rgba(255,255,255,.42);font-weight:600}
+  #bl{left:52px}  #br{right:52px}
+
+  /* 期号徽章:合集辨识度核心,恒定样式(必须 position:absolute,否则掉到文档流顶部) */
+  #ep-badge{position:absolute;left:0;right:0;top:300px;display:flex;justify-content:center}
+  #ep-badge span{padding:16px 44px;border-radius:999px;background:var(--c-accent);color:#10131a;
+    font-size:44px;font-weight:800;letter-spacing:6px}
+
+  /* 本期大标题:≤12 字,两行内 */
+  #title{left:70px;right:70px;top:470px;text-align:center;font-size:104px;font-weight:900;
+    line-height:1.32;letter-spacing:4px}
+
+  /* 钩子词反白块 */
+  #hook-row{position:absolute;left:0;right:0;top:1010px;display:flex;justify-content:center}
+  #hook-row span{padding:22px 52px;border-radius:18px;background:var(--c-main);color:#0d1017;
+    font-size:72px;font-weight:900;letter-spacing:10px}
+
+  /* 底部:合集名 + 更新节奏(九宫格裁切区之外,点开可见) */
+  #foot{position:absolute;left:0;right:0;top:1640px;text-align:center}
+  #foot .col{font-size:44px;font-weight:800;letter-spacing:6px}
+  #foot .rhythm{font-size:30px;color:var(--sub);letter-spacing:4px;margin-top:24px}
+  #foot .bar{width:520px;height:6px;border-radius:3px;background:rgba(255,255,255,.12);margin:40px auto 0;position:relative}
+  #foot .bar i{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:var(--c-main);width:25%}
+</style>
+</head>
+<body>
+<div id="bg"></div>
+<div class="brand" id="bl">{{COLLECTION}}</div>
+<div class="brand" id="br">硬核科普</div><!-- 合集固定副标,可改 -->
+
+<div id="ep-badge"><span>{{EP_CN}}</span></div>
+<div class="abs" id="title">{{TITLE}}</div>
+<div id="hook-row"><span>{{HOOK}}</span></div>
+
+<div id="foot">
+  <div class="col">{{COLLECTION}}</div>
+  <div class="rhythm">每周更新 · 已更 {{EPISODES}} 期</div>
+  <div class="bar"><i style="width:{{PROGRESS}}"></i></div><!-- 进度条按合集期数自动填充 -->
+</div>
+</body>
+</html>

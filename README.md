@@ -13,7 +13,7 @@
 | [novel-skills/](novel-skills/) | 网文创作全流程 | 调研、大纲、设定、卷纲、章节、拆书、封面共 10 个技能 |
 | [paper-skills/](paper-skills/) | 学术论文全流程 | 提案、综述、实验、撰写、修改、rebuttal、投稿共 7 个技能 |
 | [nex-skills/](nex-skills/) | 产品研发全生命周期 | 规格、设计、开发、架构、发布、运维、增长、路线图等共 12 个技能 |
-| [douyin-skills/](douyin-skills/) | 抖音内容调研 | 单视频下载剖析、账号级深度分析共 2 个技能 |
+| [douyin-skills/](douyin-skills/) | 抖音内容调研与制作 | 单视频下载剖析、账号级深度分析、竖屏科普动画视频制作共 3 个技能 |
 | [social-skills/](social-skills/) | 社媒图文 | 3:4 贴图组+文案、公众号/头条文章内容包、公众号草稿提交，共 3 个技能 |
 
 后续其他技能家族会以各自目录加入。
@@ -114,12 +114,13 @@
 
 ## douyin-skills：抖音系技能
 
-抖音内容调研流水线，2026-09 实战沉淀：短链解析 → chrome-devtools 真浏览器提取（纯 curl 拿不到，抖音页面纯前端渲染）→ 分轨下载合成 → ark-asr 转写 → 结构化剖析。两技能分层触发：给视频链接 = 单视频剖析；给账号名/主页 = 账号级分析（内部复用单视频流水线）。
+抖音内容调研与制作流水线。调研系 2026-09 实战沉淀：短链解析 → chrome-devtools 真浏览器提取（纯 curl 拿不到，抖音页面纯前端渲染）→ 分轨下载合成 → ark-asr 转写 → 结构化剖析。制作系 2026-10 新增：文案 → 竖屏动画成片+封面。分层触发：给视频链接 = 单视频剖析；给账号名/主页 = 账号级分析；给文案要做视频 = 视频制作。
 
 | 技能 | 用途 |
 |------|------|
 | [douyin-video-analysis](douyin-skills/douyin-video-analysis/) | 单视频深度剖析：短链/链接 → 元数据（赞/藏/评/章节要点/热评）→ 视频流提取（含 blob MSE 分轨）→ 下载 → ark-asr 转写 → 三层评判（站得住/说过头/盲区）+ 核查清单 |
 | [douyin-account-analysis](douyin-skills/douyin-account-analysis/) | 账号级分析：外部搜索定位 sec_uid（勿走站内搜索）→ 选 ≥3 个代表性视频 → **作者归属验证**（sec_uid 比对防粉丝仿写混淆）→ 背景与争议调研 → 内容支柱/变现结构/观点体系归纳 + 结合用户情境的建议 |
+| [douyin-video-maker](douyin-skills/douyin-video-maker/) | 竖屏科普动画视频制作：文案分镜（GATE 过目）→ ark-tts 公版解说音色逐句配音 → 1080x1920 确定性 HTML 动画 → puppeteer 逐帧渲染 → ffmpeg 合成烧字幕（可选 BGM 闪避）→ 按合集封面模版自动出高辨识度封面，产出成片+封面+发布文案；全程本地渲染不烧云端视频模型 |
 
 ## social-skills：社媒图文技能
 
@@ -280,8 +281,13 @@ agent-skills/
 │   ├── douyin-video-analysis/     # 单视频下载与深度剖析
 │   │   ├── SKILL.md
 │   │   └── scripts/fetch.sh       # 短链解析 / 带校验下载 / 抽音轨
-│   └── douyin-account-analysis/   # 账号级深度分析
-│       └── SKILL.md
+│   ├── douyin-account-analysis/   # 账号级深度分析
+│   │   └── SKILL.md
+│   └── douyin-video-maker/        # 竖屏科普动画视频制作（文案→成片+封面）
+│       ├── SKILL.md
+│       ├── scripts/（gen_timeline.py / render.js / assemble.py / make_cover.js / verify_splice.py / asr_check.py）
+│       ├── templates/（script.template.json / anim.template.html / cover.template.html）
+│       └── references/lessons.md  # 事故记录与实测回写
 └── social-skills/
     └── social-cards/              # 贴图组 + 发布文案（不含内容收集）
         ├── SKILL.md

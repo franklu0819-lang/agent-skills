@@ -1,10 +1,10 @@
 # agent-skills
 
-> 面向 ZCode 等 Agent CLI 的中文技能仓库：10 个家族 55 个技能，全部为真实生产工作流沉淀（非演示）。按家族分目录组织（`<家族>-skills/<技能名>/SKILL.md` + 可选 scripts/references），装到 `~/.agents/skills/`（用户级）或 `<项目>/.zcode/skills/`（项目级）即可使用。
+> 面向 ZCode 等 Agent CLI 的中文技能仓库：10 个家族 56 个技能，全部为真实生产工作流沉淀（非演示）。按家族分目录组织（`<家族>-skills/<技能名>/SKILL.md` + 可选 scripts/references），装到 `~/.agents/skills/`（用户级）或 `<项目>/.zcode/skills/`（项目级）即可使用。
 
 ## 快速事实
 
-- 10 家族：ark（火山方舟生成系 5）/ glm（智谱 GLM 系 5）/ minimax（MiniMax 海螺系 5）/ patent（专利全流程 5）/ novel（网文创作 10）/ paper（学术论文 7）/ nex（产品研发 12）/ douyin（抖音内容调研 2）/ social（社媒图文 3）/ tut（科普动画 1）
+- 10 家族：ark（火山方舟生成系 5）/ glm（智谱 GLM 系 5）/ minimax（MiniMax 海螺系 5）/ patent（专利全流程 5）/ novel（网文创作 10）/ paper（学术论文 7）/ nex（产品研发 12）/ douyin（抖音内容调研与制作 3）/ social（社媒图文 3）/ tut（科普动画 1）
 - 认证一律走环境变量：`ARK_API_KEY`（方舟数据面，ark- 前缀）、`ARK_SPEECH_API_KEY`（豆包语音，UUID，兼容旧名 SPEECH_API_KEY）、`ZHIPU_API_KEY`（智谱开放平台 GLM 系，glm- 家族统一只认此变量）、`MINIMAX_API_KEY`（MiniMax 开放平台 api.minimax.cn，minimax- 家族统一只认此变量；国内/海外两站 Key 独立）；技能与脚本不读取、不存储、不落盘任何密钥
 - 结构契约：`py scripts/scan_skills.py` 校验全仓库（frontmatter 键集、name 与目录一致、引用文件存在、跨技能依赖声明、subagent 派发引用可解析）；agent 定义校验 `py scripts/scan_agents.py`；部署用 `py scripts/deploy.py --deploy`
 - 语言：文档与技能正文以中文为主
@@ -74,9 +74,10 @@
 - `nex-docs-tidy` — 文档审计：docs/ 树体检（结构合规、陈旧、孤儿/重复）→ 用户定处置 → 执行
 - `nex-slide` — 幻灯片：素材汇集 → 大纲规划 → 固定品牌风格成片 → 质检
 
-### douyin-skills — 抖音内容调研（项目级：装到业务工作区 .zcode/skills/，如 douyin；依赖用户级 ark-asr 与 chrome-devtools MCP）
+### douyin-skills — 抖音内容调研与制作（项目级：装到业务工作区 .zcode/skills/，如 douyin；调研系依赖用户级 ark-asr 与 chrome-devtools MCP，制作系依赖用户级 ark-tts）
 - `douyin-video-analysis` — 单视频剖析：短链解析 → 真浏览器提取流地址 → 下载转写 → 三层评判+核查清单
 - `douyin-account-analysis` — 账号级分析：外部搜索定位 → 作者归属验证（防粉丝仿写混淆）→ 内容体系归纳与情境化建议
+- `douyin-video-maker` — 竖屏科普动画视频制作：文案分镜（GATE 过目）→ ark-tts 公版解说音色逐句配音 → 1080x1920 确定性 HTML 动画逐帧渲染 → ffmpeg 合成烧字幕（可选 BGM）→ 按合集封面模版出高辨识度封面，产出成片+封面+发布文案（本地渲染，不烧云端视频模型）
 
 ### social-skills — 社媒图文（用户级；依赖用户级 ark-image-gen）
 - `social-cards` — 贴图+文案：给定内容要点 → 3:4 信息卡组（AI 无字背景 + PIL 本地排版 + 视觉验收闭环）+ 小红书/公众号文案包（不含内容收集）
@@ -88,8 +89,9 @@
 
 ## 跨技能依赖
 
-- `douyin-*` → `ark-asr`（转写；定位顺序见技能内说明，支持 $ARK_ASR_HOME）
-- `douyin-*` → chrome-devtools MCP（真实浏览器；纯 curl 拿不到抖音数据）
+- `douyin-video-analysis` / `douyin-account-analysis` → `ark-asr`（转写；定位顺序见技能内说明，支持 $ARK_ASR_HOME）
+- `douyin-video-analysis` / `douyin-account-analysis` → chrome-devtools MCP（真实浏览器；纯 curl 拿不到抖音数据）
+- `douyin-video-maker` → `ark-tts`（解说配音，公版音色；定位顺序见技能内说明，支持 $TTS_SH）
 - `social-cards` → `ark-image-gen`（3:4 无文字背景生成；文字一律本地排版，不进 AI 生成环节）
 - `social-article` → `ark-image-gen`（AI 配图）+ chrome-devtools MCP（模板渲染出图）
 - `wechat-mp-draft` → `social-article`（上游成稿）+ `ark-image-gen`（AI 封面）+ chrome-devtools MCP（模板渲染）
@@ -99,5 +101,6 @@
 ## 边界
 
 - douyin 家族不面向非抖音平台（B站/YouTube 不在支持范围）；小红书/公众号图文由 social 家族覆盖
+- douyin 家族内部分工：给文案/要做视频 = `douyin-video-maker`（制作）；给已有视频链接要剖析 = `douyin-video-analysis`（调研）；AI 生成实拍视频 = `ark-video-gen`（不在 douyin 家族）
 - 密钥永不落盘；含密钥的产物禁止提交
 - 每个技能自包含（scripts 随技能目录分发）；兄弟技能引用一律按技能名发现而非绝对路径

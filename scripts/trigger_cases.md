@@ -49,6 +49,12 @@
 | D1 | 剖析这个视频 https://v.douyin.com/xxx | douyin-video-analysis |
 | D2 | 分析「张三说财」这个账号 | douyin-account-analysis（含作者归属验证） |
 | D3 | （分界）同一句话里既有链接又有账号名 | 链接优先单视频，账号分析需用户明确 |
+| D4 | 帮我把这篇文案做成抖音视频 | douyin-video-maker |
+| D5 | 做一条抖音科普视频 / 做个竖屏口播动画 | douyin-video-maker |
+| D6 | 新合集「AI 冷知识」做第 2 期 / 给合集换个封面模版重出全部封面 | douyin-video-maker（合集/封面模版归其管） |
+| D7 | （分界）给这段文案配个解说音频就行，不用出片 | ark-tts（纯配音不出片，不做动画渲染） |
+| D8 | （分界）用 Seedance/豆包生成一段 15 秒实拍感视频 | ark-video-gen（AI 生成视频，非动画制作） |
+| D9 | （分界）继续做「AI 黑话图鉴」新一期 | jargon-anim（tutorials 工作区系列专属，横屏） |
 
 ## ark 系（用户级，全局）
 
@@ -83,7 +89,7 @@
 | G17 | （能力分界）「用智谱引擎把这张参考图改成雪山场景」 | glm-image 不支持图生图，引导走 ark-image-gen（Seedream 参考图）；仅当用户坚持智谱且只要文字描述重画时才 glm-image-gen |
 | G18 | （跨家族分界）「用 MiniMax/海螺画张图，保持这个角色长相」 | minimax-image-gen（主体参考一致性）；点名智谱 → glm-image-gen（无参考图能力） |
 
-## minimax 系（用户级，全局；2026-10-08 新增并部署，5 技能 API 全链路实测通过）
+## minimax 系（用户级，全局；2026-10-08 新增并部署，API 全链路实测通过；M1–M7 当日盲测校准 10/10 一致，含 3 条 glm/ark 干扰项，无漂移）
 
 | # | 用户话术 | 期望 |
 |---|---------|------|

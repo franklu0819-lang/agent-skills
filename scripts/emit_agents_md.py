@@ -76,12 +76,14 @@ FAMILIES = {
         "skills": "本区已安装：disclosure / priorart / claims / draft / oa（5 个）。",
     },
     "douyin": {
-        "title": "抖音内容调研工作区（douyin-skills）",
+        "title": "抖音内容调研与制作工作区（douyin-skills）",
         "chain": "分层触发：给视频链接 = `/douyin-video-analysis` 单视频深度剖析；"
-                 "给账号名/主页 = `/douyin-account-analysis` 账号级分析（内部复用单视频流水线）。"
-                 "转写依赖用户级 ark-asr 技能（已全局安装）。",
-        "artifact": "产物：分析报告按主题落盘（如 `reports/<主题>/`），单视频剖析产物随视频目录组织。",
-        "skills": "本区已安装：video-analysis / account-analysis（2 个）。",
+                 "给账号名/主页 = `/douyin-account-analysis` 账号级分析（内部复用单视频流水线）；"
+                 "给文案要做视频 = `/douyin-video-maker` 竖屏科普动画制作（文案分镜 GATE 过目 → ark-tts 公版音色配音 → "
+                 "HTML 动画逐帧渲染 → ffmpeg 合成烧字幕 → 合集模版封面）。调研系转写依赖用户级 ark-asr；制作系配音依赖用户级 ark-tts。",
+        "artifact": "产物：分析报告按主题落盘（如 `reports/<主题>/`），单视频剖析产物随视频目录组织；"
+                    "视频制作按合集落盘 `videos/<合集slug>/第NN期-标题/`（成片+封面+report.md，合集配置 collection.json 建一次长期用）。",
+        "skills": "本区已安装：video-analysis / account-analysis / video-maker（3 个）。",
     },
     "tutorials": {
         "title": "课程视频工作区（tut-skills）",
