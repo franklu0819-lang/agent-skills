@@ -15,6 +15,7 @@
 | [nex-skills/](nex-skills/) | 产品研发全生命周期 | 规格、设计、开发、架构、发布、运维、增长、路线图等共 12 个技能 |
 | [douyin-skills/](douyin-skills/) | 抖音内容调研与制作 | 单视频下载剖析、账号级深度分析、竖屏科普动画视频制作共 3 个技能 |
 | [social-skills/](social-skills/) | 社媒图文 | 3:4 贴图组+文案、公众号/头条文章内容包、公众号草稿提交，共 3 个技能 |
+| [sys-skills/](sys-skills/) | 系统与机器维护 | 磁盘清理（只读扫描→确认门→白名单执行），共 1 个技能 |
 
 后续其他技能家族会以各自目录加入。
 
@@ -131,6 +132,14 @@
 | [social-cards](social-skills/social-cards/) | 给定内容要点 → 3:4 信息卡组（1080×1440，封面/看点/对比条形/定价时间线等）+ 小红书/公众号文案包（标题备选、正文、事实核对清单、常见疑问预答）；排版基座 cardkit.py 内置墨迹盒居中、断词原子、浅底深字等硬规则 |
 | [social-article](social-skills/social-article/) | 公众号/头条号文章内容包：标题候选（≤20 汉字当量，len_check.py 脚本验证）、正文、≤120 字摘要、正文配图（横幅 900×500 / 金句卡 1080×1080 模板渲染 + ark-image-gen 无字配图）；只产内容与图，不提交不发布 |
 | [wechat-mp-draft](social-skills/wechat-mp-draft/) | 公众号草稿提交：受限 Markdown → 内联样式 HTML（typeset.py，微信编辑器只认内联样式）→ 封面（2.35:1 模板渲染或 AI 生图）→ mp_submit.py 一键上传正文图/封面素材并 draft/add 进草稿箱；只到草稿箱不发布，凭据只走环境变量 |
+
+## sys-skills：系统维护系技能
+
+本机维护类工具。核心纪律：**先只读扫描列出可清理项，经用户本轮确认后才执行，绝不动确认清单之外的东西**；删除只走内置白名单执行器（类别注册表唯一事实，拒收任意路径、拒绝 sudo）。
+
+| 技能 | 用途 |
+|------|------|
+| [disk-cleanup](sys-skills/disk-cleanup/) | 磁盘清理（macOS 开发机）：19 类可清理项按安全/谨慎分级（包管理器缓存、Xcode DerivedData/DeviceSupport、失效模拟器、Docker 悬空资源、日志、废纸篓等）+ 项目 node_modules 逐目录清理；每轮清理前必过确认门，历史授权不延续 |
 
 ## 安装与部署
 
@@ -288,8 +297,12 @@ agent-skills/
 │       ├── scripts/（gen_timeline.py / render.js / assemble.py / make_cover.js / verify_splice.py / asr_check.py）
 │       ├── templates/（script.template.json / anim.template.html / cover.template.html）
 │       └── references/lessons.md  # 事故记录与实测回写
-└── social-skills/
-    └── social-cards/              # 贴图组 + 发布文案（不含内容收集）
+├── social-skills/
+│   └── social-cards/              # 贴图组 + 发布文案（不含内容收集）
+│       ├── SKILL.md
+│       └── scripts/（cardkit.py / example_deck.py）
+└── sys-skills/
+    └── disk-cleanup/              # 磁盘清理（扫描→确认门→白名单执行）
         ├── SKILL.md
-        └── scripts/（cardkit.py / example_deck.py）
+        └── scripts/（common.py 类别注册表 / scan.py 只读扫描 / clean.py 白名单执行）
 ```

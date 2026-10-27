@@ -18,6 +18,10 @@
       "dest": "{HOME}/.agents/skills"
     },
     {
+      "family": "sys-skills",
+      "dest": "{HOME}/.agents/skills"
+    },
+    {
       "family": "social-skills",
       "dest": "{HOME}/.zcode/skills"
     },
