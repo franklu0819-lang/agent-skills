@@ -35,7 +35,13 @@
     },
     {
       "family": "douyin-skills",
-      "dest": "{PROJECT}/douyin/.zcode/skills"
+      "dest": "{PROJECT}/douyin/.zcode/skills",
+      "except": ["douyin-video-maker"]
+    },
+    {
+      "family": "douyin-skills",
+      "dest": "{HOME}/.zcode/skills",
+      "only": ["douyin-video-maker"]
     },
     {
       "family": "tut-skills",

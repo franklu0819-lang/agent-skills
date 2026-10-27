@@ -16,12 +16,15 @@ description: 火山引擎语音合成（豆包大模型 TTS），默认使用飞
 # <技能基目录> 为本技能安装目录（技能加载时给出）
 python3 <技能基目录>/scripts/tts.py --text "大家好，欢迎来到飞哥的AI课堂" --output out.mp3
 
-# 浏览音色库（289 个，支持关键词过滤：解说/女声/客服/英语/角色…）
+# 浏览音色库（289 个 2.0 音色 + 10 个 BV 剪映同款，支持关键词过滤：解说/女声/客服/英语/小帅…）
 python3 .../tts.py --list-voices
 python3 .../tts.py --list-voices 解说
 
 # 用库中音色 + 语速（-50~100，+100≈2倍速）
 python3 .../tts.py --text "..." --speaker zh_male_jieshuoxiaoming_uranus_bigtts --speed -20 --output out.mp3
+
+# 剪映同款（BV 前缀自动走 v1 引擎，2026-10-10 实测）：影视解说小帅
+python3 .../tts.py --text "注意看，这个男人叫小帅。" --speaker BV411_streaming --speed 10 --output out.mp3
 
 # 1.0 情感音色
 python3 .../tts.py --text "..." --speaker zh_male_beijingxiaoye_emo_v2_mars_bigtts --emotion happy --output out.mp3
@@ -34,30 +37,36 @@ python3 .../tts.py --text "..." --custom-id custom_zh_xxx --output out.mp3
 
 ## 音色库
 
-完整列表在 `references/voices.md`（200+ 个 2.0 音色：通用/视频配音/有声阅读/教育/客服/角色扮演/多语种，`zh_*_uranus_bigtts` 与 `ICL_uranus_*` 两类命名）。为教程选解说音色时先 `--list-voices 解说`。选音色要点：
+完整列表在 `references/voices.md`（289 个 2.0 音色：通用/视频配音/有声阅读/教育/客服/角色扮演/多语种，`zh_*_uranus_bigtts` 与 `ICL_uranus_*` 两类命名；另有 **BV 系剪映同款 10 个高频款**：影视解说小帅 BV411、活力解说男 BV410、影视解说小美 BV412 等）。为教程选解说音色时先 `--list-voices 解说`。选音色要点：
 
-| 音色类型 | 识别特征 | resource（自动推断） |
+| 音色类型 | 识别特征 | 引擎/资源（自动分派） |
 |---|---|---|
-| 个人复刻 | `S_` 开头 | seed-icl-2.0 |
-| 2.0 公版 | 名含 `uranus` | seed-tts-2.0 |
-| 1.0 公版 | 其他 `_bigtts`（moon/mars 等） | volc.service_type.10029 |
+| 剪映同款 | `BV` 开头（如 `BV411_streaming`） | **v1 HTTP API**（需 V1 凭证，见下） |
+| 个人复刻 | `S_` 开头 | v3 / seed-icl-2.0 |
+| 2.0 公版 | 名含 `uranus` | v3 / seed-tts-2.0 |
+| 1.0 公版 | 其他 `_bigtts`（moon/mars 等） | v3 / volc.service_type.10029 |
 
-配错不报 401，而是 HTTP 200 + code 55000000 空音频（脚本会提示）。
+配错不报 401，而是 HTTP 200 + code=55000000 空音频（脚本会提示）。
 
 ## 凭证（已配置）
 
 `~/.zshrc` 的 `ARK_SPEECH_API_KEY`（豆包语音控制台 > API Key管理 的 Key，**UUID 格式**，旧名 `SPEECH_API_KEY` 仍兼容）。解析顺序：`--api-key` → `ARK_SPEECH_API_KEY` → `SPEECH_API_KEY` → `ARK_API_KEY` → ~/.zshrc。
 
+**BV 系（v1 引擎）另需**：`ARK_SPEECH_V1_APPID`（控制台 > 语音技术 > 应用管理 的**数字 App ID**）与 `ARK_SPEECH_V1_TOKEN`（该页 Access Token，**缺省回退 ARK_SPEECH_API_KEY**，2026-10-10 实测同账号可复用）；v1 鉴权头 `Authorization: Bearer;{token}`（分号分隔）。
+
 **重要**：方舟 `ark-` 开头的 Key 本服务**不认**（返回 45000010 Invalid X-Api-Key，2026-09-17 实测 4 把 ark Key 全拒）；必须是语音控制台 API Key管理 里的 UUID Key。
 
-## 技术要点（2026-09-17 实测确认）
+## 技术要点（2026-09-17 实测确认；v1 节 2026-10-10）
 
-- 接口：`POST https://openspeech.bytedance.com/api/v3/tts/unidirectional`，请求头 `X-Api-Key` + `X-Api-Resource-Id` + `X-Api-Request-Id`（必选，uuid）
+- **v3 接口**（2.0/1.0/复刻音色）：`POST https://openspeech.bytedance.com/api/v3/tts/unidirectional`，请求头 `X-Api-Key` + `X-Api-Resource-Id` + `X-Api-Request-Id`（必选，uuid）
 - **响应是流式多段 JSON**：每行 `{"code":0,"message":"","data":"<base64音频块>"}`，拼接全部 data 再 base64 解码才是完整音频（tts.py 已处理）
 - resource-id 自动推断：复刻音色（S_ 前缀或 --custom-id）→ `seed-icl-2.0`；公版音色 → `volc.service_type.10029`
-- **语速**：`--speed` [-50,100]，实测 +100≈2倍速、-50≈0.5倍速、超界被钳制；字段必须放 `audio_params.speech_rate`（放 req_params 顶层会被静默忽略）
+- **v1 接口**（BV 剪映同款系）：`POST /api/v1/tts`，`Authorization: Bearer;{token}`，body 的 `app.token` 是无实义 Fake 字段、cluster=volcano_tts；成功 code=3000 + data 整段 base64；文本 ≤1024 字节；reqid 每次唯一（uuid）；不支持 language/dialect/emotion/custom-id
+- **v1 实测边界**：v3 不认 BV 系（55000000）；v1 不认 2.0 uranus 系；老「精品发音人」短 ID（如 zh_male_xiaoming）的 sami 引擎已下线（Invalid workflow），勿按历史文档选音色
+- **语速**：`--speed` [-50,100]，实测 +100≈2倍速、-50≈0.5倍速、超界被钳制；v3 放 `audio_params.speech_rate`（放 req_params 顶层会被静默忽略），v1 换算 `speed_ratio` [0.5,2]
 - 复刻音色/2.0 音色不支持 emotion（自动忽略）；1.0 情感音色（如 `*_emo_v2_mars_bigtts`）支持 `--emotion`
 - 输出 mp3 24kHz。视频工作流需要 wav 时用 ffmpeg 转换（`-ar 48000 -ac 2`）
+- **解说腔 BV 系批量合成提示**：韵律起伏大，逐句独立合成时各句快慢不一（实测语速极差 41%）——批量场景建议整段一次合成再按停顿切句（douyin-video-maker 的 whole 模式已内置该方案）
 
 ## 语种与方言（默认中文普通话）
 

@@ -22,7 +22,7 @@
 
 | 技能 | 用途 | 默认模型/服务 |
 |------|------|---------------|
-| [ark-tts](ark-skills/ark-tts/) | 语音合成（TTS），支持复刻音色朗读任意中文文本，内置 289 个音色库 | 豆包大模型 TTS |
+| [ark-tts](ark-skills/ark-tts/) | 语音合成（TTS），双引擎自动分派：复刻音色/2.0 库走 v3；BV 剪映同款系（影视解说小帅 BV411 等 10 个）走 v1，内置 289+10 音色库 | 豆包大模型 TTS（v3/v1） |
 | [ark-asr](ark-skills/ark-asr/) | 语音识别（ASR），本地音频文件或 URL 转写为带标点的文字，支持说话人分离 | Seed-ASR 录音文件识别 |
 | [ark-audio-gen](ark-skills/ark-audio-gen/) | 音频创作：一条提示词直出含多角色对白、情绪、BGM、音效的成片音轨（约 2 分钟内） | Seed-Audio 1.0 |
 | [ark-image-gen](ark-skills/ark-image-gen/) | 文生图 / 图生图 / 组图 / 多图层拆分，支持指定比例与分辨率档位 | Seedream 全系（5.0 lite/flash/pro、4.5、4.0） |
@@ -144,7 +144,7 @@ py scripts/deploy.py --deploy --force  # 冲突时备份热修为 <技能>.bak.<
 py scripts/deploy.py --deploy --family social-skills  # 只同步指定家族（可多次给）
 ```
 
-当前部署布局：ark 系 → 用户级 `~/.agents/skills/`（全局）；glm 系 → 用户级 `~/.agents/skills/`（全局）；novel / paper / patent / douyin 系 → 项目级，装到各自写作/业务工作区（如 novels、papers）的 `.zcode/skills/`，产物目录直接建在工作区根下（paper/patent 用 `paper<NNN>` / `patent<NNN>` 三位零填充编号）；nex / social 系 → 用户级 `~/.zcode/skills/`（全局，任意工作区可触发 /nex-* 与 social 系技能）。
+当前部署布局：ark 系 → 用户级 `~/.agents/skills/`（全局）；glm 系 → 用户级 `~/.agents/skills/`（全局）；novel / paper / patent 系 → 项目级，装到各自写作/业务工作区（如 novels、papers）的 `.zcode/skills/`，产物目录直接建在工作区根下（paper/patent 用 `paper<NNN>` / `patent<NNN>` 三位零填充编号）；douyin 系分两处——调研系（video-analysis / account-analysis）项目级装 douyin 工作区、制作系（video-maker）用户级 `~/.zcode/skills/`（任意工作区可触发，deploy.json 用 only/except 分片）；nex / social 系 → 用户级 `~/.zcode/skills/`（全局，任意工作区可触发 /nex-* 与 social 系技能）。
 
 改技能一律改本源仓库再 `--deploy` 同步，不要直接改安装侧。各工作区的 AGENTS.md 由 `scripts/emit_agents_md.py` 统一生成（全局纪律 + 家族链条），改纪律改脚本重新生成。
 

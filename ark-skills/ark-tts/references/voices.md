@@ -1,6 +1,6 @@
-# 火山豆包语音 · 2.0 音色库（voice_type 速查）
+# 火山豆包语音 · 音色库（voice_type 速查）
 
-来源：官方音色列表（经第三方镜像整理，2026-09 抓取），共 200+ 音色。
+来源：官方音色列表（经第三方镜像整理，2026-09 抓取），共 200+ 音色；BV 系（剪映同款）节 2026-10-10 补录。
 配合 `tts.py --speaker <voice_type>` 使用；`--list-voices [关键词]` 可搜索本表。
 
 **resource-id 自动推断规则（tts.py 内置，2026-09-17 实测）**：
@@ -12,7 +12,27 @@
 **教程/解说场景推荐**：解说小明、广告解说、磁性解说男声、流畅女声、儒雅逸辰、小何、Vivi（多方言）。
 `zh_female_vv_uranus_bigtts` 支持 additions.explicit_dialect：dongbei/shaanxi/sichuan（方言）。
 
-## 音色表
+## BV 系（剪映同款音色，走 v1 引擎）
+
+2026-10-10 实测接入：**`BV` 前缀音色 tts.py 自动切 v1 HTTP API**（`/api/v1/tts`，鉴权 `Bearer;{token}`，
+凭证 `ARK_SPEECH_V1_APPID`（数字 App ID）+ `ARK_SPEECH_V1_TOKEN`（缺省回退 `ARK_SPEECH_API_KEY`），
+控制台「语音技术→应用管理」获取）。不支持 language/dialect/emotion；语速同样用 `--speed` 百分比。
+抖音影视解说标配「小帅/小美」即出自本系。完整表见官方文档「豆包语音-音色列表」（docs.volcengine.com 6561/97465）。
+
+| 场景 | 音色名称 | voice_type | 备注 |
+|---|---|---|---|
+| 视频配音 | 影视解说小帅 | BV411_streaming | 抖音影视解说标配；解说腔韵律起伏大，批量逐句合成语速不均时建议整段合成再切句 |
+| 视频配音 | 活力解说男 | BV410_streaming | 活力向解说 |
+| 视频配音 | 影视解说小美 | BV412_streaming | 剪映同款女声 |
+| 视频配音 | 解说小帅-多情感 | BV437_streaming | 支持 7 情感（v3 传法不适用，v1 下情感暂不开放） |
+| 视频配音 | 沉稳解说男 | BV142_streaming | 低沉稳重 |
+| 通用 | 阳光男声 | BV056_streaming | |
+| 通用 | 知性女声 | BV009_streaming | |
+| 通用 | 开朗青年 | BV004_streaming | |
+| 通用 | 儒雅青年 | BV102_streaming | |
+| 通用 | 灿灿 | BV700_streaming | 22 情感 |
+
+## 音色表（2.0 uranus 库）
 
 | 场景 | 音色名称 | voice_type | 语种 |
 |---|---|---|---|

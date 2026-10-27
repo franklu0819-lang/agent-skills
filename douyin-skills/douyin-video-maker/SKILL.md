@@ -19,8 +19,8 @@ description: 抖音竖屏科普动画视频制作：文案分镜 → ark-tts 公
 ## 环境依赖（一次性）
 
 - node ≥18、ffmpeg、python3、本机 Chrome（`/Applications/Google Chrome.app/...`）
-- 用户级 ark-tts 技能（`~/.agents/skills/ark-tts/scripts/tts.py`，可用环境变量 `TTS_SH` 覆盖路径）——配音走**双引擎自动分派**（gen_timeline 内置）：音色 `BV` 开头（剪映同款 1.0 大模型库）→ 本技能 `tts_v1.py`（v1 HTTP API）；其余（2.0 库/复刻）→ ark-tts `tts.py`（v3）
-- 火山语音 Key 两套：`ARK_SPEECH_API_KEY`（v3 用，zshrc；UUID）＋ v1 用 `ARK_SPEECH_V1_APPID`（数字 AppID）与 `ARK_SPEECH_V1_TOKEN`（缺省回退 ARK_SPEECH_API_KEY）——控制台「语音技术→应用管理」获取
+- 用户级 ark-tts 技能（`~/.agents/skills/ark-tts/scripts/tts.py`，可用环境变量 `TTS_SH` 覆盖路径）——**已内置双引擎**（BV 剪映同款系自动走 v1，其余走 v3），gen_timeline 直接调用，默认音色影视解说小帅 BV411
+- 火山语音 Key 两套：`ARK_SPEECH_API_KEY`（v3 用，zshrc；UUID）＋ v1 用 `ARK_SPEECH_V1_APPID`（数字 AppID）与 `ARK_SPEECH_V1_TOKEN`（缺省回退 ARK_SPEECH_API_KEY）——控制台「语音技术→应用管理」获取，详见 ark-tts 技能
 - puppeteer-core —— **每期目录**先手写 `package.json`（`{"name":"ep-01-slug","private":true}`，name 用英文；中文期目录 `npm init -y` 会报 Invalid name，2026-10 实测）再 `npm i puppeteer-core --registry=https://registry.npmmirror.com`（或从上一期 `cp -R node_modules`）
 - 技能脚本/模板有更新时：改仓库源 → `deploy.py --deploy --family douyin-skills` → 再把 scripts 重新复制到期目录 tools/（期目录工具是副本，技能模板 make_cover 读的是**安装侧**）
 
@@ -69,7 +69,7 @@ EOF
 ### 1. 初始化期目录
 ```bash
 mkdir -p 第NN期-标题/{audio/beats,anim,build,tools}
-cp <技能目录>/scripts/{gen_timeline.py,tts_v1.py,render.js,assemble.py,make_cover.js,verify_splice.py,asr_check.py} 第NN期-标题/tools/
+cp <技能目录>/scripts/{gen_timeline.py,render.js,assemble.py,make_cover.js,verify_splice.py,asr_check.py} 第NN期-标题/tools/
 cp -R 上一期/node_modules 第NN期-标题/node_modules   # 或 npm i puppeteer-core
 ```
 ### 2. 文案 → script.json（复制 `templates/script.template.json`）

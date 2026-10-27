@@ -12,11 +12,8 @@
 import argparse, json, math, os, re, subprocess, sys
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# 双引擎按音色前缀分派(2026-10-10 实测):
-#   BV 开头(剪映同款 1.0 大模型库,如影视解说小帅 BV411)→ 本技能 tts_v1.py(v1 HTTP API)
-#   其余(uranus 2.0 库/复刻)→ ark-tts 技能 tts.py(v3 unidirectional,可用 TTS_SH 覆盖)
+# TTS 基座 = ark-tts 技能 tts.py(已内置双引擎:BV 前缀自动走 v1,其余走 v3;可用 TTS_SH 覆盖路径)
 TTS = os.environ.get("TTS_SH", "/Users/leo/.agents/skills/ark-tts/scripts/tts.py")
-TTS_V1 = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tts_v1.py")
 DEFAULT_SPEAKER = "BV411_streaming"  # 影视解说小帅(剪映同款,v1 引擎),用户 2026-10-10 定为默认
 DEFAULT_SPEED = 0  # 语速百分比(v3 [-50,100];v1 内部换算 speed_ratio),抖音口播合集常配 5~15 轻加速
 
@@ -45,17 +42,14 @@ def synth_per_beat(beat, speaker, speed):
     mp3 = f"{BASE}/audio/beats/{beat['id']}.mp3"
     if os.path.exists(mp3) and os.path.getsize(mp3) > 1000:
         return mp3
-    if speaker.upper().startswith("BV"):
-        cmd = ["python3", TTS_V1, "--text", beat["text"],
-               "--speaker", speaker, "--speed", str(speed), "--output", mp3]
-        if beat.get("language"):
-            print(f"[WARN] {beat['id']}: v1 引擎不支持 language 参数,已忽略", flush=True)
-    else:
-        cmd = ["python3", TTS, "--text", beat["text"],
-               "--speaker", speaker, "--speed", str(speed)]
-        if beat.get("language"):
+    cmd = ["python3", TTS, "--text", beat["text"],
+           "--speaker", speaker, "--speed", str(speed)]
+    if beat.get("language"):
+        if speaker.upper().startswith("BV"):
+            print(f"[WARN] {beat['id']}: v1 引擎(BV 系)不支持 language 参数,已忽略", flush=True)
+        else:
             cmd += ["--language", beat["language"]]
-        cmd += ["--output", mp3]
+    cmd += ["--output", mp3]
     r = run(cmd)
     if r.returncode != 0 or not os.path.exists(mp3):
         print(f"[FAIL] {beat['id']}: {r.stdout} {r.stderr}", flush=True)
@@ -128,12 +122,8 @@ def synth_whole_all(beats, speaker, speed):
     whole = f"{BASE}/audio/whole.mp3"
     text = "".join(b["text"] for b in beats)
     if not (os.path.exists(whole) and os.path.getsize(whole) > 10000):
-        if speaker.upper().startswith("BV"):
-            cmd = ["python3", TTS_V1, "--text", text, "--speaker", speaker,
-                   "--speed", str(speed), "--output", whole]
-        else:
-            cmd = ["python3", TTS, "--text", text, "--speaker", speaker,
-                   "--speed", str(speed), "--output", whole]
+        cmd = ["python3", TTS, "--text", text, "--speaker", speaker,
+               "--speed", str(speed), "--output", whole]
         r = run(cmd)
         if r.returncode != 0 or not os.path.exists(whole):
             print(f"[FAIL] 整段合成: {r.stdout} {r.stderr}", flush=True)

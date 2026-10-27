@@ -4,7 +4,7 @@
 实际触发的技能必须与「期望」一致。任何一条变了，先判断是 wording 改坏了还是预期本该更新，
 再改 description——触发漂移是技能仓库最常见的静默退化。
 
-覆盖已部署家族（ark、glm、social、minimax 用户级 + paper/novel/patent/douyin 项目级）。nex 未部署，不在触发面内。
+覆盖已部署家族（ark、glm、social、minimax 用户级 + paper/novel/patent 项目级 + douyin：调研系项目级、制作系 video-maker 用户级全局）。nex 未部署，不在触发面内。
 
 ## paper 系（papers 工作区）
 

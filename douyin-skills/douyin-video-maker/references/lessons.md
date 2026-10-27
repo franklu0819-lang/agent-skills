@@ -46,4 +46,4 @@
 2. **三路实测排除**：① VC_BV411 是音色转换服务的写法（声转声），TTS 侧直接用 BV411_streaming；② v3 unidirectional API 不认 BV 系与 1.0 短 ID（55000000）；③ 老「精品发音人」短 ID（影视解说 zh_male_xiaoming 等，6489/93478 表）在 v1 网关报 `Invalid workflow synthesize_with_sami` —— sami 引擎已不对外路由，该表是历史文档，勿再按它选音色。
 3. **v1 参数**：speed_ratio [0.5,2.0]（技能统一用百分比 --speed，内部换算 1+speed/100）；text ≤1024 字节；reqid 每次必须唯一（uuid）；返回 JSON code=3000 + data(base64)；网络抖动重试 3 次间隔 5s（SSL EOF 与 v3 同款毛病）。
 4. **凭证**：v1 需要「语音技术→应用管理」的数字 AppID（`ARK_SPEECH_V1_APPID`）+ Access Token（`ARK_SPEECH_V1_TOKEN`，缺失回退 v3 的 ARK_SPEECH_API_KEY——同一控制台账号两套凭证，用户 2026-10-10 已配置）。
-5. 已固化为 `scripts/tts_v1.py`（`--list-voices` 看内置 BV 系高频表），gen_timeline 按 speaker 前缀自动分派双引擎。
+5. 已固化为 whole 模式（gen_timeline `--tts-mode`）；**v1 引擎后续已下沉到 ark-tts 技能 tts.py（BV 前缀自动分派，2026-10-10），本技能原私有的 scripts/tts_v1.py 已退役删除**，gen_timeline 统一调 ark-tts。

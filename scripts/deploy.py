@@ -36,17 +36,18 @@ def load_targets():
     for t in cfg["targets"]:
         dest = t["dest"].replace("{HOME}", os.path.expanduser("~")).replace(
             "{PROJECT}", os.path.dirname(REPO_ROOT))
-        out.append((t["family"], os.path.normpath(dest)))
+        out.append((t["family"], os.path.normpath(dest), t.get("only"), t.get("except")))
     return out
 
 
 def dir_hash(path):
-    """目录内容 hash：排序遍历相对路径 + 文件内容。"""
+    """目录内容 hash：排序遍历相对路径 + 文件内容。排除运行时产物(__pycache__ 等,不算热修)。"""
     if not os.path.isdir(path):
         return None
     h = hashlib.sha256()
     for root, dirs, files in os.walk(path):
-        dirs[:] = [d for d in sorted(dirs) if not d.startswith(".")]
+        dirs[:] = [d for d in sorted(dirs)
+                   if not d.startswith(".") and d != "__pycache__"]
         for f in sorted(files):
             fp = os.path.join(root, f)
             h.update(os.path.relpath(fp, path).replace("\\", "/").encode())
@@ -87,13 +88,17 @@ def main():
 
     conflicts, updated, inited, extra_report = 0, 0, 0, 0
 
-    for family, dest in load_targets():
+    for family, dest, only, except_ in load_targets():
         if args.family and family not in args.family:
             continue
         fam_dir = os.path.join(REPO_ROOT, family)
         src_skills = sorted(d for d in os.listdir(fam_dir)
                             if os.path.isdir(os.path.join(fam_dir, d))
                             and os.path.exists(os.path.join(fam_dir, d, "SKILL.md")))
+        if only:
+            src_skills = [s for s in src_skills if s in only]
+        if except_:
+            src_skills = [s for s in src_skills if s not in except_]
         if not src_skills:
             print(f"[!] 家族 {family} 下没有技能（清单配错？），跳过")
             continue
@@ -159,11 +164,15 @@ def main():
                 updated += 1
                 print(f"  [>] {sname} {tag}（{sh[:8]}）")
 
-        # 安装侧不属于该家族的多余技能：只报告不碰
+        # 安装侧不属于该家族目标的多余技能：只报告不碰（可能由其他 target 的 only 分片管理）
         if os.path.isdir(dest):
+            managed_elsewhere = set()
+            for f2, d2, o2, e2 in load_targets():
+                if (f2, d2) != (family, dest):
+                    managed_elsewhere |= set(o2 or [])
             known = set(src_skills)
             for d in sorted(os.listdir(dest)):
-                if d in known or d == MANIFEST_NAME or d.startswith("."):
+                if d in known or d == MANIFEST_NAME or d.startswith(".") or d in managed_elsewhere:
                     continue
                 if os.path.isdir(os.path.join(dest, d)) and \
                         os.path.exists(os.path.join(dest, d, "SKILL.md")):

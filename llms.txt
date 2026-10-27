@@ -12,7 +12,7 @@
 ## 家族与技能索引
 
 ### ark-skills — 火山方舟/豆包生成系（用户级）
-- `ark-tts` — 语音合成：复刻音色朗读中文文本，289 音色库
+- `ark-tts` — 语音合成：双引擎自动分派（复刻音色/2.0 库走 v3；BV 剪映同款系走 v1，含影视解说小帅 BV411），289+10 音色库
 - `ark-asr` — 语音识别：本地音频/URL 转带标点文字，支持说话人分离（douyin 家族的转写依赖）
 - `ark-audio-gen` — 音频创作：一条提示词直出多角色对白+情绪+BGM+音效音轨（约 2 分钟内）
 - `ark-image-gen` — 文生图/图生图/组图/多图层拆分，指定比例与分辨率
@@ -74,10 +74,10 @@
 - `nex-docs-tidy` — 文档审计：docs/ 树体检（结构合规、陈旧、孤儿/重复）→ 用户定处置 → 执行
 - `nex-slide` — 幻灯片：素材汇集 → 大纲规划 → 固定品牌风格成片 → 质检
 
-### douyin-skills — 抖音内容调研与制作（项目级：装到业务工作区 .zcode/skills/，如 douyin；调研系依赖用户级 ark-asr 与 chrome-devtools MCP，制作系依赖用户级 ark-tts）
+### douyin-skills — 抖音内容调研与制作（调研系项目级：装到业务工作区 .zcode/skills/，如 douyin，依赖用户级 ark-asr 与 chrome-devtools MCP；制作系 douyin-video-maker 用户级 ~/.zcode/skills/，任意工作区可触发，依赖用户级 ark-tts/v1 凭证）
 - `douyin-video-analysis` — 单视频剖析：短链解析 → 真浏览器提取流地址 → 下载转写 → 三层评判+核查清单
 - `douyin-account-analysis` — 账号级分析：外部搜索定位 → 作者归属验证（防粉丝仿写混淆）→ 内容体系归纳与情境化建议
-- `douyin-video-maker` — 竖屏科普动画视频制作：文案分镜（GATE 过目）→ ark-tts 公版解说音色逐句配音 → 1080x1920 确定性 HTML 动画逐帧渲染 → ffmpeg 合成烧字幕（可选 BGM）→ 按合集封面模版出高辨识度封面，产出成片+封面+发布文案（本地渲染，不烧云端视频模型）
+- `douyin-video-maker` — 竖屏科普动画视频制作（用户级）：文案分镜（GATE 过目）→ ark-tts/火山 v1 双引擎配音（默认影视解说小帅 BV411，whole 整段合成解决逐句语速不均）→ 1080x1920 确定性 HTML 动画逐帧渲染 → ffmpeg 合成烧录字幕（可选 BGM）→ 按合集封面模版出高辨识度封面，产出成片+封面+发布文案（本地渲染，不烧云端视频模型）
 
 ### social-skills — 社媒图文（用户级；依赖用户级 ark-image-gen）
 - `social-cards` — 贴图+文案：给定内容要点 → 3:4 信息卡组（AI 无字背景 + PIL 本地排版 + 视觉验收闭环）+ 小红书/公众号文案包（不含内容收集）

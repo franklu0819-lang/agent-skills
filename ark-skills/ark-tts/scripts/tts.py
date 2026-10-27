@@ -1,27 +1,37 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""tts.py — 火山引擎语音合成（豆包大模型 TTS V3 单向流式 HTTP 接口）
+"""tts.py — 火山引擎语音合成（双引擎按音色自动分派）
 
 用法:
   tts.py --text "你好" --output out.mp3
   tts.py --file script.txt --output out.mp3
-  tts.py --list-voices [关键词]        # 浏览音色库（解说/女声/客服/英语…）
+  tts.py --list-voices [关键词]        # 浏览音色库（解说/女声/客服/英语/剪映同款…）
   tts.py --text "..." --speaker zh_male_jieshuoxiaoming_uranus_bigtts --output out.mp3
+  tts.py --text "..." --speaker BV411_streaming --output out.mp3   # 剪映同款(影视解说小帅),自动走 v1
   tts.py --text "..." --speed -20 --output out.mp3    # 语速 [-50,100]，+100≈2倍速
+
+引擎分派(按 --speaker 前缀,2026-10-10 实测):
+  BV 开头(剪映同款 1.0 大模型库,如影视解说小帅 BV411_streaming) → v1 HTTP API
+      (openspeech.bytedance.com/api/v1/tts;凭证 ARK_SPEECH_V1_APPID + ARK_SPEECH_V1_TOKEN,
+       后者缺省回退 ARK_SPEECH_API_KEY;不支持 language/dialect/emotion)
+  其余(2.0 uranus 库/1.0 _bigtts/S_ 复刻) → v3 单向流式(默认)
 
 选项:
   --speaker ID      音色。默认 S_q3oLhGy72（飞哥复刻音色）；音色库见 references/voices.md
-  --speed N         语速 [-50,100]（默认 0）：+100≈2倍速，-50≈0.5倍速（放 audio_params.speech_rate，实测生效）
-  --custom-id ID    后付费自定义音色代号：设置后 speaker 传固定值 custom_speaker_id（文档 6561/2534906）
-  --resource-id ID  强制指定资源 ID（一般不用，按音色自动推断）
+  --speed N         语速 [-50,100]（默认 0）：+100≈2倍速，-50≈0.5倍速（v3 放 audio_params.speech_rate，v1 换算 speed_ratio，实测均生效）
+  --custom-id ID    后付费自定义音色代号：设置后 speaker 传固定值 custom_speaker_id（文档 6561/2534906；仅 v3）
+  --resource-id ID  强制指定资源 ID（一般不用，按音色自动推断；仅 v3）
   --format FMT      音频格式 mp3/pcm/ogg_opus（默认 mp3）
   --sample-rate N   采样率（默认 24000）
-  --emotion E       情感（如 happy，仅部分 1.0 公版音色支持，复刻/2.0 音色忽略）
-  --api-key KEY     API Key（默认自动解析 ARK_SPEECH_API_KEY / SPEECH_API_KEY / ARK_API_KEY）
+  --emotion E       情感（如 happy，仅部分 1.0 公版音色支持，复刻/2.0/v1 音色忽略）
+  --api-key KEY     API Key（v3 默认解析 ARK_SPEECH_API_KEY / SPEECH_API_KEY / ARK_API_KEY；
+                    v1 的 token 默认解析 ARK_SPEECH_V1_TOKEN，缺省回退上述变量）
 
-响应协议: 流式多段 JSON，每段 data 字段为 base64 音频块，拼接解码得到完整音频。
+v3 响应协议: 流式多段 JSON，每段 data 字段为 base64 音频块，拼接解码得到完整音频。
+v1 响应协议: 单段 JSON，code=3000 + data 为整段 base64。
 
-凭证: 豆包语音控制台 > API Key管理 的 Key（UUID 格式），export ARK_SPEECH_API_KEY=... （旧名 SPEECH_API_KEY 兼容，不落盘）
+凭证: 豆包语音控制台 > API Key管理 的 Key（UUID 格式），export ARK_SPEECH_API_KEY=... （旧名 SPEECH_API_KEY 兼容，不落盘）；
+      v1(BV 系)另需 应用管理 页的数字 App ID：export ARK_SPEECH_V1_APPID=...（token 缺省复用上面的 Key）
 """
 import argparse
 import base64
@@ -29,13 +39,27 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.request
 import uuid
 
 API_URL = "https://openspeech.bytedance.com/api/v3/tts/unidirectional"
+V1_URL = "https://openspeech.bytedance.com/api/v1/tts"
 DEFAULT_SPEAKER = "S_q3oLhGy72"  # 飞哥的声音复刻音色
 VOICES_MD = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                          "references", "voices.md")
+
+
+def read_zshrc_var(name: str) -> str:
+    zshrc = os.path.expanduser("~/.zshrc")
+    if not os.path.isfile(zshrc):
+        return ""
+    found = ""
+    for line in open(zshrc, encoding="utf-8"):
+        m = re.match(rf'\s*export\s+{name}=(?:"([^"]+)"|([^\s#]+))', line)
+        if m:
+            found = m.group(1) or m.group(2)
+    return found
 
 
 def find_api_key(explicit: str) -> str:
@@ -46,15 +70,21 @@ def find_api_key(explicit: str) -> str:
     for var in ("ARK_SPEECH_API_KEY", "SPEECH_API_KEY", "ARK_API_KEY"):
         if os.environ.get(var):
             return os.environ[var]
-    zshrc = os.path.expanduser("~/.zshrc")
-    if os.path.isfile(zshrc):
-        found = ""
-        for line in open(zshrc, encoding="utf-8"):
-            m = re.match(r'\s*export\s+(ARK_SPEECH_API_KEY|SPEECH_API_KEY|ARK_API_KEY)=(?:"([^"]+)"|([^\s#]+))', line)
-            if m:
-                found = m.group(2) or m.group(3)
-        return found
+    for var in ("ARK_SPEECH_API_KEY", "SPEECH_API_KEY", "ARK_API_KEY"):
+        v = read_zshrc_var(var)
+        if v:
+            return v
     return ""
+
+
+def find_v1_creds(explicit_token: str):
+    """v1 引擎(BV 系剪映同款音色)凭证:数字 AppID + Access Token。
+    appid: ARK_SPEECH_V1_APPID(env/zshrc);token: --api-key → ARK_SPEECH_V1_TOKEN → 回退 v3 的 Key 解析。"""
+    appid = os.environ.get("ARK_SPEECH_V1_APPID") or read_zshrc_var("ARK_SPEECH_V1_APPID")
+    token = explicit_token or os.environ.get("ARK_SPEECH_V1_TOKEN") or read_zshrc_var("ARK_SPEECH_V1_TOKEN")
+    if not token:
+        token = find_api_key("")
+    return appid, token
 
 
 def resource_id_for(speaker: str, custom_id: str) -> str:
@@ -87,7 +117,7 @@ def list_voices(keyword: str = "") -> None:
         if set(stripped) <= {"|", "-", " "}:
             continue  # 分隔线 |---|---|
         cells = [c.strip() for c in stripped.strip("|").split("|")]
-        if len(cells) >= 3 and ("bigtts" in cells[2] or "_tob" in cells[2]):
+        if len(cells) >= 3 and ("bigtts" in cells[2] or "_tob" in cells[2] or "_streaming" in cells[2]):
             rows.append((cells[0], cells[1], cells[2], cells[3] if len(cells) > 3 else ""))
     kw = (keyword or "").lower()
     hits = [r for r in rows if not kw or kw in "|".join(r).lower()]
@@ -97,6 +127,60 @@ def list_voices(keyword: str = "") -> None:
     for scene, name, vt, lang in hits:
         print(f"  {vt:55s} {scene} · {name} · {lang}")
     sys.exit(0)
+
+
+def is_v1(speaker: str) -> bool:
+    """BV 前缀 = 剪映同款 1.0 大模型音色库,走 v1 HTTP API(2026-10-10 实测;
+    v3 unidirectional 不认 BV 系(55000000)。)"""
+    return speaker.upper().startswith("BV")
+
+
+def synth_v1(a, text: str, token_hint: str) -> None:
+    """v1 一次性合成(BV 系):Bearer;{token} 鉴权,成功 code=3000 + data 整段 base64。
+    v1 不支持 language/dialect/emotion/custom-id(忽略并提示);speed 百分比换算 speed_ratio [0.5,2]。"""
+    for opt in ("language", "dialect", "emotion"):
+        if getattr(a, opt):
+            print(f"tts.py: [WARN] v1 引擎(BV 系)不支持 --{opt},已忽略", file=sys.stderr)
+    appid, token = find_v1_creds(token_hint)
+    if not appid:
+        die("v1 引擎缺数字 AppID：请 export ARK_SPEECH_V1_APPID=<控制台·语音技术·应用管理的 App ID>")
+    if not token:
+        die("v1 引擎缺 token：ARK_SPEECH_V1_TOKEN 缺省回退 ARK_SPEECH_API_KEY，均未配置")
+    ratio = max(0.5, min(2.0, 1.0 + a.speed / 100.0))
+    body = {
+        "app": {"appid": appid, "token": "access_token", "cluster": "volcano_tts"},
+        "user": {"uid": "ark-tts"},
+        "audio": {"voice_type": a.speaker, "encoding": a.format,
+                  "sample_rate": a.sample_rate, "speed_ratio": ratio,
+                  "volume_ratio": 1.0, "pitch_ratio": 1.0},
+        "request": {"reqid": str(uuid.uuid4()), "text": text,
+                    "text_type": "plain", "operation": "query"},
+    }
+    for attempt in range(3):
+        try:
+            req = urllib.request.Request(
+                V1_URL, data=json.dumps(body).encode("utf-8"),
+                headers={"Content-Type": "application/json",
+                         "Authorization": f"Bearer;{token}"},
+                method="POST")
+            d = json.loads(urllib.request.urlopen(req, timeout=60).read())
+            if d.get("code") == 3000 and d.get("data"):
+                audio = base64.b64decode(d["data"])
+                with open(a.output, "wb") as f:
+                    f.write(audio)
+                print(f"完成: {a.output} ({len(audio)/1024:.0f}KB, {a.speaker}, v1)")
+                return
+            die(f"v1 服务未返回音频: code={d.get('code')} {str(d.get('message',''))[:150]}"
+                "（3001 Invalid workflow=音色 ID 非 BV 系；authenticate/grant=appid 或 token 有误）")
+        except urllib.error.HTTPError as e:
+            detail = e.read().decode("utf-8", "replace")[:300]
+            if e.code in (400, 401):
+                die(f"v1 HTTP {e.code}: {detail}")
+            print(f"tts.py: [WARN] v1 HTTP {e.code} 第{attempt+1}次，重试…", file=sys.stderr)
+        except Exception as e:
+            print(f"tts.py: [WARN] v1 {type(e).__name__}: {e} 第{attempt+1}次，重试…", file=sys.stderr)
+        time.sleep(5)
+    die("v1 重试耗尽（网络异常）")
 
 
 def main() -> None:
@@ -133,6 +217,11 @@ def main() -> None:
         die("没有可合成的文本（--text 或 --file 至少给一个）")
     if not a.output:
         die("缺少 --output 输出路径")
+
+    if is_v1(a.speaker):
+        synth_v1(a, text, a.api_key)
+        return
+
     if not key:
         die("缺少 API Key：请 export ARK_SPEECH_API_KEY=<豆包语音控制台 API Key管理 的 Key>（旧名 SPEECH_API_KEY 仍兼容），或用 --api-key 传入")
 
